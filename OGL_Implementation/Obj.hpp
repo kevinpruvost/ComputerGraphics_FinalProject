@@ -27,9 +27,9 @@ class Obj
 public:
 	Obj();
 
-	std::vector<glm::vec3> verticesPos;
-	std::vector<glm::vec2> verticesTextureCoordinates;
-	std::vector<glm::vec3> verticesNormals;
+	std::vector<VertexPos> verticesPos;
+	std::vector<VertexTextureCoordinates> verticesTextureCoordinates;
+	std::vector<VertexNormal> verticesNormals;
 	std::vector<std::string> materialNames;
 	std::vector<Face> faces;
 

@@ -67,3 +67,39 @@ bool Mesh_Base::HasNormals() const
 {
 	return __hasNormals;
 }
+
+void Mesh_Base::LoadVertices(const std::vector<VertexPos> & vertices)
+{
+	glBindVertexArray(__verticesVAO);
+	// Fill mesh buffer
+	glBindBuffer(GL_ARRAY_BUFFER, __verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexPos), vertices.data(), GL_STATIC_DRAW);
+	// Set mesh attributes
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	__verticesNVert = vertices.size();
+}
+
+void Mesh_Base::LoadFaces(const std::vector<VertexNormalTexture> & vertices)
+{
+	glBindVertexArray(__facesVAO);
+	// Fill mesh buffer
+	glBindBuffer(GL_ARRAY_BUFFER, __facesVBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexNormalTexture), vertices.data(), GL_STATIC_DRAW);
+	// Set mesh attributes
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *)(6 * sizeof(GLfloat)));
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	__facesNVert = vertices.size();
+}

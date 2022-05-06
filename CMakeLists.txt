@@ -3,7 +3,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Project Name
-project ("Assignment6")
+project ("FinalProject")
 
 # C++ Standard Version
 set(CMAKE_CXX_STANDARD 20)
@@ -43,6 +43,7 @@ file (GLOB ASSIGNMENT_SOURCES
     OGL_Implementation/*.cpp
     OGL_Implementation/DebugInfo/*.cpp
     OGL_Implementation/Mesh/*.cpp
+    OGL_Implementation/Mesh/Modules/*.cpp
     OGL_Implementation/Shader/*.cpp
     OGL_Implementation/Entity/*.cpp
     OGL_Implementation/EntityAttribute/*.cpp
@@ -62,6 +63,7 @@ file (GLOB ASSIGNMENT_HEADERS
     OGL_Implementation/DebugInfo/*.hpp
     OGL_Implementation/Mesh/*.inl
     OGL_Implementation/Mesh/*.hpp
+    OGL_Implementation/Mesh/Modules/*.hpp
     OGL_Implementation/Shader/*.hpp
     OGL_Implementation/Entity/*.hpp
     OGL_Implementation/EntityAttribute/*.hpp
@@ -78,13 +80,13 @@ file (GLOB ASSIGNMENT_HEADERS
     OGL_Implementation/Tools/*.hpp
 )
 
-add_executable(Assignment6
+add_executable(FinalProject
     ${ASSIGNMENT_SOURCES}
     ${ASSIGNMENT_HEADERS}
 )
 
 # Linking libraries to Assignment2
-target_link_libraries(Assignment6 opengl32 glad glfw glm ImGui SOIL freetype
+target_link_libraries(FinalProject opengl32 glad glfw glm ImGui SOIL freetype
 )
 
 # Profiling
@@ -98,13 +100,13 @@ if(MSVC)
 endif()
 
 # Including root directory & libraries directories
-target_include_directories(Assignment6 PUBLIC
+target_include_directories(FinalProject PUBLIC
     ${PROJECT_SOURCE_DIR}
     $<INSTALL_INTERFACE:include>
 )
 
 # Installation Procedure
 install(
-    TARGETS Assignment6
+    TARGETS FinalProject
     CONFIGURATIONS ${CMAKE_CONFIGURATION_TYPES}
 )

@@ -18,6 +18,9 @@ class Mesh_Custom : public Mesh_Base
 {
 public:
     Mesh_Custom(const std::vector<VertexNormalTexture> & vertices);
+    Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<VertexTextureCoordinates> & textureCoords, const std::vector<Face> & faces);
+    Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<Face> & faces);
+    Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vector<Face> & faces);
     ~Mesh_Custom();
 
     GLuint GetFacesEBO() const;
@@ -29,8 +32,19 @@ public:
     void ModifyVertices(const std::vector<VertexNormalTexture> & vertices);
 
 private:
+    std::vector<VertexNormalTexture> GenerateAssembledVertices(bool isNormal, bool isTexture) const;
     void ReassignVertex();
 
 private:
-    std::vector<VertexNormalTexture> __vertices;
+    union
+    {
+        std::vector<VertexNormalTexture> __vertices;
+        struct
+        {
+            std::vector<VertexPos> __v;
+            std::vector<VertexNormal> __vN;
+            std::vector<VertexTextureCoordinates> __vT;
+            std::vector<Face> __faces;
+        };
+    };
 };

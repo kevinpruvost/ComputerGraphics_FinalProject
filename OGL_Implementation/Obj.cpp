@@ -43,25 +43,25 @@ Obj::Obj()
 void Obj::GenerateNormals(bool smooth)
 {
 	verticesNormals.clear();
-	verticesNormals.resize(verticesPos.size(), glm::vec3{ 0.0f });
+	verticesNormals.resize(verticesPos.size());
 
 	for (auto & face : faces)
 	{
 		face.vn = face.v;
-		const glm::vec3 & p0 = verticesPos[face.v[0] - 1], & p1 = verticesPos[face.v[1] - 1], & p2 = verticesPos[face.v[2] - 1];
+		const VertexPos & p0 = verticesPos[face.v[0]], & p1 = verticesPos[face.v[1]], & p2 = verticesPos[face.v[2]];
 		glm::vec3 faceNormal = glm::cross(p0 - p1, p1 - p2);
 
 		if (smooth)
 		{
-			verticesNormals[face.vn[0] - 1] += faceNormal;
-			verticesNormals[face.vn[1] - 1] += faceNormal;
-			verticesNormals[face.vn[2] - 1] += faceNormal;
+			verticesNormals[face.vn[0]] += faceNormal;
+			verticesNormals[face.vn[1]] += faceNormal;
+			verticesNormals[face.vn[2]] += faceNormal;
 		}
 		else
 		{
-			verticesNormals[face.vn[0] - 1] = faceNormal;
-			verticesNormals[face.vn[1] - 1] = faceNormal;
-			verticesNormals[face.vn[2] - 1] = faceNormal;
+			verticesNormals[face.vn[0]] = faceNormal;
+			verticesNormals[face.vn[1]] = faceNormal;
+			verticesNormals[face.vn[2]] = faceNormal;
 		}
 	}
 }
@@ -117,8 +117,8 @@ bool Obj::TryLoad(const char * fileName)
 					{
 						std::vector<std::string> parts = tokenize(facePart, "//");
 						
-						v.emplace_back(std::stoi(parts[0]));
-						vn.emplace_back(std::stoi(parts[1]));
+						v.emplace_back(std::stoi(parts[0]) - 1);
+						vn.emplace_back(std::stoi(parts[1]) - 1);
 					}
 					else if (facePart.find("/") != std::string::npos)
 					{
@@ -128,24 +128,24 @@ bool Obj::TryLoad(const char * fileName)
 						{
 							// V / VT / VN
 							case 3:
-								v.emplace_back(std::stoi(parts[0]));
-								vt.emplace_back(std::stoi(parts[1]));
-								vn.emplace_back(std::stoi(parts[2]));
+								v.emplace_back(std::stoi(parts[0]) - 1);
+								vt.emplace_back(std::stoi(parts[1]) - 1);
+								vn.emplace_back(std::stoi(parts[2]) - 1);
 								break;
 							// V / VT
 							case 2:
-								v.emplace_back(std::stoi(parts[0]));
-								vt.emplace_back(std::stoi(parts[1]));
+								v.emplace_back(std::stoi(parts[0]) - 1);
+								vt.emplace_back(std::stoi(parts[1]) - 1);
 								break;
 							// V
 							case 1:
-								v.emplace_back(std::stoi(parts[0]));
+								v.emplace_back(std::stoi(parts[0]) - 1);
 								break;
 						}
 					}
 					else
 					{
-						v.emplace_back(std::stoi(facePart));
+						v.emplace_back(std::stoi(facePart) - 1);
 					}
 				}
 				faces.emplace_back(v, vt, vn);

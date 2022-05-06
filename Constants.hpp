@@ -12,7 +12,7 @@ namespace Constants
 {
 namespace Window
 {
-constexpr const char * windowName = "Assignment 6: Pruvost Kevin 2021400603";
+constexpr const char * windowName = "Final Project: Pruvost Kevin 2021400603";
 }; // !Constants::Window
 
 namespace Paths
@@ -77,6 +77,14 @@ namespace Torus
 {
 constexpr const char * objFile = "resources/Models/eight.uniform.obj";
 }; // !Constants::Paths::Models::Torus
+namespace Bunny
+{
+constexpr const char * objFile = "resources/Models/Bunny.obj";
+}; // !Constants::Paths::Models::Bunny
+namespace Patrick
+{
+constexpr const char * objFile = "resources/Models/Patrick.obj";
+}; // !Constants::Paths::Models::Patrick
 }; // !Constants::Paths::Models
 }; // !Constants::Paths
 

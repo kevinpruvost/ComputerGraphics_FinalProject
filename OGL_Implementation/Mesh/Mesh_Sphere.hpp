@@ -34,8 +34,8 @@ public:
     bool IsUsingEBO() const override;
 
 private:
-    void buildVertices(std::vector<Vertex> & vertices, std::vector<VertexNormalTexture> & vnts, bool calculateNormal = true);
-    void bind3SizedVertices(const std::vector<Vertex> & vertices);
+    void buildVertices(std::vector<VertexPos> & vertices, std::vector<VertexNormalTexture> & vnts, bool calculateNormal = true);
+    void bind3SizedVertices(const std::vector<VertexPos> & vertices);
     void bindVnts(const std::vector<VertexNormalTexture> & vnts, const std::vector<GLuint> & indices);
 
     void buildVerticesSmooth();

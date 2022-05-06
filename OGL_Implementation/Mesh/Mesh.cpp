@@ -71,6 +71,24 @@ Mesh GenerateMesh(const std::vector<VertexNormalTexture> & vertices)
 	return Mesh(meshesDB.size() - 1);
 }
 
+Mesh GenerateMesh(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<VertexTextureCoordinates> & textureCoords, const std::vector<Face> & faces)
+{
+	meshesDB.emplace_back(new Mesh_Custom(vertices, normals, textureCoords, faces));
+	return Mesh(meshesDB.size() - 1);
+}
+
+Mesh GenerateMesh(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<Face> & faces)
+{
+	meshesDB.emplace_back(new Mesh_Custom(vertices, normals, faces));
+	return Mesh(meshesDB.size() - 1);
+}
+
+Mesh GenerateMesh(const std::vector<VertexPos> & vertices, const std::vector<Face> & faces)
+{
+	meshesDB.emplace_back(new Mesh_Custom(vertices, faces));
+	return Mesh(meshesDB.size() - 1);
+}
+
 Mesh GenerateMesh(const Obj & obj)
 {
 	meshesDB.emplace_back(new Mesh_Obj(obj));

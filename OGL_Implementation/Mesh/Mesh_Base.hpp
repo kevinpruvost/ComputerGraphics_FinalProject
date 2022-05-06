@@ -7,11 +7,17 @@
  *********************************************************************/
 #pragma once
 
+// Project includes
+#include "Mesh_Geometry.hpp"
+#include "Modules\Mesh_Simplification.hpp"
+
 // GLAD includes
 #include <GLAD\glad.h>
 
 // C++ includes
 #include <type_traits>
+#include <vector>
+#include <string>
 
 class Mesh_Base;
 
@@ -56,13 +62,20 @@ public:
     bool HasTextureCoordinates() const;
     bool HasNormals() const;
 
-private:
+protected:
+    void LoadVertices(const std::vector<VertexPos> & vertices);
+    void LoadFaces(const std::vector<VertexNormalTexture> & vertices);
 
 protected:
     GLuint __verticesVAO, __facesVAO;
     GLuint __verticesVBO, __facesVBO;
     GLuint __verticesNVert, __facesNVert;
     bool __hasTextureCoordinates, __hasNormals;
+
+    std::vector<glm::vec3> vP;
+    std::vector<glm::vec3> vN;
+    std::vector<glm::vec2> vT;
+    std::vector<Face> f;
 };
 
 #include "Mesh_Base.inl"

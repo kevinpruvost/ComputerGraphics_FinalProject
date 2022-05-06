@@ -55,17 +55,17 @@ void Mesh_Obj::bindFaces(const Obj & obj)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			int vid = face.v[i] - 1;
+			int vid = face.v[i];
 			data.emplace_back(obj.verticesPos[vid].x);
 			data.emplace_back(obj.verticesPos[vid].y);
 			data.emplace_back(obj.verticesPos[vid].z);
-			int vnid = face.vn[i] - 1;
+			int vnid = face.vn[i];
 			data.emplace_back(obj.verticesNormals[vnid].x);
 			data.emplace_back(obj.verticesNormals[vnid].y);
 			data.emplace_back(obj.verticesNormals[vnid].z);
 			if (hasTextCoords)
 			{
-				int vtid = face.vt[i] - 1;
+				int vtid = face.vt[i];
 				data.emplace_back(obj.verticesTextureCoordinates[vtid].x);
 				data.emplace_back(obj.verticesTextureCoordinates[vtid].y);
 			}
@@ -101,7 +101,7 @@ void Mesh_Obj::bindVertices(const Obj & obj)
 	// bind VBO, buffer data to it
 	glBindBuffer(GL_ARRAY_BUFFER, __verticesVBO);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * obj.numVertices(), &obj.verticesPos.front(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexPos) * obj.numVertices(), &obj.verticesPos.front(), GL_STATIC_DRAW);
 
 	// set vertex attribute pointers
 	// position attribute

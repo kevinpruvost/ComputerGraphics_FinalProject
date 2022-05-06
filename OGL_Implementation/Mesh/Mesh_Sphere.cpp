@@ -50,12 +50,12 @@ bool Mesh_Sphere::IsUsingEBO() const
     return true;
 }
 
-void Mesh_Sphere::buildVertices(std::vector<Vertex> & vertices, std::vector<VertexNormalTexture> & vnts, bool calculateNormal)
+void Mesh_Sphere::buildVertices(std::vector<VertexPos> & vertices, std::vector<VertexNormalTexture> & vnts, bool calculateNormal)
 {
     vertices.reserve(static_cast<size_t>(__stacks) * static_cast<size_t>(__sectors));
     vnts.reserve(static_cast<size_t>(__stacks) * static_cast<size_t>(__sectors));
 
-    Vertex vertex;
+    VertexPos vertex;
     VertexNormalTexture vnt;
     float xy;
     float lengthInv = 1.0f / __radius; // normal
@@ -98,16 +98,16 @@ void Mesh_Sphere::buildVertices(std::vector<Vertex> & vertices, std::vector<Vert
     }
 }
 
-void Mesh_Sphere::bind3SizedVertices(const std::vector<Vertex> & vertices)
+void Mesh_Sphere::bind3SizedVertices(const std::vector<VertexPos> & vertices)
 {
     // Binding vertices
     glBindVertexArray(__verticesVAO);
     glBindBuffer(GL_ARRAY_BUFFER, __verticesVBO);
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexPos) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPos), (GLvoid *)0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -141,7 +141,7 @@ void Mesh_Sphere::bindVnts(const std::vector<VertexNormalTexture> & vnts, const 
 
 void Mesh_Sphere::buildVerticesSmooth()
 {
-    std::vector<Vertex> vertices;
+    std::vector<VertexPos> vertices;
     std::vector<VertexNormalTexture> vnts;
     buildVertices(vertices, vnts, true);
 
@@ -182,7 +182,7 @@ void Mesh_Sphere::buildVerticesSmooth()
 
 void Mesh_Sphere::buildVerticesFlat()
 {
-    std::vector<Vertex> vertices;
+    std::vector<VertexPos> vertices;
     std::vector<VertexNormalTexture> vnts;
     buildVertices(vertices, vnts, false);
     bind3SizedVertices(vertices);

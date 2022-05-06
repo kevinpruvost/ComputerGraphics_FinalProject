@@ -53,13 +53,13 @@ int main()
 	}
 
 	Obj obj;
-	if (!obj.TryLoad(Constants::Paths::Models::Torus::objFile))
+	if (!obj.TryLoad(Constants::Paths::Models::Bunny::objFile))
 	{
 		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Torus::objFile);
 		return EXIT_FAILURE;
 	}
 	obj.GenerateNormals(false);
-	Mesh meshObjNotSmooth = GenerateMesh(obj);
+	Mesh meshObjNotSmooth = GenerateMesh(obj.verticesPos, obj.verticesNormals, obj.faces);
 	obj.GenerateNormals(true);
 	Mesh meshObjSmooth = GenerateMesh(obj);
 
@@ -69,16 +69,18 @@ int main()
 		Rendering::Shaders(Constants::Paths::faceShaderVertex));
 	Material & entityMaterial = entity.AddMaterial();
 	entity.SetShaderAttribute("isNormalFlat", 0);
-	entityMaterial.diffuseColor = glm::vec3(0.0f, 1.0f, 0.6f);
-	entityMaterial.specularColor = glm::vec3(0.9f, 0.0f, 1.0f);
+	entityMaterial.diffuseColor = glm::vec3(1.0f);
+	entityMaterial.specularColor = glm::vec3(0.0f);
+
+	entity.scale = glm::vec3(5.0f);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
 	sun.SetTexture(sunTexture);
 	sun.pos = { 0.0f, 3.0f, 0.0f };
 	sun.ChangeSpecular(glm::vec3(1.0f));
-	sun.ChangeDiffuse(glm::vec3(0.65f));
-	sun.ChangeAmbient(glm::vec3(0.05f));
+	sun.ChangeDiffuse(glm::vec3(1.0f));
+	sun.ChangeAmbient(glm::vec3(1.0f));
 
 	Camera camera(window->windowWidth(), window->windowHeight(), -2.0f, 4.0f, 5.0f);
 	camera.MovementSpeed *= 5.0f;

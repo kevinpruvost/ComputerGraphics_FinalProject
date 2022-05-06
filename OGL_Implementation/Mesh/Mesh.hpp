@@ -80,6 +80,30 @@ Mesh GenerateMeshSphere(float radius = 1.0f, int sectorCount = 36, int stackCoun
 */
 Mesh GenerateMesh(const std::vector<VertexNormalTexture> & vertices);
 /**
+ * @brief Generates mesh from vertices, normals, texture coordinates and face indices
+ * @param vertices 
+ * @param normals 
+ * @param textureCoords 
+ * @param faces 
+ * @return mesh
+*/
+Mesh GenerateMesh(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<VertexTextureCoordinates> & textureCoords, const std::vector<Face> & faces);
+/**
+ * @brief Generates mesh from vertices, normals & faces indices
+ * @param vertices 
+ * @param normals 
+ * @param faces 
+ * @return mesh
+*/
+Mesh GenerateMesh(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<Face> & faces);
+/**
+ * @brief Generates meshes only from vertices & face indices
+ * @param vertices 
+ * @param faces 
+ * @return mesh
+*/
+Mesh GenerateMesh(const std::vector<VertexPos> & vertices, const std::vector<Face> & faces);
+/**
  * @brief Generates mesh from obj class, stores it in the mesh database
  * and returns a Mesh class.
  * @param obj 

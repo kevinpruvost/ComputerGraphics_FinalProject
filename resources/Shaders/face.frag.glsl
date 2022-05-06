@@ -84,6 +84,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 out vec4 color;
 uniform Material material;
 uniform bool isNormalFlat = false;
+uniform bool useLight = true;
 
 vec3 GetDiffuseMaterial(Material mat)
 {
@@ -103,14 +104,21 @@ vec3 GetSpecularMaterial(Material mat)
 
 void main()
 {
-    // Props
-    vec3 norm = normalize(isNormalFlat ? flatNormal : Normal);
-    vec3 viewDir = normalize(viewPos.xyz - FragPos);
-    
-    vec3 result = vec3(0.0);
-    for(int i = 0; i < pointLightsCount; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
-    color = vec4(result, 1.0);
+    if (useLight)
+    {
+        // Props
+        vec3 norm = normalize(isNormalFlat ? flatNormal : Normal);
+        vec3 viewDir = normalize(viewPos.xyz - FragPos);
+        
+        vec3 result = vec3(0.0);
+        for(int i = 0; i < pointLightsCount; i++)
+            result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+        color = vec4(result, 1.0);
+    }
+    else
+    {
+        color = vec4(GetDiffuseMaterial(material), 1.0);
+    }
 }
 
 // calculates the color when using a directional light.
