@@ -33,14 +33,14 @@ std::vector<glm::mat4> Mesh_Simplification::GeneratePlanes(const std::vector<Ver
         const auto planeNormal = glm::vec4(glm::triangleNormal(
             vPs[originFaces[i].v[0]],
             vPs[originFaces[i].v[1]],
-            vPs[originFaces[i].v[2]]), 1.0f);
+            vPs[originFaces[i].v[2]]), 0.0f);
         const float a = planeNormal.x, const b = planeNormal.y, const c = planeNormal.z;
         glm::outerProduct(planeNormal, planeNormal);
         glm::mat4 plane = {
-            {a * a, a * b, a * c, a},
-            {a * b, b * b, b * c, b},
-            {a * c, b * c, c * c, c},
-            {a    , b    , c    , 1.0f}
+            {a * a, a * b, a * c, 0.0f},
+            {a * b, b * b, b * c, 0.0f},
+            {a * c, b * c, c * c, 0.0f},
+            {0.0f    , 0.0f    , 0.0f    , 0.0f}
         };
         planes.push_back(plane);
 //        planes.push_back(glm::outerProduct(planeNormal, planeNormal));
@@ -86,7 +86,7 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
         for (int j = 0; j < 4; ++j)
         {
             const glm::vec4 errorVec4 = (qMatrices[halfEdges[i]->origin] + qMatrices[halfEdges[i]->next->origin]) * vecs[j];
-            const float error = glm::dot(errorVec4, vecs[j]);// errorVec4.x * vecs[j].x + errorVec4.y * vecs[j].y + errorVec4.z * vecs[j].z;
+            const float error = glm::dot(errorVec4, vecs[j]);
             errors[j] = abs(error);
         }
         errorMetrics.emplace(errors[0], halfEdges[i].get());
@@ -112,8 +112,8 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
     std::vector<VertexPos> newVertices(vPs);
 
     // Contraction
-    int half = originFaces.size() / 2;
-    for (int i = 0; i < 100; ++i)
+    int half = newVertices.size() / 2;
+    for (int i = 0; i < half; ++i)
     {
         auto part = errorMetrics.extract(errorMetrics.begin());
         //if (part.key() >= 0.1f) break;
