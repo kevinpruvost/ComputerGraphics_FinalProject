@@ -55,20 +55,20 @@ int main()
 	Obj obj;
 	if (!obj.TryLoad(Constants::Paths::Models::Bunny::objFile))
 	{
-		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Torus::objFile);
+		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Bunny::objFile);
 		return EXIT_FAILURE;
 	}
 	obj.GenerateNormals(false);
 	Mesh meshObjNotSmooth = GenerateMesh(obj.verticesPos, obj.verticesNormals, obj.faces);
 	obj.GenerateNormals(true);
-	Mesh meshObjSmooth = GenerateMesh(obj);
+	Mesh meshObjSmooth = GenerateMesh(obj.verticesPos, obj.verticesNormals, obj.faces);
 
-	Entity entity(meshObjSmooth,
+	Entity entity(meshObjNotSmooth,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::faceShaderVertex));
 	Material & entityMaterial = entity.AddMaterial();
-	entity.SetShaderAttribute("isNormalFlat", 0);
+	entity.SetShaderAttribute("isNormalFlat", 1);
 	entityMaterial.diffuseColor = glm::vec3(1.0f);
 	entityMaterial.specularColor = glm::vec3(0.0f);
 
@@ -77,13 +77,13 @@ int main()
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
 	sun.SetTexture(sunTexture);
-	sun.pos = { 0.0f, 3.0f, 0.0f };
+	sun.pos = { 0.0f, -3.0f, 0.0f };
 	sun.ChangeSpecular(glm::vec3(1.0f));
 	sun.ChangeDiffuse(glm::vec3(1.0f));
 	sun.ChangeAmbient(glm::vec3(1.0f));
 
 	Camera camera(window->windowWidth(), window->windowHeight(), -2.0f, 4.0f, 5.0f);
-	camera.MovementSpeed *= 5.0f;
+	camera.MovementSpeed *= 1.0f;
 	mainCamera = &camera;
 
 	camera.LookAt(entity.pos);
@@ -93,7 +93,7 @@ int main()
 	GUI gui(window->window);
 	// Creating Second Window
 	bool enableGui = true;
-	bool autoRotation = true;
+	bool autoRotation = false;
 	gui.AddCallback([&]() {
 		const float width = 320.0f;
 		const float height = 475.0f;
@@ -128,6 +128,12 @@ int main()
 				if (*entity.GetShaderAttribute<int>("isNormalFlat")) entity.SetMesh(meshObjNotSmooth);
 				else entity.SetMesh(meshObjSmooth);
 			}
+			if (ImGui::Button("Simplify"))
+			{
+				entity.GetMesh().Simplify();
+			}
+			ImGui::LabelText("Vertices", "%d", entity.GetMesh().verticesNVert());
+			ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert());
 
 			gui.EditEntity(entity);
 

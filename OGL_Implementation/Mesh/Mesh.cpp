@@ -48,6 +48,14 @@ bool Mesh::isUsingEBO() const
 	return meshesDB[__meshId]->IsUsingEBO();
 }
 
+Mesh Mesh::Simplify()
+{
+	Mesh_Base * newMesh = __Simplify(*meshesDB[__meshId].get());
+	Mesh mesh = GenerateMesh(newMesh);
+	__meshId = mesh.meshId();
+	return mesh;
+}
+
 Mesh_Base::DrawMode Mesh::GetDrawMode() const
 {
 	return meshesDB[__meshId]->GetDrawMode();
@@ -103,4 +111,10 @@ Mesh GenerateMesh(const Mesh & mesh)
 Mesh GenerateMesh(const uint16_t meshId)
 {
 	return Mesh(meshId);
+}
+
+Mesh GenerateMesh(Mesh_Base * mesh)
+{
+	meshesDB.emplace_back(mesh);
+	return Mesh(meshesDB.size() - 1);
 }

@@ -79,6 +79,7 @@ public:
     void SetTexture(const Texture & texture);
     const Texture & GetTexture() const;
 
+    Mesh & GetMesh();
     const Mesh & GetMesh() const;
     /**
      * @brief Calculates Model Matrix.

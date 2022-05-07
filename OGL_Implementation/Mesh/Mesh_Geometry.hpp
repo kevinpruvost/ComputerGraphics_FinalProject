@@ -11,6 +11,7 @@
 #include <array>
 #include <cmath>
 #include <vector>
+#include <memory>
 
 // GLM includes
 #include <glm\glm.hpp>
@@ -37,8 +38,10 @@ struct Face
 };
 
 typedef glm::vec3 VertexPos;
-typedef VertexPos VertexNormal;
+typedef glm::vec3 VertexNormal;
 typedef glm::vec2 VertexTextureCoordinates;
+
+typedef glm::vec3 PlaneVector;
 
 /**
  * @brief Contains information about vertices.
@@ -65,3 +68,14 @@ struct VertexNormalTexture
 		glm::vec2 textureCoords;
 	};
 };
+
+struct HalfEdge
+{
+public:
+	HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int face_, int origin_);
+	HalfEdge * twin, * next, * previous;
+	int face, origin;
+	bool pass = false;
+};
+
+std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::vector<Face> & faces);

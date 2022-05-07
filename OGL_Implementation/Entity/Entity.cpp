@@ -92,6 +92,11 @@ const Texture & Entity::GetTexture() const
     return __texture;
 }
 
+Mesh & Entity::GetMesh()
+{
+    return __mesh;
+}
+
 const Mesh & Entity::GetMesh() const { return __mesh; }
 
 glm::mat4 Entity::GetModelMatrix(bool ignoreRotation, bool ignoreScale) const

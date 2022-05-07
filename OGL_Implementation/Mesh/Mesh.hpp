@@ -17,6 +17,8 @@
 #include "Mesh_Image.hpp"
 #include "Mesh_Custom.hpp"
 
+#include "Modules\Mesh_Simplification.hpp"
+
 #include "OGL_Implementation\DebugInfo\Log.hpp"
 
 /**
@@ -27,7 +29,7 @@
  * And most importantly, the usage is way easier, because copies, constructors, destructors,
  * will not affect the original mesh
 */
-class Mesh
+class Mesh : public Mesh_Simplification
 {
 public:
     /**
@@ -52,6 +54,8 @@ public:
 
     GLuint facesEBO() const;
     bool isUsingEBO() const;
+
+    Mesh Simplify();
 
     Mesh_Base::DrawMode GetDrawMode() const;
 
@@ -122,3 +126,10 @@ Mesh GenerateMesh(const Mesh & mesh);
  * @return mesh
 */
 Mesh GenerateMesh(const uint16_t meshId);
+/**
+ * @brief Generates mesh from Mesh_base pointer,
+ * memory from this pointer will be managed by the Mesh System afterwards
+ * @param meshId
+ * @return mesh
+*/
+Mesh GenerateMesh(Mesh_Base * mesh);

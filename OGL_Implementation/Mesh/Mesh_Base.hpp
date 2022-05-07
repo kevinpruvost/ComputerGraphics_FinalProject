@@ -9,7 +9,6 @@
 
 // Project includes
 #include "Mesh_Geometry.hpp"
-#include "Modules\Mesh_Simplification.hpp"
 
 // GLAD includes
 #include <GLAD\glad.h>
@@ -33,6 +32,7 @@ class Mesh_Base
 {
 protected:
     Mesh_Base();
+    Mesh_Base(const std::vector<Face> & faces, const std::vector<VertexPos> & v, const std::vector<VertexNormal> & vN = {}, const std::vector<VertexTextureCoordinates> & vT = {});
 public:
     virtual ~Mesh_Base();
 
@@ -42,6 +42,11 @@ public:
     GLuint GetFacesVBO() const;
     GLuint GetVerticesCount() const;
     GLuint GetFacesVerticesCount() const;
+
+    virtual const std::vector<VertexPos> * GetVerticesPos() const;
+    virtual const std::vector<VertexNormal> * GetVerticesNormals() const;
+    virtual const std::vector<VertexTextureCoordinates> * GetVerticesTextureCoordinates() const;
+    virtual const std::vector<Face> * GetFaces() const;
 
     template<Mesh_Based M>
     M * Cast();
@@ -62,9 +67,12 @@ public:
     bool HasTextureCoordinates() const;
     bool HasNormals() const;
 
+    void GenerateNormals(bool smooth);
+
 protected:
     void LoadVertices(const std::vector<VertexPos> & vertices);
     void LoadFaces(const std::vector<VertexNormalTexture> & vertices);
+    std::vector<VertexNormalTexture> GenerateAssembledVertices(bool isNormal, bool isTexture) const;
 
 protected:
     GLuint __verticesVAO, __facesVAO;
@@ -72,10 +80,17 @@ protected:
     GLuint __verticesNVert, __facesNVert;
     bool __hasTextureCoordinates, __hasNormals;
 
-    std::vector<glm::vec3> vP;
-    std::vector<glm::vec3> vN;
-    std::vector<glm::vec2> vT;
-    std::vector<Face> f;
+    union
+    {
+        std::vector<VertexNormalTexture> __vertices;
+        struct
+        {
+            std::vector<VertexPos> __v;
+            std::vector<VertexNormal> __vN;
+            std::vector<VertexTextureCoordinates> __vT;
+            std::vector<Face> __faces;
+        };
+    };
 };
 
 #include "Mesh_Base.inl"

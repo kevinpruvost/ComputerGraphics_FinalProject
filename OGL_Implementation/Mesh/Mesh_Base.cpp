@@ -10,12 +10,28 @@
 // Project includes
 #include "OGL_Implementation\DebugInfo\Log.hpp"
 
+// C++ includes
+#include <stdexcept>
+#include <functional>
+
 Mesh_Base::Mesh_Base()
 	: __hasTextureCoordinates{ true }
 	, __hasNormals{ true }
 {
 	LOG_PRINT(Log::LogMainFileName, "Constructed\n");
 
+	glGenVertexArrays(2, &__verticesVAO);
+	glGenBuffers(2, &__verticesVBO);
+}
+
+Mesh_Base::Mesh_Base(const std::vector<Face> & faces, const std::vector<VertexPos> & v, const std::vector<VertexNormal> & vN, const std::vector<VertexTextureCoordinates> & vT)
+	: __hasTextureCoordinates{ !vT.empty() }
+	, __hasNormals{ !vN.empty() }
+	, __faces{ faces }
+	, __v{ v }
+	, __vN{ vN }
+	, __vT{ vT }
+{
 	glGenVertexArrays(2, &__verticesVAO);
 	glGenBuffers(2, &__verticesVBO);
 }
@@ -58,6 +74,26 @@ GLuint Mesh_Base::GetFacesVerticesCount() const
 	return __facesNVert;
 }
 
+const std::vector<VertexPos> * Mesh_Base::GetVerticesPos() const
+{
+	return nullptr;
+}
+
+const std::vector<VertexNormal> * Mesh_Base::GetVerticesNormals() const
+{
+	return nullptr;
+}
+
+const std::vector<VertexTextureCoordinates> * Mesh_Base::GetVerticesTextureCoordinates() const
+{
+	return nullptr;
+}
+
+const std::vector<Face> * Mesh_Base::GetFaces() const
+{
+	return nullptr;
+}
+
 bool Mesh_Base::HasTextureCoordinates() const
 {
 	return __hasTextureCoordinates;
@@ -66,6 +102,33 @@ bool Mesh_Base::HasTextureCoordinates() const
 bool Mesh_Base::HasNormals() const
 {
 	return __hasNormals;
+}
+
+void Mesh_Base::GenerateNormals(bool smooth)
+{
+	__vN.clear();
+	__vN.resize(__v.size());
+
+	for (auto & face : __faces)
+	{
+		face.vn = face.v;
+		const VertexPos & p0 = __v[face.v[0]], & p1 = __v[face.v[1]], & p2 = __v[face.v[2]];
+		glm::vec3 faceNormal = glm::cross(p0 - p1, p1 - p2);
+
+		if (smooth)
+		{
+			__vN[face.vn[0]] += faceNormal;
+			__vN[face.vn[1]] += faceNormal;
+			__vN[face.vn[2]] += faceNormal;
+		}
+		else
+		{
+			__vN[face.vn[0]] = faceNormal;
+			__vN[face.vn[1]] = faceNormal;
+			__vN[face.vn[2]] = faceNormal;
+		}
+	}
+	LoadFaces(GenerateAssembledVertices(true, false));
 }
 
 void Mesh_Base::LoadVertices(const std::vector<VertexPos> & vertices)
@@ -102,4 +165,55 @@ void Mesh_Base::LoadFaces(const std::vector<VertexNormalTexture> & vertices)
 	glBindVertexArray(0);
 
 	__facesNVert = vertices.size();
+}
+
+std::vector<VertexNormalTexture> Mesh_Base::GenerateAssembledVertices(bool isNormal, bool isTexture) const
+{
+	std::vector<VertexNormalTexture> res;
+	res.reserve(__faces.size() * 3);
+
+	if (__vN.empty()) isNormal = false;
+	if (__vT.empty()) isTexture = false;
+
+	const std::array<std::function<void(int, int)>, 4> lambdas = {
+		[&](int i, int j) {
+			const int vid = __faces[i].v[j];
+			const int vnid = __faces[i].vn[j];
+			const int vtid = __faces[i].vt[j];
+			res.emplace_back(__v[vid].x, __v[vid].y, __v[vid].z, __vN[vnid].x, __vN[vnid].y, __vN[vnid].z, __vT[vtid].x, __vT[vtid].y);
+		},
+		[&](int i, int j) {
+			const int vid = __faces[i].v[j];
+			const int vnid = __faces[i].vn[j];
+			res.emplace_back(__v[vid].x, __v[vid].y, __v[vid].z, __vN[vnid].x, __vN[vnid].y, __vN[vnid].z);
+		},
+		[&](int i, int j) {
+			const int vid = __faces[i].v[j];
+			const int vtid = __faces[i].vt[j];
+			VertexNormalTexture vnt;
+			vnt.xyz = { __v[vid].x, __v[vid].y, __v[vid].z };
+			vnt.s = __vT[vtid].x;
+			vnt.t = __vT[vtid].y;
+			res.push_back(vnt);
+		},
+		[&](int i, int j) {
+			const int vid = __faces[i].v[j];
+			res.emplace_back(__v[vid].x, __v[vid].y, __v[vid].z);
+		}
+	};
+
+	const std::function<void(int, int)> * l;
+	if (isNormal && isTexture) l = &lambdas[0];
+	else if (isNormal) l = &lambdas[1];
+	else if (isTexture) l = &lambdas[2];
+	else l = &lambdas[3];
+
+	for (int i = 0; i < __faces.size(); ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			(*l)(i, j);
+		}
+	}
+	return res;
 }

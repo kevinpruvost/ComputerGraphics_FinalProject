@@ -27,24 +27,18 @@ public:
     bool IsUsingEBO() const;
     Mesh_Base::DrawMode GetDrawMode() const;
 
+    std::vector<VertexNormalTexture> & GetVertices();
     const std::vector<VertexNormalTexture> & GetVertices() const;
     void ModifyVertex(const unsigned int index, const VertexNormalTexture & newVertex);
     void ModifyVertices(const std::vector<VertexNormalTexture> & vertices);
 
+    const std::vector<VertexPos> * GetVerticesPos() const override;
+    const std::vector<VertexNormal> * GetVerticesNormals() const override;
+    const std::vector<VertexTextureCoordinates> * GetVerticesTextureCoordinates() const override;
+    const std::vector<Face> * GetFaces() const override;
+
 private:
-    std::vector<VertexNormalTexture> GenerateAssembledVertices(bool isNormal, bool isTexture) const;
     void ReassignVertex();
 
 private:
-    union
-    {
-        std::vector<VertexNormalTexture> __vertices;
-        struct
-        {
-            std::vector<VertexPos> __v;
-            std::vector<VertexNormal> __vN;
-            std::vector<VertexTextureCoordinates> __vT;
-            std::vector<Face> __faces;
-        };
-    };
 };

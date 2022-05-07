@@ -9,11 +9,12 @@
 
 // C++ includes
 #include <stdexcept>
-#include <functional>
 
 Mesh_Custom::Mesh_Custom(const std::vector<VertexNormalTexture> & vertices_)
-    : __vertices{ vertices_ }
+    : Mesh_Base()
 {
+    __vertices = vertices_;
+
     LoadFaces(__vertices);
 
     std::vector<VertexPos> onlyPos;
@@ -26,10 +27,7 @@ Mesh_Custom::Mesh_Custom(const std::vector<VertexNormalTexture> & vertices_)
 }
 
 Mesh_Custom::Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<VertexTextureCoordinates> & textureCoords, const std::vector<Face> & faces)
-    : __v{ vertices }
-    , __vN{ normals }
-    , __vT{ textureCoords }
-    , __faces{ faces }
+    : Mesh_Base(faces, vertices, normals, textureCoords)
 {
     LoadVertices(__v);
     const auto vnts = GenerateAssembledVertices(true, true);
@@ -37,9 +35,7 @@ Mesh_Custom::Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vec
 }
 
 Mesh_Custom::Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vector<VertexNormal> & normals, const std::vector<Face> & faces)
-    : __v{ vertices }
-    , __vN{ normals }
-    , __faces{ faces }
+    : Mesh_Base(faces, vertices, normals)
 {
     LoadVertices(__v);
     const auto vnts = GenerateAssembledVertices(true, false);
@@ -47,8 +43,7 @@ Mesh_Custom::Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vec
 }
 
 Mesh_Custom::Mesh_Custom(const std::vector<VertexPos> & vertices, const std::vector<Face> & faces)
-    : __v{ vertices }
-    , __faces{ faces }
+    : Mesh_Base(faces, vertices)
 {
     LoadVertices(__v);
     const auto vnts = GenerateAssembledVertices(false, false);
@@ -74,6 +69,11 @@ Mesh_Base::DrawMode Mesh_Custom::GetDrawMode() const
     return DrawMode::DrawArrays;
 }
 
+std::vector<VertexNormalTexture> & Mesh_Custom::GetVertices()
+{
+    return __vertices;
+}
+
 const std::vector<VertexNormalTexture> & Mesh_Custom::GetVertices() const
 {
     return __vertices;
@@ -97,55 +97,24 @@ void Mesh_Custom::ModifyVertices(const std::vector<VertexNormalTexture> & vertic
     __facesNVert = __verticesNVert = __vertices.size();
 }
 
-std::vector<VertexNormalTexture> Mesh_Custom::GenerateAssembledVertices(bool isNormal, bool isTexture) const
+const std::vector<VertexPos> * Mesh_Custom::GetVerticesPos() const
 {
-    std::vector<VertexNormalTexture> res;
-    res.reserve(__faces.size() * 3);
+    return &__v;
+}
 
-    if (__vN.empty()) isNormal = false;
-    if (__vT.empty()) isTexture = false;
+const std::vector<VertexNormal> * Mesh_Custom::GetVerticesNormals() const
+{
+    return &__vN;
+}
 
-    const std::array<std::function<void(int, int)>, 4> lambdas = {
-        [&](int i, int j) {
-            const int vid = __faces[i].v[j];
-            const int vnid = __faces[i].vn[j];
-            const int vtid = __faces[i].vt[j];
-            res.emplace_back(__v[vid].x, __v[vid].y, __v[vid].z, __vN[vnid].x, __vN[vnid].y, __vN[vnid].z, __vT[vtid].x, __vT[vtid].y);
-        },
-        [&](int i, int j) {
-            const int vid = __faces[i].v[j];
-            const int vnid = __faces[i].vn[j];
-            res.emplace_back(__v[vid].x, __v[vid].y, __v[vid].z, __vN[vnid].x, __vN[vnid].y, __vN[vnid].z);
-        },
-        [&](int i, int j) {
-            const int vid = __faces[i].v[j];
-            const int vtid = __faces[i].vt[j];
-            VertexNormalTexture vnt;
-            vnt.xyz = { __v[vid].x, __v[vid].y, __v[vid].z };
-            vnt.s = __vT[vtid].x;
-            vnt.t = __vT[vtid].y;
-            res.push_back(vnt);
-        },
-        [&](int i, int j) {
-            const int vid = __faces[i].v[j];
-            res.emplace_back(__v[vid].x, __v[vid].y, __v[vid].z);
-        }
-    };
+const std::vector<VertexTextureCoordinates> * Mesh_Custom::GetVerticesTextureCoordinates() const
+{
+    return &__vT;
+}
 
-    const std::function<void(int, int)> * l;
-    if (isNormal && isTexture) l = &lambdas[0];
-    else if (isNormal) l = &lambdas[1];
-    else if (isTexture) l = &lambdas[2];
-    else l = &lambdas[3];
-
-    for (int i = 0; i < __faces.size(); ++i)
-    {
-        for (int j = 0; j < 3; ++j)
-        {
-            (*l)(i, j);
-        }
-    }
-    return res;
+const std::vector<Face> * Mesh_Custom::GetFaces() const
+{
+    return &__faces;
 }
 
 inline void Mesh_Custom::ReassignVertex()
