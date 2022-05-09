@@ -68,6 +68,7 @@ public:
     bool HasNormals() const;
 
     void GenerateNormals(bool smooth);
+    void SetGeometry(const std::vector<Face> & faces, const std::vector<VertexPos> & v, const std::vector<VertexNormal> & vN = {}, const std::vector<VertexTextureCoordinates> & vT = {});
 
 protected:
     void LoadVertices(const std::vector<VertexPos> & vertices);

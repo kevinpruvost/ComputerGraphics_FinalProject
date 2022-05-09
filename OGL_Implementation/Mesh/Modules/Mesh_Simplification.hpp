@@ -12,6 +12,7 @@
 
 // C++ includes
 #include <map>
+#include <mutex>
 
 class Mesh_Simplification
 {
@@ -29,5 +30,6 @@ private:
     std::vector<glm::mat4> planes;
 
 protected:
+    void __SimplifyParallel(Mesh_Base & mesh, bool &loopPassed, std::mutex * mutex);
     Mesh_Custom * __Simplify(Mesh_Base & mesh);
 };

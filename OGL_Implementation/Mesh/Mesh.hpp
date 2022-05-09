@@ -21,6 +21,9 @@
 
 #include "OGL_Implementation\DebugInfo\Log.hpp"
 
+// C++ includes
+#include <mutex>
+
 /**
  * @brief Contains Mesh Id and methods related
  * to the mesh database.
@@ -56,6 +59,7 @@ public:
     bool isUsingEBO() const;
 
     Mesh Simplify();
+    void SimplifyParallel(bool & loopPassed, bool & finished, std::mutex * mutex);
 
     Mesh_Base::DrawMode GetDrawMode() const;
 

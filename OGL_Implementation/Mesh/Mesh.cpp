@@ -57,6 +57,13 @@ Mesh Mesh::Simplify()
 	return mesh;
 }
 
+void Mesh::SimplifyParallel(bool & loopPassed, bool & finished, std::mutex * mutex)
+{
+	finished = false;
+	__SimplifyParallel(*meshesDB[__meshId].get(), loopPassed, mutex);
+	finished = true;
+}
+
 Mesh_Base::DrawMode Mesh::GetDrawMode() const
 {
 	return meshesDB[__meshId]->GetDrawMode();

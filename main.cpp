@@ -37,8 +37,13 @@
 
 #include "Constants.hpp"
 
+#include <omp.h>
+#include <thread>
+
 int main()
 {
+	omp_set_num_threads(omp_get_num_procs());
+
 	Window * window = Window::Init(Constants::Window::windowName, Constants::Paths::windowIcon);
 	if (!window)
 		return EXIT_FAILURE;
@@ -122,15 +127,41 @@ int main()
 
 		if (ImGui::TreeNodeEx("Mesh Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::Checkbox("Auto-Rotation", &autoRotation);
-			if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
+			static std::unique_ptr<std::thread> simpliThread(nullptr);
+			static std::mutex mutex;
+			static bool fredFinished = true;
+			static bool loopPassed = false;
+			if (fredFinished)
 			{
-				if (*entity.GetShaderAttribute<int>("isNormalFlat")) entity.SetMesh(meshObjNotSmooth);
-				else entity.SetMesh(meshObjSmooth);
+				if (simpliThread)
+				{
+					(*entity.GetMesh())->GenerateNormals(false);
+					simpliThread->join();
+					simpliThread.reset();
+				}
+				ImGui::Checkbox("Auto-Rotation", &autoRotation);
+				if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
+				{
+					if (*entity.GetShaderAttribute<int>("isNormalFlat")) entity.SetMesh(meshObjNotSmooth);
+					else entity.SetMesh(meshObjSmooth);
+				}
+				if (ImGui::Button("Simplify"))
+				{
+					fredFinished = false;
+					simpliThread.reset(new std::thread([&](Mesh * mesh) {
+						mesh->SimplifyParallel(loopPassed, fredFinished, &mutex);
+					}, &entity.GetMesh()));
+				}
 			}
-			if (ImGui::Button("Simplify"))
+			else
 			{
-				entity.GetMesh().Simplify();
+				if (loopPassed)
+				{
+					mutex.lock();
+					(*entity.GetMesh())->GenerateNormals(false);
+					loopPassed = false;
+					mutex.unlock();
+				}
 			}
 			ImGui::LabelText("Vertices", "%d", entity.GetMesh().verticesNVert());
 			ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert());
