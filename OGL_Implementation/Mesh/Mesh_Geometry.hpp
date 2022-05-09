@@ -78,4 +78,5 @@ public:
 	bool pass = false;
 };
 
+glm::vec4 GetPlaneEquationFromTriangle(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3);
 std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::vector<Face> & faces);

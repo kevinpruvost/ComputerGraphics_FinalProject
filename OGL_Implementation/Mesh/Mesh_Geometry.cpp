@@ -27,6 +27,14 @@ VertexNormalTexture::VertexNormalTexture(GLfloat x_, GLfloat y_, GLfloat z_, GLf
 /// 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+glm::vec4 GetPlaneEquationFromTriangle(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3)
+{
+	glm::vec3 v1 = p2 - p1, v2 = p3 - p1;
+	glm::vec3 plane = { glm::normalize(glm::cross(v1, v2))};
+	return { plane, -glm::dot(p1, plane)};
+	return { plane, 1.0f };
+}
+
 std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::vector<Face> & faces)
 {
 	std::vector<std::unique_ptr<HalfEdge>> halfEdges;

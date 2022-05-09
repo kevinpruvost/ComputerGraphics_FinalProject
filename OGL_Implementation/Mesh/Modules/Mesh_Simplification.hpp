@@ -20,7 +20,7 @@ public:
     ~Mesh_Simplification();
 
 private:
-    std::vector<glm::mat4> GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
+    void GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
     void GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
     std::map<float, HalfEdge *> GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges);
 

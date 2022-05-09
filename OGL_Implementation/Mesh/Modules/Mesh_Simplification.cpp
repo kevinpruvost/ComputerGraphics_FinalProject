@@ -24,45 +24,30 @@ Mesh_Simplification::~Mesh_Simplification()
 {
 }
 
-std::vector<glm::mat4> Mesh_Simplification::GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces)
+void Mesh_Simplification::GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces)
 {
     planes.clear();
     planes.reserve(originFaces.size());
     for (int i = 0; i < originFaces.size(); ++i)
     {
-        const auto planeNormal = glm::vec4(glm::triangleNormal(
+        glm::vec4 planeNormal = GetPlaneEquationFromTriangle(
             vPs[originFaces[i].v[0]],
             vPs[originFaces[i].v[1]],
-            vPs[originFaces[i].v[2]]), 0.0f);
-        const float a = planeNormal.x, const b = planeNormal.y, const c = planeNormal.z;
-        glm::outerProduct(planeNormal, planeNormal);
-        glm::mat4 plane = {
-            {a * a, a * b, a * c, 0.0f},
-            {a * b, b * b, b * c, 0.0f},
-            {a * c, b * c, c * c, 0.0f},
-            {0.0f    , 0.0f    , 0.0f    , 0.0f}
-        };
-        planes.push_back(plane);
-//        planes.push_back(glm::outerProduct(planeNormal, planeNormal));
+            vPs[originFaces[i].v[2]]);
+        planes.push_back(glm::outerProduct(planeNormal, planeNormal));
     }
-    return planes;
 }
 
 void Mesh_Simplification::GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces)
 {
     // Generating Q matrices
     qMatrices.clear();
-    qMatrices.reserve(vPs.size());
-    for (int i = 0; i < vPs.size(); ++i)
+    qMatrices.resize(vPs.size(), glm::mat4(0.0f));
+    for (int j = 0; j < originFaces.size(); ++j)
     {
-        glm::mat4 & newQMatrix = qMatrices.emplace_back(1.0f);
-        for (int j = 0; j < originFaces.size(); ++j)
-        {
-            if (originFaces[j].v[0] == i || originFaces[j].v[1] == i || originFaces[j].v[2] == i)
-            {
-                newQMatrix += planes[j];
-            }
-        }
+        qMatrices[originFaces[j].v[0]] += planes[j];
+        qMatrices[originFaces[j].v[1]] += planes[j];
+        qMatrices[originFaces[j].v[2]] += planes[j];
     }
 }
 
@@ -90,7 +75,7 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
             errors[j] = abs(error);
         }*/
         const glm::vec4 contractPoint = { (vPs.at(halfEdges[i]->origin) + vPs.at(halfEdges[i]->next->origin)) / 2.0f, 1.0f };
-        const glm::vec4 errorVec4 = (qMatrices[halfEdges[i]->origin] + qMatrices[halfEdges[i]->next->origin]) * contractPoint;
+        const glm::vec4 errorVec4 = contractPoint * (qMatrices[halfEdges[i]->origin] + qMatrices[halfEdges[i]->next->origin]);
         const float error = glm::dot(errorVec4, contractPoint);
         errorMetrics.emplace(abs(error), halfEdges[i].get());
         if (halfEdges[i]->twin) halfEdges[i]->twin->pass = true; 
@@ -126,7 +111,6 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
         int vid2 = edge->next->origin;
 
         if (vid2 < vid1) std::swap(vid1, vid2);
-        //LOG_PRINT(stdout, "VIDS: %d %d\n [%.2f, %.2f, %.2f]\n", vid1, vid2, newVertices[vid2].x - newVertices[vid1].x, newVertices[vid2].y - newVertices[vid1].y, newVertices[vid2].z - newVertices[vid1].z);
 
         // Assign contracted point to v1, to later remove v2
         VertexPos contractedPoint = (newVertices[vid1] + newVertices[vid2]) / 2.0f;
@@ -147,32 +131,17 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
             }
             else if ((ite = std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2)) != newFaces[j].v.end())
             {
-                //LOG_PRINT(stdout, "Face %d modified\n", j);
                 // If face contains v2, then reassign to v1
                 qMatrices[newFaces[j].v[0]] -= planes[j];
                 qMatrices[newFaces[j].v[1]] -= planes[j];
                 qMatrices[newFaces[j].v[2]] -= planes[j];
                 *ite = vid1;
                 // Update Plane
-                // const auto planeNormal = glm::triangleNormal(
-                //     newVertices[newFaces[j].v[0]],
-                //     newVertices[newFaces[j].v[1]],
-                //     newVertices[newFaces[j].v[2]]);
-                const auto planeNormal = glm::vec4(glm::triangleNormal(
-                    vPs[originFaces[i].v[0]],
-                    vPs[originFaces[i].v[1]],
-                    vPs[originFaces[i].v[2]]), 1.0f);
-                const float a = planeNormal.x, const b = planeNormal.y, const c = planeNormal.z;
-                glm::outerProduct(planeNormal, planeNormal);
-                glm::mat4 plane = {
-                    {a * a, a * b, a * c, a},
-                    {a * b, b * b, b * c, b},
-                    {a * c, b * c, c * c, c},
-                    {a    , b    , c    , 1.0f}
-                };
-                //const glm::mat4 plane = glm::outerProduct(planeNormal, planeNormal);
-                
-                planes[j] = plane;
+                const glm::vec4 planeNormal = GetPlaneEquationFromTriangle(
+                    newVertices[newFaces[j].v[0]],
+                    newVertices[newFaces[j].v[1]],
+                    newVertices[newFaces[j].v[2]]);                
+                planes[j] = glm::outerProduct(planeNormal, planeNormal);
                 qMatrices[newFaces[j].v[0]] += planes[j];
                 qMatrices[newFaces[j].v[1]] += planes[j];
                 qMatrices[newFaces[j].v[2]] += planes[j];
@@ -224,8 +193,6 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
         newVertices.erase(newVertices.begin() + vid2);
         qMatrices.erase(qMatrices.begin() + vid2);
 
-        //GeneratePlanes(newVertices, newFaces);
-        //GenerateQMatrices(newVertices, newFaces);
         errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
         LOG_PRINT(stdout, "Timer: %.2fms\n", timer2.GetMsTime());
     }
