@@ -51,6 +51,7 @@ bool Mesh::isUsingEBO() const
 Mesh Mesh::Simplify()
 {
 	Mesh_Base * newMesh = __Simplify(*meshesDB[__meshId].get());
+	if (!newMesh) return *this;
 	Mesh mesh = GenerateMesh(newMesh);
 	__meshId = mesh.meshId();
 	return mesh;

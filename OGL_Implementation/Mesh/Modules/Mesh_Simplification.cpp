@@ -14,7 +14,7 @@
 // GLM includes
 #include <glm/gtx/normal.hpp>
 
-static Timer timer;
+DEBUG_CODE(static Timer timer);
 
 Mesh_Simplification::Mesh_Simplification()
 {
@@ -86,7 +86,9 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
 
 Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
 {
-    timer.Start();
+    DEBUG_CODE(timer.Start());
+
+    if (mesh.GetVerticesCount() == 0) return nullptr;
 
     const std::vector<VertexPos> & vPs = *mesh.GetVerticesPos();
     const std::vector<Face> & originFaces = *mesh.GetFaces();
@@ -100,10 +102,10 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
     std::vector<VertexPos> newVertices(vPs);
 
     // Contraction
-    int half = newVertices.size() / 2;
-    for (int i = 0; i < half; ++i)
+    size_t initFacesCount = newFaces.size() / 2;
+    while (newFaces.size() > initFacesCount)
     {
-        Timer timer2;
+        DEBUG_CODE(Timer timer2);
         auto part = errorMetrics.extract(errorMetrics.begin());
         //if (part.key() >= 0.1f) break;
         HalfEdge * edge = part.mapped();
