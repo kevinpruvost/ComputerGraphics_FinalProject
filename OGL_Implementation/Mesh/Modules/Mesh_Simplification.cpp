@@ -76,7 +76,7 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
             halfEdges[i]->pass = false;
             continue;
         }
-        float errors[4] = { 0.0f };
+        /*float errors[4] = { 0.0f };
         const glm::vec4 vecs[4] = {
             { (vPs.at(halfEdges[i]->origin) + vPs.at(halfEdges[i]->next->origin)) / 2.0f, 1.0f },
             { vPs.at(halfEdges[i]->origin), 1.0f },
@@ -88,8 +88,11 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
             const glm::vec4 errorVec4 = (qMatrices[halfEdges[i]->origin] + qMatrices[halfEdges[i]->next->origin]) * vecs[j];
             const float error = glm::dot(errorVec4, vecs[j]);
             errors[j] = abs(error);
-        }
-        errorMetrics.emplace(errors[0], halfEdges[i].get());
+        }*/
+        const glm::vec4 contractPoint = { (vPs.at(halfEdges[i]->origin) + vPs.at(halfEdges[i]->next->origin)) / 2.0f, 1.0f };
+        const glm::vec4 errorVec4 = (qMatrices[halfEdges[i]->origin] + qMatrices[halfEdges[i]->next->origin]) * contractPoint;
+        const float error = glm::dot(errorVec4, contractPoint);
+        errorMetrics.emplace(abs(error), halfEdges[i].get());
         if (halfEdges[i]->twin) halfEdges[i]->twin->pass = true; 
     }
 
@@ -115,6 +118,7 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
     int half = newVertices.size() / 2;
     for (int i = 0; i < half; ++i)
     {
+        Timer timer2;
         auto part = errorMetrics.extract(errorMetrics.begin());
         //if (part.key() >= 0.1f) break;
         HalfEdge * edge = part.mapped();
@@ -223,6 +227,7 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
         //GeneratePlanes(newVertices, newFaces);
         //GenerateQMatrices(newVertices, newFaces);
         errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
+        LOG_PRINT(stdout, "Timer: %.2fms\n", timer2.GetMsTime());
     }
 
     LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());
