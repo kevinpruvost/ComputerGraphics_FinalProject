@@ -152,6 +152,14 @@ int main()
 						mesh->SimplifyParallel(loopPassed, fredFinished, &mutex);
 					}, &entity.GetMesh()));
 				}
+				if (ImGui::Button("Subdivide"))
+				{
+					entity.GetMesh().Subdivide();
+					//fredFinished = false;
+					//simpliThread.reset(new std::thread([&](Mesh * mesh) {
+					//	mesh->SimplifyParallel(loopPassed, fredFinished, &mutex);
+					//	}, &entity.GetMesh()));
+				}
 			}
 			else
 			{
@@ -164,7 +172,7 @@ int main()
 				}
 			}
 			ImGui::LabelText("Vertices", "%d", entity.GetMesh().verticesNVert());
-			ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert());
+			ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert() / 3);
 
 			gui.EditEntity(entity);
 

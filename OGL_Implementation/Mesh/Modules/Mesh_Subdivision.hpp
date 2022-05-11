@@ -7,4 +7,23 @@
  *********************************************************************/
 #pragma once
 
+// Project includes
+#include "../Mesh_Custom.hpp"
 
+// C++ includes
+#include <map>
+
+class Mesh_Subdivision
+{
+public:
+    Mesh_Subdivision();
+    ~Mesh_Subdivision();
+
+private:
+
+private:
+    
+
+protected:
+    Mesh_Custom * __Subdivide(Mesh_Base & mesh);
+};

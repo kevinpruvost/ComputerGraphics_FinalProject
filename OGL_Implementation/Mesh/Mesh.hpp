@@ -18,6 +18,7 @@
 #include "Mesh_Custom.hpp"
 
 #include "Modules\Mesh_Simplification.hpp"
+#include "Modules\Mesh_Subdivision.hpp"
 
 #include "OGL_Implementation\DebugInfo\Log.hpp"
 
@@ -32,7 +33,7 @@
  * And most importantly, the usage is way easier, because copies, constructors, destructors,
  * will not affect the original mesh
 */
-class Mesh : public Mesh_Simplification
+class Mesh : public Mesh_Simplification, Mesh_Subdivision
 {
 public:
     /**
@@ -60,6 +61,8 @@ public:
 
     Mesh Simplify();
     void SimplifyParallel(bool & loopPassed, bool & finished, std::mutex * mutex);
+
+    Mesh Subdivide();
 
     Mesh_Base::DrawMode GetDrawMode() const;
 

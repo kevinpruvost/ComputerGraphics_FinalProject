@@ -14,6 +14,9 @@
 #include <map>
 #include <mutex>
 
+/**
+ * @brief Part of Mesh class, Simplifies the mesh with Quadric Error Metrics
+*/
 class Mesh_Simplification
 {
 public:

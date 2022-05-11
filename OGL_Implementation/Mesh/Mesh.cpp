@@ -64,6 +64,15 @@ void Mesh::SimplifyParallel(bool & loopPassed, bool & finished, std::mutex * mut
 	finished = true;
 }
 
+Mesh Mesh::Subdivide()
+{
+	Mesh_Base * newMesh = __Subdivide(*meshesDB[__meshId].get());
+	if (!newMesh) return *this;
+	Mesh mesh = GenerateMesh(newMesh);
+	__meshId = mesh.meshId();
+	return mesh;
+}
+
 Mesh_Base::DrawMode Mesh::GetDrawMode() const
 {
 	return meshesDB[__meshId]->GetDrawMode();
