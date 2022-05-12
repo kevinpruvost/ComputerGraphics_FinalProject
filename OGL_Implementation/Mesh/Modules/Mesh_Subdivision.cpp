@@ -32,6 +32,7 @@ Mesh_Custom * Mesh_Subdivision::__Subdivide(Mesh_Base & mesh)
 
     const std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
     std::vector<std::unique_ptr<HalfEdge>> newHalfEdges;
+    std::unordered_map<HalfEdge *, int> reUseVertex;
     newHalfEdges.reserve(halfEdges.size() * 4);
     // Creating new Vertices and new Triangles
     for (int i = 0; i < halfEdges.size(); i += 3)
@@ -41,17 +42,7 @@ Mesh_Custom * Mesh_Subdivision::__Subdivide(Mesh_Base & mesh)
             if (halfEdge->pass)
             {
                 halfEdge->pass = false;
-                for (int j = 0; j < newHalfEdges.size(); ++j)
-                {
-                    if (newHalfEdges[j]->twin) continue;
-                    if (halfEdge->next->origin == newHalfEdges[j]->origin && halfEdge->origin == newHalfEdges[j]->next->twin->next->twin->previous->origin)
-                    {
-                        vertex = newHalfEdges[j]->next->origin;
-                        break;
-                    }
-                }
-                if (vertex == -1)
-                    LOG_PRINT(stderr, "WTF1\n");
+                vertex = reUseVertex.at(halfEdge);
             }
             if (vertex == -1)
             {
@@ -70,7 +61,11 @@ Mesh_Custom * Mesh_Subdivision::__Subdivide(Mesh_Base & mesh)
                 }
                 newVertices.emplace_back(newPos);
                 vertex = newVertices.size() - 1;
-                if (halfEdge->twin) halfEdge->twin->pass = true;
+                if (halfEdge->twin)
+                {
+                    halfEdge->twin->pass = true;
+                    reUseVertex.emplace(halfEdge->twin, vertex);
+                }
             }
         };
         // Search for already existing vertices
@@ -122,30 +117,6 @@ Mesh_Custom * Mesh_Subdivision::__Subdivide(Mesh_Base & mesh)
     }
     // Calculating new positions
     {
-        // New vertices
-        //std::vector<bool> verticesAlreadyCalculated(newVertices.size(), false);
-        //for (int i = 0; i < newHalfEdges.size(); ++i)
-        //{
-        //    // Skip if already calculated
-        //    if (verticesAlreadyCalculated[newHalfEdges[i]->origin]) continue;
-        //    // Skip if Old vertex
-        //    if (newHalfEdges[i]->origin < originVertices.size()) continue;
-        //    // Skip if inner triangle
-        //    if (newHalfEdges[i]->next->origin >= originVertices.size()) continue;
-
-        //    if (newHalfEdges[i]->twin)
-        //    {
-        //        const VertexPos & v1 = originVertices[newHalfEdges[i]->next->origin];
-        //        const VertexPos & v2 = originVertices[newHalfEdges[i]->previous->twin->previous->twin->previous->origin];
-        //        LOG_PRINT(stdout, "V1 = %d, V2 = %d\n", newHalfEdges[i]->next->origin, newHalfEdges[i]->previous->twin->previous->twin->previous->origin);
-        //        const VertexPos & v3 = originVertices[newHalfEdges[i]->previous->twin->next->twin->previous->origin];
-        //        const VertexPos & v4 = originVertices[newHalfEdges[i]->twin->next->twin->previous->twin->previous->origin];
-        //        // Normal case
-        //        // 3/8(a+b) + 1/8(c+d)
-        //        newVertices[newHalfEdges[i]->origin] = 0.5f * (v1 + v2);// +0.125f * (v3 + v4);
-        //    }
-        //    verticesAlreadyCalculated[newHalfEdges[i]->origin] = true;
-        //}
         // Old vertices
         // Mapping all u concerned by old vertex
         std::unordered_map<int, std::vector<int>> verticesPerOldVertex;
@@ -184,17 +155,6 @@ Mesh_Custom * Mesh_Subdivision::__Subdivide(Mesh_Base & mesh)
             auto part1 = (1.0f - n * beta) * originVertices[ite->first];
             auto part2 = beta * sum;
             newVertices[ite->first] = (1.0f - n * beta) * originVertices[ite->first] + beta * sum;
-        }
-    }
-    for (int i = 0; i < newVertices.size(); ++i)
-    {
-        for (int j = 0; j < newVertices.size(); ++j)
-        {
-            if (i == j) continue;
-            if (newVertices[i] == newVertices[j])
-            {
-                LOG_PRINT(stderr, "WTF\n");
-            }
         }
     }
     Mesh_Custom * newMesh = new Mesh_Custom(newVertices, newFaces);

@@ -58,9 +58,9 @@ int main()
 	}
 
 	Obj obj;
-	if (!obj.TryLoad(Constants::Paths::Models::Icosahedron::objFile))
+	if (!obj.TryLoad(Constants::Paths::Models::Bunny::objFile))
 	{
-		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Icosahedron::objFile);
+		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Bunny::objFile);
 		return EXIT_FAILURE;
 	}
 	obj.GenerateNormals(false);
@@ -77,7 +77,7 @@ int main()
 	entityMaterial.diffuseColor = glm::vec3(1.0f);
 	entityMaterial.specularColor = glm::vec3(0.0f);
 
-	entity.scale = glm::vec3(1.0f);
+	entity.scale = glm::vec3(10.0f);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
