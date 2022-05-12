@@ -89,6 +89,10 @@ namespace Patrick
 {
 constexpr const char * objFile = "resources/Models/Patrick.obj";
 }; // !Constants::Paths::Models::Patrick
+namespace Icosahedron
+{
+constexpr const char * objFile = "resources/Models/Icosahedron.obj";
+}; // !Constants::Paths::Models::Icosahedron
 }; // !Constants::Paths::Models
 }; // !Constants::Paths
 
