@@ -33,7 +33,7 @@
  * And most importantly, the usage is way easier, because copies, constructors, destructors,
  * will not affect the original mesh
 */
-class Mesh : public Mesh_Simplification, Mesh_Subdivision
+class Mesh
 {
 public:
     /**
@@ -60,9 +60,12 @@ public:
     bool isUsingEBO() const;
 
     Mesh Simplify();
-    void SimplifyParallel(bool & loopPassed, bool & finished, std::mutex * mutex);
+    void SimplifyParallel();
 
     Mesh Subdivide();
+    void SubdivideParallel();
+
+    bool IsMeshOperationFinished() const;
 
     Mesh_Base::DrawMode GetDrawMode() const;
 

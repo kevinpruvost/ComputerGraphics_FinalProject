@@ -69,6 +69,7 @@ public:
 
     void GenerateNormals(bool smooth);
     void SetGeometry(const std::vector<Face> & faces, const std::vector<VertexPos> & v, const std::vector<VertexNormal> & vN = {}, const std::vector<VertexTextureCoordinates> & vT = {});
+    void UpdateVerticesToApi();
 
 protected:
     void LoadVertices(const std::vector<VertexPos> & vertices);

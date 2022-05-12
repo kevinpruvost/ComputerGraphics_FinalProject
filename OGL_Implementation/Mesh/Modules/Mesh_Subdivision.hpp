@@ -9,21 +9,18 @@
 
 // Project includes
 #include "../Mesh_Custom.hpp"
+#include "Mesh_ThreadPool.hpp"
 
 // C++ includes
 #include <map>
 
+/**
+ * @brief Manages Mesh Subdivision operations
+*/
 class Mesh_Subdivision
 {
 public:
-    Mesh_Subdivision();
-    ~Mesh_Subdivision();
-
+    static Mesh_Custom * Subdivide(Mesh_Base & mesh);
+    static void SubdivideParallel(Mesh_Base & mesh);
 private:
-
-private:
-    
-
-protected:
-    Mesh_Custom * __Subdivide(Mesh_Base & mesh);
 };

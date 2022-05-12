@@ -103,6 +103,10 @@ public:
      * @brief Quaternion
     */
     Quaternion quat;
+    /**
+     * @brief Name
+    */
+    std::string name;
 
 private:
     /**

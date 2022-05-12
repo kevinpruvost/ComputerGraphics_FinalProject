@@ -9,6 +9,7 @@
 
 // Project includes
 #include "../Mesh_Custom.hpp"
+#include "Mesh_ThreadPool.hpp"
 
 // C++ includes
 #include <map>
@@ -19,20 +20,14 @@
 */
 class Mesh_Simplification
 {
+private:
+    static void GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
+    static void GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
+    static std::map<float, HalfEdge *> GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges);
+
+private:
+
 public:
-    Mesh_Simplification();
-    ~Mesh_Simplification();
-
-private:
-    void GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
-    void GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
-    std::map<float, HalfEdge *> GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges);
-
-private:
-    std::vector<glm::mat4> qMatrices;
-    std::vector<glm::mat4> planes;
-
-protected:
-    void __SimplifyParallel(Mesh_Base & mesh, bool &loopPassed, std::mutex * mutex);
-    Mesh_Custom * __Simplify(Mesh_Base & mesh);
+    static void SimplifyParallel(Mesh_Base & mesh);
+    static Mesh_Custom * Simplify(Mesh_Base & mesh);
 };

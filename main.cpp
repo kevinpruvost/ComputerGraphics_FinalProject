@@ -37,13 +37,10 @@
 
 #include "Constants.hpp"
 
-#include <omp.h>
 #include <thread>
 
 int main()
 {
-	omp_set_num_threads(omp_get_num_procs());
-
 	Window * window = Window::Init(Constants::Window::windowName, Constants::Paths::windowIcon);
 	if (!window)
 		return EXIT_FAILURE;
@@ -115,78 +112,20 @@ int main()
 			ImGui::SliderInt("FPS cap", (int *)&window->fpsCap, 0, 60);
 			ImGui::SliderFloat("Time Multiplier", const_cast<float *>(&window->GetTimeMultiplier()), 0.0f, 5.0f);
 
-			int displayMode = DisplayMode - 1;
-			const char * const displayModeItems[7] = { "Vertices", "Wireframes", "Vertices/Wireframes", "Faces", "Vertices/Faces", "Wireframes/Faces", "All" };
-			if (ImGui::Combo("Display Mode", &displayMode, displayModeItems, IM_ARRAYSIZE(displayModeItems)))
-			{
-				DisplayMode = static_cast<RenderingMode>(displayMode + 1);
-			}
+			int displayMode = DisplayMode;
+			bool verticesDisplay   = (displayMode) & RenderingMode::VerticesMode;
+			bool wireframesDisplay = (displayMode) & RenderingMode::WireframeMode;
+			bool facesDisplay      = (displayMode) & RenderingMode::FacesMode;
+			ImGui::Checkbox("Display Vertices",   &verticesDisplay);
+			ImGui::Checkbox("Display Wireframes", &wireframesDisplay);
+			ImGui::Checkbox("Display Faces",      &facesDisplay);
+			DisplayMode = static_cast<RenderingMode>(verticesDisplay * RenderingMode::VerticesMode + wireframesDisplay * RenderingMode::WireframeMode + facesDisplay * RenderingMode::FacesMode);
 
+			ImGui::Checkbox("Auto-Rotation", &autoRotation);
 			ImGui::TreePop();
 		}
 
-		if (ImGui::TreeNodeEx("Mesh Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			static std::unique_ptr<std::thread> simpliThread(nullptr);
-			static std::mutex mutex;
-			static bool fredFinished = true;
-			static bool loopPassed = false;
-			if (fredFinished)
-			{
-				if (simpliThread)
-				{
-					(*entity.GetMesh())->GenerateNormals(false);
-					simpliThread->join();
-					simpliThread.reset();
-				}
-				ImGui::Checkbox("Auto-Rotation", &autoRotation);
-				if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
-				{
-					if (*entity.GetShaderAttribute<int>("isNormalFlat")) entity.SetMesh(meshObjNotSmooth);
-					else entity.SetMesh(meshObjSmooth);
-				}
-				if (ImGui::Button("Simplify"))
-				{
-					fredFinished = false;
-					simpliThread.reset(new std::thread([&](Mesh * mesh) {
-						mesh->SimplifyParallel(loopPassed, fredFinished, &mutex);
-					}, &entity.GetMesh()));
-				}
-				if (ImGui::Button("Subdivide"))
-				{
-					entity.GetMesh().Subdivide();
-					//fredFinished = false;
-					//simpliThread.reset(new std::thread([&](Mesh * mesh) {
-					//	mesh->SimplifyParallel(loopPassed, fredFinished, &mutex);
-					//	}, &entity.GetMesh()));
-				}
-			}
-			else
-			{
-				if (loopPassed)
-				{
-					mutex.lock();
-					(*entity.GetMesh())->GenerateNormals(false);
-					loopPassed = false;
-					mutex.unlock();
-				}
-			}
-			ImGui::LabelText("Vertices", "%d", entity.GetMesh().verticesNVert());
-			ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert() / 3);
-
-			gui.EditEntity(entity);
-
-			ImGui::TreePop();
-		}
-
-		if (ImGui::TreeNodeEx("Material Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			ImGui::SliderFloat("Shininess", &entityMaterial.shininess, 0.0f, 1024.0f);
-			ImGui::ColorEdit3("Diffuse", glm::value_ptr(entityMaterial.diffuseColor));
-			ImGui::ColorEdit3("Specular", glm::value_ptr(entityMaterial.specularColor));
-
-			ImGui::TreePop();
-		}
+		gui.EditEntity(entity);
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{

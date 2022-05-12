@@ -50,27 +50,35 @@ bool Mesh::isUsingEBO() const
 
 Mesh Mesh::Simplify()
 {
-	Mesh_Base * newMesh = __Simplify(*meshesDB[__meshId].get());
+	Mesh_Base * newMesh = Mesh_Simplification::Simplify(*meshesDB[__meshId].get());
 	if (!newMesh) return *this;
 	Mesh mesh = GenerateMesh(newMesh);
 	__meshId = mesh.meshId();
 	return mesh;
 }
 
-void Mesh::SimplifyParallel(bool & loopPassed, bool & finished, std::mutex * mutex)
+void Mesh::SimplifyParallel()
 {
-	finished = false;
-	__SimplifyParallel(*meshesDB[__meshId].get(), loopPassed, mutex);
-	finished = true;
+	Mesh_Simplification::SimplifyParallel(*meshesDB[__meshId].get());
 }
 
 Mesh Mesh::Subdivide()
 {
-	Mesh_Base * newMesh = __Subdivide(*meshesDB[__meshId].get());
+	Mesh_Base * newMesh = Mesh_Subdivision::Subdivide(*meshesDB[__meshId].get());
 	if (!newMesh) return *this;
 	Mesh mesh = GenerateMesh(newMesh);
 	__meshId = mesh.meshId();
 	return mesh;
+}
+
+void Mesh::SubdivideParallel()
+{
+	Mesh_Subdivision::SubdivideParallel(*meshesDB[__meshId].get());
+}
+
+bool Mesh::IsMeshOperationFinished() const
+{
+	return Mesh_ThreadPool::Refresh(meshesDB[__meshId].get());
 }
 
 Mesh_Base::DrawMode Mesh::GetDrawMode() const

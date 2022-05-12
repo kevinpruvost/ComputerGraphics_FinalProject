@@ -16,13 +16,8 @@
 
 DEBUG_CODE(static Timer timer);
 
-Mesh_Simplification::Mesh_Simplification()
-{
-}
-
-Mesh_Simplification::~Mesh_Simplification()
-{
-}
+static std::vector<glm::mat4> qMatrices;
+static std::vector<glm::mat4> planes;
 
 void Mesh_Simplification::GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces)
 {
@@ -84,131 +79,131 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
     return errorMetrics;
 }
 
-void Mesh_Simplification::__SimplifyParallel(Mesh_Base & mesh, bool & loopPassed, std::mutex * mutex)
+void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 {
-    DEBUG_CODE(timer.Start());
+    const auto threadFunc = [&](Mesh_Base * mesh, bool * finished, bool * loopFinished, std::mutex * mutex) {
+        DEBUG_CODE(timer.Start());
 
-    if (mesh.GetVerticesCount() == 0) return;
+        if (mesh->GetVerticesCount() == 0) return;
 
-    const std::vector<VertexPos> & vPs = *mesh.GetVerticesPos();
-    const std::vector<Face> & originFaces = *mesh.GetFaces();
-    std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
+        const std::vector<VertexPos> & vPs = *mesh->GetVerticesPos();
+        const std::vector<Face> & originFaces = *mesh->GetFaces();
+        std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
 
-    GeneratePlanes(vPs, originFaces);
-    GenerateQMatrices(vPs, originFaces);
-    std::map<float, HalfEdge *> errorMetrics = GenerateErrorMetrics(vPs, originFaces, halfEdges);
+        GeneratePlanes(vPs, originFaces);
+        GenerateQMatrices(vPs, originFaces);
+        std::map<float, HalfEdge *> errorMetrics = GenerateErrorMetrics(vPs, originFaces, halfEdges);
 
-    std::vector<Face> newFaces(originFaces);
-    std::vector<VertexPos> newVertices(vPs);
+        std::vector<Face> newFaces(originFaces);
+        std::vector<VertexPos> newVertices(vPs);
 
-    // Contraction
-    size_t initFacesCount = newFaces.size() / 2;
-    while (newFaces.size() > initFacesCount)
-    {
-        DEBUG_CODE(Timer timer2);
-        auto part = errorMetrics.extract(errorMetrics.begin());
-        //if (part.key() >= 0.1f) break;
-        HalfEdge * edge = part.mapped();
-        int vid1 = edge->origin;
-        int vid2 = edge->next->origin;
-
-        if (vid2 < vid1) std::swap(vid1, vid2);
-
-        // Assign contracted point to v1, to later remove v2
-        VertexPos contractedPoint = (newVertices[vid1] + newVertices[vid2]) / 2.0f;
-        newVertices[vid1] = contractedPoint;
-
-        std::vector<int> facesRemoved;
-        for (int j = 0; j < newFaces.size(); ++j)
+        // Contraction
+        size_t initFacesCount = newFaces.size() / 2;
+        while (newFaces.size() > initFacesCount)
         {
-            std::vector<int>::iterator ite;
-            if (std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid1) != newFaces[j].v.end()
-                && std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2) != newFaces[j].v.end())
-            {
-                // If face contains the 2 vertices contracted
-                facesRemoved.push_back(j);
-                qMatrices[newFaces[j].v[0]] -= planes[j];
-                qMatrices[newFaces[j].v[1]] -= planes[j];
-                qMatrices[newFaces[j].v[2]] -= planes[j];
-            }
-            else if ((ite = std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2)) != newFaces[j].v.end())
-            {
-                // If face contains v2, then reassign to v1
-                qMatrices[newFaces[j].v[0]] -= planes[j];
-                qMatrices[newFaces[j].v[1]] -= planes[j];
-                qMatrices[newFaces[j].v[2]] -= planes[j];
-                *ite = vid1;
-                // Update Plane
-                const glm::vec4 planeNormal = GetPlaneEquationFromTriangle(
-                    newVertices[newFaces[j].v[0]],
-                    newVertices[newFaces[j].v[1]],
-                    newVertices[newFaces[j].v[2]]);
-                planes[j] = glm::outerProduct(planeNormal, planeNormal);
-                qMatrices[newFaces[j].v[0]] += planes[j];
-                qMatrices[newFaces[j].v[1]] += planes[j];
-                qMatrices[newFaces[j].v[2]] += planes[j];
-                for (int x = 0; x < 3; ++x)
-                {
-                    if (newFaces[j].v[x] > vid2) --newFaces[j].v[x];
-                }
-            }
-            else
-            {
-                for (int x = 0; x < 3; ++x)
-                {
-                    if (newFaces[j].v[x] > vid2) --newFaces[j].v[x];
-                }
-            }
-        }
+            auto part = errorMetrics.extract(errorMetrics.begin());
+            //if (part.key() >= 0.1f) break;
+            HalfEdge * edge = part.mapped();
+            int vid1 = edge->origin;
+            int vid2 = edge->next->origin;
 
-        for (int x = 0; x < halfEdges.size(); ++x)
-        {
-            if (std::find(facesRemoved.begin(), facesRemoved.end(), halfEdges[x]->face) != facesRemoved.end())
+            if (vid2 < vid1) std::swap(vid1, vid2);
+
+            // Assign contracted point to v1, to later remove v2
+            VertexPos contractedPoint = (newVertices[vid1] + newVertices[vid2]) / 2.0f;
+            newVertices[vid1] = contractedPoint;
+
+            std::vector<int> facesRemoved;
+            for (int j = 0; j < newFaces.size(); ++j)
             {
-                for (auto & ite : errorMetrics)
+                std::vector<int>::iterator ite;
+                if (std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid1) != newFaces[j].v.end()
+                    && std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2) != newFaces[j].v.end())
                 {
-                    if (ite.second == halfEdges[x].get())
+                    // If face contains the 2 vertices contracted
+                    facesRemoved.push_back(j);
+                    qMatrices[newFaces[j].v[0]] -= planes[j];
+                    qMatrices[newFaces[j].v[1]] -= planes[j];
+                    qMatrices[newFaces[j].v[2]] -= planes[j];
+                }
+                else if ((ite = std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2)) != newFaces[j].v.end())
+                {
+                    // If face contains v2, then reassign to v1
+                    qMatrices[newFaces[j].v[0]] -= planes[j];
+                    qMatrices[newFaces[j].v[1]] -= planes[j];
+                    qMatrices[newFaces[j].v[2]] -= planes[j];
+                    *ite = vid1;
+                    // Update Plane
+                    const glm::vec4 planeNormal = GetPlaneEquationFromTriangle(
+                        newVertices[newFaces[j].v[0]],
+                        newVertices[newFaces[j].v[1]],
+                        newVertices[newFaces[j].v[2]]);
+                    planes[j] = glm::outerProduct(planeNormal, planeNormal);
+                    qMatrices[newFaces[j].v[0]] += planes[j];
+                    qMatrices[newFaces[j].v[1]] += planes[j];
+                    qMatrices[newFaces[j].v[2]] += planes[j];
+                    for (int x = 0; x < 3; ++x)
                     {
-                        errorMetrics.erase(ite.first);
-                        break;
+                        if (newFaces[j].v[x] > vid2) --newFaces[j].v[x];
                     }
                 }
-                halfEdges.erase(halfEdges.begin() + x--);
-                continue;
+                else
+                {
+                    for (int x = 0; x < 3; ++x)
+                    {
+                        if (newFaces[j].v[x] > vid2) --newFaces[j].v[x];
+                    }
+                }
             }
-            else if (halfEdges[x]->origin == vid2) halfEdges[x]->origin = vid1;
-            else if (halfEdges[x]->origin > vid2) --halfEdges[x]->origin;
 
-            for (int p = facesRemoved.size() - 1; p >= 0; --p)
+            for (int x = 0; x < halfEdges.size(); ++x)
             {
-                if (halfEdges[x]->face > facesRemoved[p])
-                    --halfEdges[x]->face;
+                if (std::find(facesRemoved.begin(), facesRemoved.end(), halfEdges[x]->face) != facesRemoved.end())
+                {
+                    for (auto & ite : errorMetrics)
+                    {
+                        if (ite.second == halfEdges[x].get())
+                        {
+                            errorMetrics.erase(ite.first);
+                            break;
+                        }
+                    }
+                    halfEdges.erase(halfEdges.begin() + x--);
+                    continue;
+                }
+                else if (halfEdges[x]->origin == vid2) halfEdges[x]->origin = vid1;
+                else if (halfEdges[x]->origin > vid2) --halfEdges[x]->origin;
+
+                for (int p = facesRemoved.size() - 1; p >= 0; --p)
+                {
+                    if (halfEdges[x]->face > facesRemoved[p])
+                        --halfEdges[x]->face;
+                }
             }
+
+            for (int i = 0; i < facesRemoved.size(); ++i)
+            {
+                newFaces.erase(newFaces.begin() + (facesRemoved[i] - i));
+                // Update Planes
+                planes.erase(planes.begin() + (facesRemoved[i] - i));
+            }
+            newVertices.erase(newVertices.begin() + vid2);
+            qMatrices.erase(qMatrices.begin() + vid2);
+
+            errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
+            *loopFinished = false;
+            mutex->lock();
+            mesh->SetGeometry(newFaces, newVertices);
+            *loopFinished = true;
+            mutex->unlock();
         }
-
-        for (int i = 0; i < facesRemoved.size(); ++i)
-        {
-            newFaces.erase(newFaces.begin() + (facesRemoved[i] - i));
-            // Update Planes
-            planes.erase(planes.begin() + (facesRemoved[i] - i));
-        }
-        newVertices.erase(newVertices.begin() + vid2);
-        qMatrices.erase(qMatrices.begin() + vid2);
-
-        errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
-        LOG_PRINT(stdout, "Timer: %.2fms\n", timer2.GetMsTime());
-        loopPassed = false;
-        mutex->lock();
-        mesh.SetGeometry(newFaces, newVertices);
-        loopPassed = true;
-        mutex->unlock();
-    }
-
-    LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());
-
+        LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());
+        *finished = true;
+    };
+    Mesh_ThreadPool::SetNewThread(&mesh, threadFunc);
 }
 
-Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
+Mesh_Custom * Mesh_Simplification::Simplify(Mesh_Base & mesh)
 {
     DEBUG_CODE(timer.Start());
 
@@ -229,7 +224,6 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
     size_t initFacesCount = newFaces.size() / 2;
     while (newFaces.size() > initFacesCount)
     {
-        DEBUG_CODE(Timer timer2);
         auto part = errorMetrics.extract(errorMetrics.begin());
         //if (part.key() >= 0.1f) break;
         HalfEdge * edge = part.mapped();
@@ -320,7 +314,6 @@ Mesh_Custom * Mesh_Simplification::__Simplify(Mesh_Base & mesh)
         qMatrices.erase(qMatrices.begin() + vid2);
 
         errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
-        LOG_PRINT(stdout, "Timer: %.2fms\n", timer2.GetMsTime());
     }
 
     LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());

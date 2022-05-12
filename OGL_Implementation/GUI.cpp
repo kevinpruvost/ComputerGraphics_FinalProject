@@ -71,12 +71,53 @@ void GUI::AddCallback(const std::function<bool()> & lambda)
 
 void GUI::EditEntity(Entity & entity)
 {
-    glm::vec3 eulerAngles = entity.quat.ToEulerAngles();
-    glm::vec3 beforeEA = eulerAngles;
-    ImGui::SliderFloat3("Position", glm::value_ptr(entity.pos), -2.0f, 2.0f);
-    if (ImGui::SliderFloat3("Rotation", glm::value_ptr(eulerAngles), 0.0f, 359.999f))
+    if (ImGui::TreeNodeEx(std::format("{0}", entity.name).c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
     {
-        entity.quat.SetRotation(eulerAngles);
-//        entity.quat.Rotate(eulerAngles - beforeEA);
+        glm::vec3 eulerAngles = entity.quat.ToEulerAngles();
+        ImGui::DragFloat3("Position", glm::value_ptr(entity.pos), 0.02f);
+        if (ImGui::DragFloat3("Rotation", glm::value_ptr(eulerAngles), 0.5f))
+        {
+            eulerAngles.x = std::fmod(eulerAngles.x, 360.0f);
+            eulerAngles.y = std::fmod(eulerAngles.y, 360.0f);
+            eulerAngles.z = std::fmod(eulerAngles.z, 360.0f);
+            entity.quat.SetRotation(eulerAngles);
+        }
+        ImGui::DragFloat3("Scale", glm::value_ptr(entity.scale), 0.02f);
+        if (ImGui::TreeNodeEx("Mesh Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (entity.GetMesh().IsMeshOperationFinished())
+            {
+                if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
+                {
+                    if (*entity.GetShaderAttribute<int>("isNormalFlat")) (*entity.GetMesh())->GenerateNormals(true);
+                    else (*entity.GetMesh())->GenerateNormals(false);
+                }
+                if (ImGui::Button("Simplify"))
+                {
+                    entity.GetMesh().SimplifyParallel();
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Subdivide"))
+                {
+                    entity.GetMesh().SubdivideParallel();
+                }
+            }
+            else
+            {
+                
+            }
+            ImGui::LabelText("Vertices", "%d", entity.GetMesh().verticesNVert());
+            ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert() / 3);
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNodeEx("Material Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::SliderFloat("Shininess", &entity.GetMaterial()->shininess, 0.0f, 1024.0f);
+            ImGui::ColorEdit3("Diffuse", glm::value_ptr(entity.GetMaterial()->diffuseColor));
+            ImGui::ColorEdit3("Specular", glm::value_ptr(entity.GetMaterial()->specularColor));
+
+            ImGui::TreePop();
+        }
+        ImGui::TreePop();
     }
 }

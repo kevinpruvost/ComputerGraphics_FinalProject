@@ -142,6 +142,22 @@ void Mesh_Base::SetGeometry(const std::vector<Face> & faces, const std::vector<V
 	__vT = vT;
 }
 
+void Mesh_Base::UpdateVerticesToApi()
+{
+	glBindVertexArray(__verticesVAO);
+	// Fill mesh buffer
+	glBindBuffer(GL_ARRAY_BUFFER, __verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, __v.size() * sizeof(VertexPos), __v.data(), GL_STATIC_DRAW);
+	// Set mesh attributes
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	__verticesNVert = __v.size();
+}
+
 void Mesh_Base::LoadVertices(const std::vector<VertexPos> & vertices)
 {
 	glBindVertexArray(__verticesVAO);

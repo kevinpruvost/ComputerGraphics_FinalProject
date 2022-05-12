@@ -14,6 +14,8 @@ static std::unique_ptr<Shader> defaultPointShader(nullptr);
 static std::unique_ptr<Shader> defaultWireframeShader(nullptr);
 static std::unique_ptr<Shader> defaultFaceShader(nullptr);
 
+int nameGiver = 0;
+
 Entity::Entity(const Mesh & mesh,
     const Shader & pointShader,
     const Shader & wireframeShader,
@@ -29,6 +31,7 @@ Entity::Entity(const Mesh & mesh,
     , pos{ defaultPosition }
     , scale{ defaultScale }
     , quat{ defaultEulerAngles }
+    , name{ std::format("Entity{0}", nameGiver++)}
 {
 }
 

@@ -192,6 +192,11 @@ bool Obj::TryLoad(const char * fileName)
 			{
 
 			}
+			// Line
+			else if (cmd.compare("l") == 0)
+			{
+
+			}
 			else
 			{
 				std::cerr << "Warning: unsupported line type starting with '" << buf[0] << "'" << std::endl;

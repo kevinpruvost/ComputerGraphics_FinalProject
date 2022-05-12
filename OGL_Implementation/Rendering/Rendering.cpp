@@ -25,7 +25,7 @@ std::unordered_map<std::string, std::unique_ptr<Shader>> Rendering::shaders;
 
 // Display Mode
 std::array<glm::vec3, 4> WireframeColors = { color, color1, color2, color3 };
-RenderingMode DisplayMode = RenderingMode::FacesMode; // 0 = Point, 1 = Face, 2 = Wireframe, 3 = Face + Wireframe
+RenderingMode DisplayMode = RenderingMode::FacesMode;
 
 Rendering::Rendering()
 	: __textVAO{ 0 }
