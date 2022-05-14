@@ -147,7 +147,7 @@ void Mesh_Base::UpdateVerticesToApi()
 	glBindVertexArray(__verticesVAO);
 	// Fill mesh buffer
 	glBindBuffer(GL_ARRAY_BUFFER, __verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, __v.size() * sizeof(VertexPos), __v.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, __v.size() * sizeof(VertexPos), __v.data(), GL_DYNAMIC_DRAW);
 	// Set mesh attributes
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
@@ -163,7 +163,7 @@ void Mesh_Base::LoadVertices(const std::vector<VertexPos> & vertices)
 	glBindVertexArray(__verticesVAO);
 	// Fill mesh buffer
 	glBindBuffer(GL_ARRAY_BUFFER, __verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexPos), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexPos), vertices.data(), GL_DYNAMIC_DRAW);
 	// Set mesh attributes
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
@@ -179,7 +179,7 @@ void Mesh_Base::LoadFaces(const std::vector<VertexNormalTexture> & vertices)
 	glBindVertexArray(__facesVAO);
 	// Fill mesh buffer
 	glBindBuffer(GL_ARRAY_BUFFER, __facesVBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexNormalTexture), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexNormalTexture), vertices.data(), GL_DYNAMIC_DRAW);
 	// Set mesh attributes
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);

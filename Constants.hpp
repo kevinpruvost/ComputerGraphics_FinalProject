@@ -85,10 +85,6 @@ namespace Cube
 {
 constexpr const char * objFile = "resources/Models/cube.obj";
 }; // !Constants::Paths::Models::Cube
-namespace Patrick
-{
-constexpr const char * objFile = "resources/Models/Patrick.obj";
-}; // !Constants::Paths::Models::Patrick
 namespace Icosahedron
 {
 constexpr const char * objFile = "resources/Models/Icosahedron.obj";

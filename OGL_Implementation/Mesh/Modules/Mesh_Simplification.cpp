@@ -14,6 +14,11 @@
 // GLM includes
 #include <glm/gtx/normal.hpp>
 
+// C++ includes
+#include <chrono>
+using namespace std::chrono_literals;
+
+
 DEBUG_CODE(static Timer timer);
 
 static std::vector<glm::mat4> qMatrices;
@@ -81,7 +86,7 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
 
 void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 {
-    const auto threadFunc = [&](Mesh_Base * mesh, bool * finished, bool * loopFinished, std::mutex * mutex) {
+    const auto threadFunc = [&](Mesh_Base * mesh, bool * finished, bool * loopFinished, bool * working, bool * abort, std::condition_variable * cv, std::mutex * mutex) {
         DEBUG_CODE(timer.Start());
 
         if (mesh->GetVerticesCount() == 0) return;
@@ -191,11 +196,19 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
             qMatrices.erase(qMatrices.begin() + vid2);
 
             errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
-            *loopFinished = false;
+            if (*abort) return;
+            if (*working)
+            {
+                std::unique_lock<std::mutex> lk(*mutex);
+                cv->wait_for(lk, 3s, [&] { return !*working; });
+            }
+            *working = true;
             mutex->lock();
             mesh->SetGeometry(newFaces, newVertices);
-            *loopFinished = true;
             mutex->unlock();
+            *loopFinished = true;
+            *working = false;
+            cv->notify_all();
         }
         LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());
         *finished = true;

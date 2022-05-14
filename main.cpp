@@ -54,32 +54,62 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	Obj obj;
-	if (!obj.TryLoad(Constants::Paths::Models::Bunny::objFile))
+	Obj obj1;
+	if (!obj1.TryLoad(Constants::Paths::Models::Bunny::objFile))
 	{
 		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Bunny::objFile);
 		return EXIT_FAILURE;
 	}
-	obj.GenerateNormals(false);
-	Mesh meshObjNotSmooth = GenerateMesh(obj.verticesPos, obj.verticesNormals, obj.faces);
-	obj.GenerateNormals(true);
-	Mesh meshObjSmooth = GenerateMesh(obj.verticesPos, obj.verticesNormals, obj.faces);
+	Obj obj2;
+	if (!obj2.TryLoad(Constants::Paths::Models::Cube::objFile))
+	{
+		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Cube::objFile);
+		return EXIT_FAILURE;
+	}
+	Obj obj3;
+	if (!obj3.TryLoad(Constants::Paths::Models::Icosahedron::objFile))
+	{
+		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Icosahedron::objFile);
+		return EXIT_FAILURE;
+	}
+	obj1.GenerateNormals(false);
+	Mesh meshObjNotSmooth = GenerateMesh(obj1.verticesPos, obj1.verticesNormals, obj1.faces);
+	obj1.GenerateNormals(true);
+	Mesh meshObjSmooth = GenerateMesh(obj1.verticesPos, obj1.verticesNormals, obj1.faces);
+	obj2.GenerateNormals(true);
+	obj3.GenerateNormals(true);
+	Mesh mesh2 = GenerateMesh(obj2.verticesPos, obj2.verticesNormals, obj2.faces);
+	Mesh mesh3 = GenerateMesh(obj3.verticesPos, obj3.verticesNormals, obj3.faces);
 
-	Entity entity(meshObjNotSmooth,
+	Entity entity1(meshObjNotSmooth,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::faceShaderVertex));
-	Material & entityMaterial = entity.AddMaterial();
-	entity.SetShaderAttribute("isNormalFlat", 1);
-	entityMaterial.diffuseColor = glm::vec3(1.0f);
-	entityMaterial.specularColor = glm::vec3(0.0f);
+	Entity entity2(mesh2,
+		Rendering::Shaders(Constants::Paths::pointShaderVertex),
+		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
+		Rendering::Shaders(Constants::Paths::faceShaderVertex));
+	Entity entity3(mesh3,
+		Rendering::Shaders(Constants::Paths::pointShaderVertex),
+		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
+		Rendering::Shaders(Constants::Paths::faceShaderVertex));
+	Material & entityMaterial = entity1.AddMaterial();
+	Material & entity2Material = entity2.AddMaterial();
+	Material & entity3Material = entity3.AddMaterial();
+	entity1.SetShaderAttribute("isNormalFlat", 1);
+	entity2.SetShaderAttribute("isNormalFlat", 1);
+	entity3.SetShaderAttribute("isNormalFlat", 1);
+	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = glm::vec3(1.0f);
+	entityMaterial.specularColor = entity2Material.specularColor = entity3Material.specularColor = glm::vec3(0.0f);
 
-	entity.scale = glm::vec3(10.0f);
+	entity1.scale = glm::vec3(10.0f);
+	entity1.pos = glm::vec3(-1.0f, 0.0f, -1.0f);
+	entity3.pos = glm::vec3(1.5f, 0.0f, 1.5f);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
 	sun.SetTexture(sunTexture);
-	sun.pos = { 0.0f, -3.0f, 0.0f };
+	sun.pos = { 2.0f, 3.0f, -2.0f };
 	sun.ChangeSpecular(glm::vec3(1.0f));
 	sun.ChangeDiffuse(glm::vec3(1.0f));
 	sun.ChangeAmbient(glm::vec3(1.0f));
@@ -88,7 +118,7 @@ int main()
 	camera.MovementSpeed *= 1.0f;
 	mainCamera = &camera;
 
-	camera.LookAt(entity.pos);
+	camera.LookAt(entity2.pos);
 
 	bool cameraLock = false;
 	// GUI
@@ -125,7 +155,9 @@ int main()
 			ImGui::TreePop();
 		}
 
-		gui.EditEntity(entity);
+		gui.EditEntity(entity1);
+		gui.EditEntity(entity2);
+		gui.EditEntity(entity3);
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -239,13 +271,17 @@ int main()
 
 		if (autoRotation)
 		{
-			entity.quat.RotateY(30.0f * window->DeltaTime());
+			entity1.quat.RotateY(30.0f * window->DeltaTime());
+			entity2.quat.RotateY(30.0f * window->DeltaTime());
+			entity3.quat.RotateY(30.0f * window->DeltaTime());
 		}
 
 		Rendering::Refresh();
 
 		// display mode & activate shader
-		Rendering::DrawEntity(entity);
+		Rendering::DrawEntity(entity1);
+		Rendering::DrawEntity(entity2);
+		Rendering::DrawEntity(entity3);
 		Rendering::DrawEntity(sun);
 
 		if (enableGui)

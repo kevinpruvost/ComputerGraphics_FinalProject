@@ -7,42 +7,62 @@
  *********************************************************************/
 #include "Mesh_ThreadPool.hpp"
 
-static std::unordered_map<Mesh_Base *, std::unique_ptr<std::thread>> __threads;
-static std::unordered_map<Mesh_Base *, std::unique_ptr<bool>> __threadsFinished;
-static std::unordered_map<Mesh_Base *, std::unique_ptr<bool>> __threadsLoopFinished;
-static std::unordered_map<Mesh_Base *, std::unique_ptr<std::mutex>> __threadsMutex;
+#include "OGL_Implementation\DebugInfo\Log.hpp"
 
-void Mesh_ThreadPool::SetNewThread(Mesh_Base * mesh, const std::function<void(Mesh_Base *, bool *, bool *, std::mutex *)> & threadLambda)
+static std::unordered_map<Mesh_Base *, std::unique_ptr<Mesh_Thread>> threads;
+
+void Mesh_ThreadPool::SetNewThread(Mesh_Base * mesh, const std::function<void(Mesh_Base *, bool *, bool *, bool *, bool *, std::condition_variable *, std::mutex *)> & threadLambda)
 {
-    __threadsFinished.emplace(mesh, new bool(false));
-    __threadsLoopFinished.emplace(mesh, new bool(false));
-    __threadsMutex.emplace(mesh, new std::mutex());
-    auto finished = __threadsFinished[mesh].get();
-    auto loopFinished = __threadsLoopFinished[mesh].get();
-    auto mutex = __threadsMutex[mesh].get();
-    __threads.emplace(mesh, new std::thread(threadLambda, mesh, finished, loopFinished, mutex));
+    threads.emplace(mesh, new Mesh_Thread(mesh, threadLambda));
 }
 
 bool Mesh_ThreadPool::Refresh(Mesh_Base * mesh)
 {
-    if (!__threads.contains(mesh)) return true;
+    if (!threads.contains(mesh)) return true;
 
-    if (*__threadsFinished[mesh] || *__threadsLoopFinished[mesh])
+    Mesh_Thread * thread = threads.at(mesh).get();
+
+    if (thread->__threadFinished || thread->__threadLoopFinished)
     {
-        __threadsMutex[mesh]->lock();
+        if (thread->__threadMainWorking)
+        {
+            std::unique_lock<std::mutex> lk(thread->__threadMutex);
+            thread->__threadMainWorkingCV.wait(lk, [&] {return !thread->__threadMainWorking; });
+        }
+        const std::lock_guard<std::mutex> lk(thread->__threadMutex);
+        thread->__threadMainWorking = true;
         mesh->GenerateNormals(true);
         mesh->UpdateVerticesToApi();
-        __threadsMutex[mesh]->unlock();
+        thread->__threadMainWorking = false;
+        thread->__threadMainWorkingCV.notify_all();
     }
-    *__threadsLoopFinished[mesh] = false;
-    if (*__threadsFinished[mesh])
+    else
     {
-        __threads[mesh]->join();
-        __threads.erase(mesh);
-        __threadsFinished.erase(mesh);
-        __threadsLoopFinished.erase(mesh);
-        __threadsMutex.erase(mesh);
+        if (!thread->__threadMainWorking)
+            thread->__threadMainWorkingCV.notify_all();
+    }
+    thread->__threadLoopFinished = false;
+    if (thread->__threadFinished)
+    {
+        threads.erase(mesh);
         return true;
     }
     return false;
+}
+
+Mesh_Thread::Mesh_Thread(Mesh_Base * mesh, const std::function<void(Mesh_Base *, bool *, bool *, bool *, bool *, std::condition_variable *, std::mutex *)> & threadLambda)
+    : __threadFinished{ false }
+    , __threadLoopFinished{ false }
+    , __threadMainWorking{ false }
+    , __threadMainWorkingCV{}
+    , __threadAbort{ false }
+    , __threadMutex{}
+    , __thread(threadLambda, mesh, &__threadFinished, &__threadLoopFinished, &__threadMainWorking, &__threadAbort, &__threadMainWorkingCV, &__threadMutex)
+{
+}
+
+Mesh_Thread::~Mesh_Thread()
+{
+    __threadAbort = true;
+    __thread.join();
 }

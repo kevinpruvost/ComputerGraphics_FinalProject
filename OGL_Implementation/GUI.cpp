@@ -7,6 +7,8 @@
  *********************************************************************/
 #include "GUI.hpp"
 
+#include "imgui_internal.h"
+
 GUI::GUI(GLFWwindow * window)
 {
     IMGUI_CHECKVERSION();
@@ -85,26 +87,30 @@ void GUI::EditEntity(Entity & entity)
         ImGui::DragFloat3("Scale", glm::value_ptr(entity.scale), 0.02f);
         if (ImGui::TreeNodeEx("Mesh Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
         {
-            if (entity.GetMesh().IsMeshOperationFinished())
+            bool isMeshOpeFinished = entity.GetMesh().IsMeshOperationFinished();
+            if (!isMeshOpeFinished)
             {
-                if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
-                {
-                    if (*entity.GetShaderAttribute<int>("isNormalFlat")) (*entity.GetMesh())->GenerateNormals(true);
-                    else (*entity.GetMesh())->GenerateNormals(false);
-                }
-                if (ImGui::Button("Simplify"))
-                {
-                    entity.GetMesh().SimplifyParallel();
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Subdivide"))
-                {
-                    entity.GetMesh().SubdivideParallel();
-                }
+                ImGui::PushStyleVar(ImGuiStyleVar_::ImGuiStyleVar_Alpha, 0.25f);
+                ImGui::PushItemFlag(ImGuiItemFlags_::ImGuiItemFlags_Disabled, true);
             }
-            else
+            if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
             {
-                
+                if (*entity.GetShaderAttribute<int>("isNormalFlat")) (*entity.GetMesh())->GenerateNormals(true);
+                else (*entity.GetMesh())->GenerateNormals(false);
+            }
+            if (ImGui::Button("Simplify"))
+            {
+                entity.GetMesh().SimplifyParallel();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Subdivide"))
+            {
+                entity.GetMesh().SubdivideParallel();
+            }
+            if (!isMeshOpeFinished)
+            {
+                ImGui::PopStyleVar();
+                ImGui::PopItemFlag();
             }
             ImGui::LabelText("Vertices", "%d", entity.GetMesh().verticesNVert());
             ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert() / 3);
