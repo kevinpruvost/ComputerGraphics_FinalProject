@@ -84,4 +84,4 @@ The Complete Documentation is available in the project, in the Code Architecture
 
 ## Documentation
 
-There is a documentation available [here](https://kevinpruvost.github.io/ComputerGraphics_Assignment6/) or in `docs/index.html` if you want to have a better view on the classes I made.
+There is a documentation available [here](https://kevinpruvost.github.io/ComputerGraphics_FinalProject/) or in `docs/index.html` if you want to have a better view on the classes I made.
