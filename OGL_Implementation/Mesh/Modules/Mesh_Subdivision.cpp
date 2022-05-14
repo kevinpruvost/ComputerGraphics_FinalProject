@@ -9,6 +9,7 @@
 
 // Project includes
 #include "OGL_Implementation\DebugInfo\Log.hpp"
+#include "OGL_Implementation\DebugInfo\Timer.hpp"
 
 // C++ includes
 #include <unordered_map>
@@ -158,7 +159,8 @@ Mesh_Custom * Mesh_Subdivision::Subdivide(Mesh_Base & mesh)
 
 void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
 {
-    const auto threadFunc = [&](Mesh_Base * mesh, bool * finished, bool * loopFinished, bool * working, bool * abort, std::condition_variable * cv, std::mutex * mutex) {
+    const auto threadFunc = [](Mesh_Base * mesh, bool * finished, bool * loopFinished, bool * working, bool * abort, std::condition_variable * cv, std::mutex * mutex) {
+        Timer timer;
         const std::vector<Face> originFaces(*mesh->GetFaces());
         const std::vector<VertexPos> originVertices(*mesh->GetVerticesPos());
         std::vector<Face> newFaces;
@@ -305,7 +307,7 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
                 auto part1 = (1.0f - n * beta) * originVertices[ite->first];
                 auto part2 = beta * sum;
                 newVertices[ite->first] = (1.0f - n * beta) * originVertices[ite->first] + beta * sum;
-                if (++nLoop % (verticesPerOldVertex.size() / 10) == 0)
+                if (++nLoop % ((verticesPerOldVertex.size() / 10) + 1) == 0)
                 {
                     if (*abort) return;
                     if (*working)
@@ -336,6 +338,7 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
         *finished = true;
         *working = false;
         cv->notify_all();
+        Log::Print(Log::LogMainFileName, "Final Time Subdivision: %.2fms\n", timer.GetMsTime());
     };
     Mesh_ThreadPool::SetNewThread(&mesh, threadFunc);
 }

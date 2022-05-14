@@ -18,13 +18,7 @@
 #include <chrono>
 using namespace std::chrono_literals;
 
-
-DEBUG_CODE(static Timer timer);
-
-static std::vector<glm::mat4> qMatrices;
-static std::vector<glm::mat4> planes;
-
-void Mesh_Simplification::GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces)
+void Mesh_Simplification::GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<glm::mat4> & planes)
 {
     planes.clear();
     planes.reserve(originFaces.size());
@@ -38,7 +32,7 @@ void Mesh_Simplification::GeneratePlanes(const std::vector<VertexPos> & vPs, con
     }
 }
 
-void Mesh_Simplification::GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces)
+void Mesh_Simplification::GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, const std::vector<glm::mat4> & planes, std::vector<glm::mat4> & qMatrices)
 {
     // Generating Q matrices
     qMatrices.clear();
@@ -51,7 +45,7 @@ void Mesh_Simplification::GenerateQMatrices(const std::vector<VertexPos> & vPs, 
     }
 }
 
-std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges)
+std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges, const std::vector<glm::mat4> & qMatrices)
 {
     std::map<float, HalfEdge *> errorMetrics;
     for (int i = 0; i < halfEdges.size(); ++i)
@@ -86,18 +80,19 @@ std::map<float, HalfEdge *> Mesh_Simplification::GenerateErrorMetrics(const std:
 
 void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 {
-    const auto threadFunc = [&](Mesh_Base * mesh, bool * finished, bool * loopFinished, bool * working, bool * abort, std::condition_variable * cv, std::mutex * mutex) {
-        DEBUG_CODE(timer.Start());
-
+    const auto threadFunc = [](Mesh_Base * mesh, bool * finished, bool * loopFinished, bool * working, bool * abort, std::condition_variable * cv, std::mutex * mutex) {
+        Timer timer;
         if (mesh->GetVerticesCount() == 0) return;
 
         const std::vector<VertexPos> & vPs = *mesh->GetVerticesPos();
         const std::vector<Face> & originFaces = *mesh->GetFaces();
         std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
 
-        GeneratePlanes(vPs, originFaces);
-        GenerateQMatrices(vPs, originFaces);
-        std::map<float, HalfEdge *> errorMetrics = GenerateErrorMetrics(vPs, originFaces, halfEdges);
+        std::vector<glm::mat4> qMatrices;
+        std::vector<glm::mat4> planes;
+        GeneratePlanes(vPs, originFaces, planes);
+        GenerateQMatrices(vPs, originFaces, planes, qMatrices);
+        std::map<float, HalfEdge *> errorMetrics = GenerateErrorMetrics(vPs, originFaces, halfEdges, qMatrices);
 
         std::vector<Face> newFaces(originFaces);
         std::vector<VertexPos> newVertices(vPs);
@@ -195,7 +190,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
             newVertices.erase(newVertices.begin() + vid2);
             qMatrices.erase(qMatrices.begin() + vid2);
 
-            errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
+            errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges, qMatrices);
             if (*abort) return;
             if (*working)
             {
@@ -210,6 +205,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
             *working = false;
             cv->notify_all();
         }
+        Log::Print(Log::LogMainFileName, "Final Time Simplification: %.2fms\n", timer.GetMsTime());
         LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());
         *finished = true;
     };
@@ -218,6 +214,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 
 Mesh_Custom * Mesh_Simplification::Simplify(Mesh_Base & mesh)
 {
+    DEBUG_CODE(static Timer timer);
     DEBUG_CODE(timer.Start());
 
     if (mesh.GetVerticesCount() == 0) return nullptr;
@@ -226,9 +223,11 @@ Mesh_Custom * Mesh_Simplification::Simplify(Mesh_Base & mesh)
     const std::vector<Face> & originFaces = *mesh.GetFaces();
     std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
 
-    GeneratePlanes(vPs, originFaces);
-    GenerateQMatrices(vPs, originFaces);
-    std::map<float, HalfEdge *> errorMetrics = GenerateErrorMetrics(vPs, originFaces, halfEdges);
+    std::vector<glm::mat4> qMatrices;
+    std::vector<glm::mat4> planes;
+    GeneratePlanes(vPs, originFaces, planes);
+    GenerateQMatrices(vPs, originFaces, planes, qMatrices);
+    std::map<float, HalfEdge *> errorMetrics = GenerateErrorMetrics(vPs, originFaces, halfEdges, qMatrices);
 
     std::vector<Face> newFaces(originFaces);
     std::vector<VertexPos> newVertices(vPs);
@@ -326,7 +325,7 @@ Mesh_Custom * Mesh_Simplification::Simplify(Mesh_Base & mesh)
         newVertices.erase(newVertices.begin() + vid2);
         qMatrices.erase(qMatrices.begin() + vid2);
 
-        errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges);
+        errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges, qMatrices);
     }
 
     LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());

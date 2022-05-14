@@ -123,5 +123,6 @@ HalfEdge::HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int fac
 	, previous{prev_}
 	, face{face_}
 	, origin{origin_}
+	, pass{ false }
 {
 }

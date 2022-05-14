@@ -21,9 +21,9 @@
 class Mesh_Simplification
 {
 private:
-    static void GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
-    static void GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces);
-    static std::map<float, HalfEdge *> GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges);
+    static void GeneratePlanes(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<glm::mat4> & planes);
+    static void GenerateQMatrices(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, const std::vector<glm::mat4> & planes, std::vector<glm::mat4> & qMatrices);
+    static std::map<float, HalfEdge *> GenerateErrorMetrics(const std::vector<VertexPos> & vPs, const std::vector<Face> & originFaces, std::vector<std::unique_ptr<HalfEdge>> & halfEdges, const std::vector<glm::mat4> & qMatrices);
 
 private:
 
