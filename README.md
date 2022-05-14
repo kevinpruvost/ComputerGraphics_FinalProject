@@ -156,27 +156,27 @@ And that gives us this kind of results, keep in mind that my simplification stop
 
 - Normal Mesh (2503 vertices, 4968 faces):
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled.png)
+![Untitled](readme_resources/Untitled.png)
 
 - 1x Simplified Mesh (1253 vertices, 2483 faces) in 2.542 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%201.png)
+![Untitled](readme_resources/Untitled%201.png)
 
 - 2x Simplified Mesh (627 vertices, 1240 faces) in 3.014 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%202.png)
+![Untitled](readme_resources/Untitled%202.png)
 
 - 3x Simplified Mesh (315 vertices, 620 faces) in 3.129 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%203.png)
+![Untitled](readme_resources/Untitled%203.png)
 
 - 4x Simplified Mesh (157 vertices, 309 faces) in 3.153 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%204.png)
+![Untitled](readme_resources/Untitled%204.png)
 
 - 5x Simplified Mesh (79 vertices, 153 faces) in 3.159 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%205.png)
+![Untitled](readme_resources/Untitled%205.png)
 
 ### Subdivision
 
@@ -206,7 +206,7 @@ The process of Mesh Subdivision that has been implemented uses these data and st
             v=\frac{1}{8}\left(a+b\right)+\frac{3}{8}\left(c+d\right)
             $$
             
-            ![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%206.png)
+            ![Untitled](readme_resources/Untitled%206.png)
             
             - Boundary Case: The new vertex (blue) will be equal to half of both neighbour vertices, as if it belongs to the line between these 2 neighbour points.
             
@@ -214,7 +214,7 @@ The process of Mesh Subdivision that has been implemented uses these data and st
             v=\frac{1}{2}\left(a+b\right)
             $$
             
-            ![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%207.png)
+            ![Untitled](readme_resources/Untitled%207.png)
             
         3. Assign the vertex to the Half Edge’s twin to avoid duplicates
     5. Link old & new vertices to form new faces.
@@ -236,7 +236,7 @@ The process of Mesh Subdivision that has been implemented uses these data and st
         v=(1-n\beta)*v_{old} +\beta*\sum{v_{neighbours}}
         $$
         
-        ![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%208.png)
+        ![Untitled](readme_resources/Untitled%208.png)
         
         - Boundary case: The new vertex will be equal to an eighth of both neighbour vertices added to 3 quarters of its old position
         
@@ -244,26 +244,26 @@ The process of Mesh Subdivision that has been implemented uses these data and st
         v=\frac{1}{8}\left(a+b\right)+\frac{3}{4}\left(v_{old}\right)
         $$
         
-        ![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%209.png)
+        ![Untitled](readme_resources/Untitled%209.png)
         
 
 And that gives us this kind of results, keep in mind that my simplification stops at ~half the number of faces it had at the beginning (you can check out the recording `2021400603_Project_Recording_Subdivision.mp4`or code for better understanding):
 
 - Normal Mesh (2503 vertices, 4968 faces):
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled.png)
+![Untitled](readme_resources/Untitled.png)
 
 - 1x Subdivided Mesh (9976 vertices, 19872 faces) in 1.977 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%2010.png)
+![Untitled](readme_resources/Untitled%2010.png)
 
 - 2x Subdivided Mesh (39826 vertices, 79488 faces) in 103.988 seconds:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%2011.png)
+![Untitled](readme_resources/Untitled%2011.png)
 
 - Icosahedron subdivided 2 times:
 
-![Untitled](Final%20Project%20fb4942c320fe40e5a4f3a0d2e53d262a/Untitled%2012.png)
+![Untitled](readme_resources/Untitled%2012.png)
 
 # Demonstration
 
