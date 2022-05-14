@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['maxparticles_526',['maxParticles',['../class_particle_system___base.html#a85f47fb0f2cad8efffb5a53e9e1447f8',1,'ParticleSystem_Base']]],
-  ['maxpointlightscount_527',['maxPointLightsCount',['../class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31',1,'PointLight']]],
-  ['maxscale_528',['maxScale',['../class_particle_system___snow.html#a3fb00db124c7088a2ddd6e7a308b7915',1,'ParticleSystem_Snow']]],
-  ['mesh_5fbased_529',['Mesh_Based',['../_mesh___base_8hpp.html#ab76ef3ced5e347ccade7e86167c2169a',1,'Mesh_Base.hpp']]],
-  ['minscale_530',['minScale',['../class_particle_system___snow.html#a7d8c43b07df0f7cae4329a6d06b05dbf',1,'ParticleSystem_Snow']]]
+  ['name_563',['name',['../class_entity.html#a931b21fbdebb1a5963b4bcab5df128f5',1,'Entity']]]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Assignment 6 of FCG: Mesh_Base Class Reference</title>
+<title>Final Project of FCG: Mesh_Base Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="tsinghua_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Assignment 6 of FCG
+   <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Assignment 6: Illumination Effect</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -69,6 +69,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_mesh___base-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -120,6 +121,18 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetVerticesCount</b
 <tr class="memitem:abe164106155c922056d8164b207198b3"><td class="memItemLeft" align="right" valign="top"><a id="abe164106155c922056d8164b207198b3"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetFacesVerticesCount</b> () const</td></tr>
 <tr class="separator:abe164106155c922056d8164b207198b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9648df7a34dd92f9c6071b4d626138ed"><td class="memItemLeft" align="right" valign="top"><a id="a9648df7a34dd92f9c6071b4d626138ed"></a>
+virtual const std::vector&lt; VertexPos &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>GetVerticesPos</b> () const</td></tr>
+<tr class="separator:a9648df7a34dd92f9c6071b4d626138ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a0bfad66486ed0220f228c2e4dfaa9c"><td class="memItemLeft" align="right" valign="top"><a id="a8a0bfad66486ed0220f228c2e4dfaa9c"></a>
+virtual const std::vector&lt; VertexNormal &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>GetVerticesNormals</b> () const</td></tr>
+<tr class="separator:a8a0bfad66486ed0220f228c2e4dfaa9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03814b53260928a58365c192cff2d539"><td class="memItemLeft" align="right" valign="top"><a id="a03814b53260928a58365c192cff2d539"></a>
+virtual const std::vector&lt; VertexTextureCoordinates &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>GetVerticesTextureCoordinates</b> () const</td></tr>
+<tr class="separator:a03814b53260928a58365c192cff2d539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b58e53cacfea57343692f3726a7a717"><td class="memItemLeft" align="right" valign="top"><a id="a8b58e53cacfea57343692f3726a7a717"></a>
+virtual const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>GetFaces</b> () const</td></tr>
+<tr class="separator:a8b58e53cacfea57343692f3726a7a717"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59f0af03e788757c480e2df5011e0a28"><td class="memTemplParams" colspan="2"><a id="a59f0af03e788757c480e2df5011e0a28"></a>
 template&lt;Mesh_Based M&gt; </td></tr>
 <tr class="memitem:a59f0af03e788757c480e2df5011e0a28"><td class="memTemplItemLeft" align="right" valign="top">M *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Cast</b> ()</td></tr>
@@ -143,6 +156,30 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasTextureCoordinates
 <tr class="memitem:a53afc4dfd80940fe053218090fca1448"><td class="memItemLeft" align="right" valign="top"><a id="a53afc4dfd80940fe053218090fca1448"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasNormals</b> () const</td></tr>
 <tr class="separator:a53afc4dfd80940fe053218090fca1448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d8937a830b1f6959117906380a330f1"><td class="memItemLeft" align="right" valign="top"><a id="a0d8937a830b1f6959117906380a330f1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateNormals</b> (bool smooth)</td></tr>
+<tr class="separator:a0d8937a830b1f6959117906380a330f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec91037e48bb757f610c7851e54a0685"><td class="memItemLeft" align="right" valign="top"><a id="aec91037e48bb757f610c7851e54a0685"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetGeometry</b> (const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces, const std::vector&lt; VertexPos &gt; &amp;v, const std::vector&lt; VertexNormal &gt; &amp;vN={}, const std::vector&lt; VertexTextureCoordinates &gt; &amp;vT={})</td></tr>
+<tr class="separator:aec91037e48bb757f610c7851e54a0685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d2f034344272036efb6113cfb77e3b3"><td class="memItemLeft" align="right" valign="top"><a id="a1d2f034344272036efb6113cfb77e3b3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdateVerticesToApi</b> ()</td></tr>
+<tr class="separator:a1d2f034344272036efb6113cfb77e3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ac6f5836e9cc4290bce5badf2e90c9d0e"><td class="memItemLeft" align="right" valign="top"><a id="ac6f5836e9cc4290bce5badf2e90c9d0e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Mesh_Base</b> (const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces, const std::vector&lt; VertexPos &gt; &amp;v, const std::vector&lt; VertexNormal &gt; &amp;vN={}, const std::vector&lt; VertexTextureCoordinates &gt; &amp;vT={})</td></tr>
+<tr class="separator:ac6f5836e9cc4290bce5badf2e90c9d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cce2128ea93bacb12960e659d4a13f9"><td class="memItemLeft" align="right" valign="top"><a id="a8cce2128ea93bacb12960e659d4a13f9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadVertices</b> (const std::vector&lt; VertexPos &gt; &amp;vertices)</td></tr>
+<tr class="separator:a8cce2128ea93bacb12960e659d4a13f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51560cac4404569b3e7ec3fb7db4170e"><td class="memItemLeft" align="right" valign="top"><a id="a51560cac4404569b3e7ec3fb7db4170e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadFaces</b> (const std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt; &amp;vertices)</td></tr>
+<tr class="separator:a51560cac4404569b3e7ec3fb7db4170e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa237e3cd00decbbf6f894827fff7b7b4"><td class="memItemLeft" align="right" valign="top"><a id="aa237e3cd00decbbf6f894827fff7b7b4"></a>
+std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateAssembledVertices</b> (bool isNormal, bool isTexture) const</td></tr>
+<tr class="separator:aa237e3cd00decbbf6f894827fff7b7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -170,13 +207,36 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>__hasTextureCoordinat
 <tr class="memitem:a9451e9196db12acd64a70fc9030ee431"><td class="memItemLeft" align="right" valign="top"><a id="a9451e9196db12acd64a70fc9030ee431"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>__hasNormals</b></td></tr>
 <tr class="separator:a9451e9196db12acd64a70fc9030ee431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memItemLeft" ><a id="a9e7741df7d4483aa1ef522a00b0df2a9"></a>
+union {</td></tr>
+<tr class="memitem:a4243d88c6d5bb23cb85427bf633499e1"><td class="memItemLeft" >
+&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;&#160;&#160;<b>__vertices</b></td></tr>
+<tr class="separator:a4243d88c6d5bb23cb85427bf633499e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be6a493cadc625362a8c9859632827e"><td class="memItemLeft" ><a id="a5be6a493cadc625362a8c9859632827e"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:a3d434089067ae9ddc27775acc57a9b89"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexPos &gt;&#160;&#160;&#160;<b>__v</b></td></tr>
+<tr class="separator:a3d434089067ae9ddc27775acc57a9b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bdee9af96a28b92ec457814d714b74a"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexNormal &gt;&#160;&#160;&#160;<b>__vN</b></td></tr>
+<tr class="separator:a8bdee9af96a28b92ec457814d714b74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a006d993b7caecd6720944f7512c60097"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexTextureCoordinates &gt;&#160;&#160;&#160;<b>__vT</b></td></tr>
+<tr class="separator:a006d993b7caecd6720944f7512c60097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651de9c220bd4ec70970c7c941b0490a"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt;&#160;&#160;&#160;<b>__faces</b></td></tr>
+<tr class="separator:a651de9c220bd4ec70970c7c941b0490a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be6a493cadc625362a8c9859632827e"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a5be6a493cadc625362a8c9859632827e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the real data of the mesh to be stored in a static database. </p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/Mesh/<a class="el" href="_mesh___base_8hpp_source.html">Mesh_Base.hpp</a></li>
-<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/Mesh/<a class="el" href="_mesh___base_8cpp.html">Mesh_Base.cpp</a></li>
-<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/Mesh/<a class="el" href="_mesh___base_8inl.html">Mesh_Base.inl</a></li>
+<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Mesh/<a class="el" href="_mesh___base_8hpp_source.html">Mesh_Base.hpp</a></li>
+<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Mesh/<a class="el" href="_mesh___base_8cpp.html">Mesh_Base.cpp</a></li>
+<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Mesh/<a class="el" href="_mesh___base_8inl.html">Mesh_Base.inl</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.9.1-->

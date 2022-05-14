@@ -8,7 +8,7 @@
 #pragma once
 
 // Project includes
-#include "Entity_Skeleton.hpp"
+#include "AEntity.hpp"
 
 #include "OGL_Implementation\Mesh\Mesh.hpp"
 #include "OGL_Implementation\Shader\Shader.hpp"
@@ -33,7 +33,7 @@
  * position, rotation, scale.
  * Able to give model matrix.
 */
-class Entity : public Entity_Skeleton, public EntityAttributeManager, public ShaderAttributeManager
+class Entity : public AEntity, public EntityAttributeManager, public ShaderAttributeManager
 {
 public:
     /**
@@ -87,7 +87,7 @@ public:
     */
     virtual glm::mat4 GetModelMatrix(bool ignoreRotation = false, bool ignoreScale = false) const;
 
-    // Entity_Skeleton abstract
+    // AEntity abstract
     virtual glm::vec3 GetLocalPosition() const;
 
 public:

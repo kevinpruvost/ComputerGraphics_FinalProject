@@ -1,27 +1,27 @@
 /*****************************************************************//**
- * \file   Entity_Skeleton.cpp
+ * \file   AEntity.cpp
  * \brief  Entity Skeleton source code
  * 
  * \author Kevin Pruvost (pruvostkevin0@gmail.com)
  * \date   April, 08 2022
  *********************************************************************/
-#include "Entity_Skeleton.hpp"
+#include "AEntity.hpp"
 
 // Project includes
 #include "OGL_Implementation\DebugInfo\Log.hpp"
 
-Entity_Skeleton::Entity_Skeleton()
+AEntity::AEntity()
     : __parent{ nullptr }
 {
 }
 
-Entity_Skeleton::~Entity_Skeleton()
+AEntity::~AEntity()
 {
     RemoveParent();
     RemoveChildren();
 }
 
-glm::vec3 Entity_Skeleton::GetWorldPosition() const
+glm::vec3 AEntity::GetWorldPosition() const
 {
     if (HasParent())
     {
@@ -32,22 +32,22 @@ glm::vec3 Entity_Skeleton::GetWorldPosition() const
     return GetLocalPosition();
 }
 
-bool Entity_Skeleton::HasChildren() const
+bool AEntity::HasChildren() const
 {
     return !__children.empty();
 }
 
-size_t Entity_Skeleton::ChildrenCount() const
+size_t AEntity::ChildrenCount() const
 {
     return __children.size();
 }
 
-bool Entity_Skeleton::HasParent() const
+bool AEntity::HasParent() const
 {
     return __parent != nullptr;
 }
 
-void Entity_Skeleton::RemoveParent()
+void AEntity::RemoveParent()
 {
     if (__parent)
     {
@@ -56,7 +56,7 @@ void Entity_Skeleton::RemoveParent()
     }
 }
 
-void Entity_Skeleton::RemoveChildren()
+void AEntity::RemoveChildren()
 {
     if (!__children.empty())
     {
@@ -68,17 +68,17 @@ void Entity_Skeleton::RemoveChildren()
     }
 }
 
-const Entity_Skeleton * Entity_Skeleton::ToSkeleton() const
+const AEntity * AEntity::ToSkeleton() const
 {
-    return dynamic_cast<const Entity_Skeleton *>(this);
+    return dynamic_cast<const AEntity *>(this);
 }
 
-Entity_Skeleton * Entity_Skeleton::ToSkeleton()
+AEntity * AEntity::ToSkeleton()
 {
-    return dynamic_cast<Entity_Skeleton *>(this);
+    return dynamic_cast<AEntity *>(this);
 }
 
-const std::vector<Entity_Skeleton *> & Entity_Skeleton::GetChildren() const
+const std::vector<AEntity *> & AEntity::GetChildren() const
 {
     return __children;
 }

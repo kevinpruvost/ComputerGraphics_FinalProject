@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['lookat_462',['LookAt',['../class_camera.html#a1ad084d2ecbc6cf0a42c064ff47658bf',1,'Camera']]],
-  ['loop_463',['Loop',['../class_window.html#a5ed7fe6db1a7bfb2a9408a94d3f6b451',1,'Window']]]
+  ['key_493',['key',['../class_input.html#a8b604bb99340b033827d6de8e0401709',1,'Input']]]
 ];

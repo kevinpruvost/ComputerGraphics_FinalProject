@@ -16,7 +16,7 @@
  * @brief Manages the whole particle systems animation & overall process.
  * Inherits Entity
 */
-class ParticleSystem_Base : public Entity_Skeleton
+class ParticleSystem_Base : public AEntity
 {
 public:
     ParticleSystem_Base(const Shader & shaderPoint_, const Shader & shaderWireframe_, const Shader & shaderPS_, const float lifeSpan_, const float frequency_, const unsigned int maxParticles_);

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Assignment 6 of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/DebugInfo/Log.hpp Source File</title>
+<title>Final Project of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/DebugInfo/Log.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="tsinghua_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Assignment 6 of FCG
+   <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Assignment 6: Illumination Effect</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -82,52 +82,54 @@ $(function() {
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#ifdef NDEBUG</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">    #define LOG_PRINT(fileName, fmt, ...)</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">    #define LOG_PRINT(fileName, fmt, ...) Log::Print(fileName, &quot;[%s, Line %d]: &quot;</span> ## fmt, __FUNCTION__, __LINE__, __VA_ARGS__)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_log.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_log.html">Log</a></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">   33</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Print</a>(FILE * file, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args... args);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_log.html#a837102fe5b622ed3faf411ba90b1e07c">   44</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_log.html#a837102fe5b622ed3faf411ba90b1e07c">Print</a>(<span class="keyword">const</span> std::string &amp; fileName, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args... args);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_log.html#ad3436edc6f571c467edea6bc5e80687b">ForceCloseFile</a>(<span class="keyword">const</span> std::string &amp; fileName);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">char</span> * LogMainFileName = <span class="stringliteral">&quot;OGL_Log.txt&quot;</span>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">    #define DEBUG_CODE(code)</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">    #define LOG_PRINT(fileName, fmt, ...) Log::Print(fileName, &quot;[%s, Line %d]: &quot;</span> ## fmt, __FUNCTION__, __LINE__, __VA_ARGS__)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">    #define DEBUG_CODE(code) code</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_log.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_log.html">Log</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">   35</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Print</a>(FILE * file, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args... args);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_log.html#a837102fe5b622ed3faf411ba90b1e07c">   46</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_log.html#a837102fe5b622ed3faf411ba90b1e07c">Print</a>(<span class="keyword">const</span> std::string &amp; fileName, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args... args);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_log.html#ad3436edc6f571c467edea6bc5e80687b">ForceCloseFile</a>(<span class="keyword">const</span> std::string &amp; fileName);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_log_1_1_file.html">   56</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_log_1_1_file.html">File</a></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="class_log_1_1_file.html">File</a>(<span class="keyword">const</span> std::string &amp; fileName);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        ~<a class="code" href="class_log_1_1_file.html">File</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        FILE * file;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    };</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_log_1_1_file.html">File</a> &amp; GetFile(<span class="keyword">const</span> std::string &amp; fileName);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> CreateFile(<span class="keyword">const</span> std::string &amp; fileName);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Log::Print</a>(FILE * file, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args ...args)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    fprintf(file, fmt, args...);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Log::Print</a>(<span class="keyword">const</span> std::string &amp; fileName, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args ...args)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">if</span> (!CreateFile(fileName))</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    File &amp; file = GetFile(fileName);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    fprintf(file.file, fmt, args...);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
-<div class="ttc" id="aclass_log_1_1_file_html"><div class="ttname"><a href="class_log_1_1_file.html">Log::File</a></div><div class="ttdoc">Private Class used for Log file management.</div><div class="ttdef"><b>Definition:</b> Log.hpp:57</div></div>
-<div class="ttc" id="aclass_log_html"><div class="ttname"><a href="class_log.html">Log</a></div><div class="ttdoc">Prints in files or stdout/err/... in a centralized manner.</div><div class="ttdef"><b>Definition:</b> Log.hpp:23</div></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">char</span> * LogMainFileName = <span class="stringliteral">&quot;OGL_Log.txt&quot;</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_log_1_1_file.html">   58</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_log_1_1_file.html">File</a></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="class_log_1_1_file.html">File</a>(<span class="keyword">const</span> std::string &amp; fileName);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        ~<a class="code" href="class_log_1_1_file.html">File</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        FILE * file;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    };</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">static</span> <a class="code" href="class_log_1_1_file.html">File</a> &amp; GetFile(<span class="keyword">const</span> std::string &amp; fileName);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> CreateFile(<span class="keyword">const</span> std::string &amp; fileName);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Log::Print</a>(FILE * file, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args ...args)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    fprintf(file, fmt, args...);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Log::Print</a>(<span class="keyword">const</span> std::string &amp; fileName, <span class="keyword">const</span> <span class="keywordtype">char</span> * fmt, Args ...args)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (!CreateFile(fileName))</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    File &amp; file = GetFile(fileName);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    fprintf(file.file, fmt, args...);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="ttc" id="aclass_log_1_1_file_html"><div class="ttname"><a href="class_log_1_1_file.html">Log::File</a></div><div class="ttdoc">Private Class used for Log file management.</div><div class="ttdef"><b>Definition:</b> Log.hpp:59</div></div>
+<div class="ttc" id="aclass_log_html"><div class="ttname"><a href="class_log.html">Log</a></div><div class="ttdoc">Prints in files or stdout/err/... in a centralized manner.</div><div class="ttdef"><b>Definition:</b> Log.hpp:25</div></div>
 <div class="ttc" id="aclass_log_html_a40fd9bfa864ed387a80539c80016d232"><div class="ttname"><a href="class_log.html#a40fd9bfa864ed387a80539c80016d232">Log::Print</a></div><div class="ttdeci">static void Print(FILE *file, const char *fmt, Args... args)</div><div class="ttdoc">Prints like fprintf.</div></div>
 <div class="ttc" id="aclass_log_html_a837102fe5b622ed3faf411ba90b1e07c"><div class="ttname"><a href="class_log.html#a837102fe5b622ed3faf411ba90b1e07c">Log::Print</a></div><div class="ttdeci">static bool Print(const std::string &amp;fileName, const char *fmt, Args... args)</div><div class="ttdoc">Prints in a file given by filename, log files are kept open until a ForceCloseFile is called.</div></div>
 <div class="ttc" id="aclass_log_html_ad3436edc6f571c467edea6bc5e80687b"><div class="ttname"><a href="class_log.html#ad3436edc6f571c467edea6bc5e80687b">Log::ForceCloseFile</a></div><div class="ttdeci">static void ForceCloseFile(const std::string &amp;fileName)</div><div class="ttdoc">Closes specified fileName.</div><div class="ttdef"><b>Definition:</b> Log.cpp:17</div></div>

@@ -69,9 +69,20 @@ struct VertexNormalTexture
 	};
 };
 
+/**
+ * @brief Half Edge structure, used mainly by the Mesh Modules
+*/
 struct HalfEdge
 {
 public:
+	/**
+	 * @brief Half Edge constructor
+	 * @param twin (half edge from the other side)
+	 * @param next (next half edge in counter-clockwise direction)
+	 * @param prev (previous half edge in counter-clockwise direction)
+	 * @param face (face index)
+	 * @param origin (origin vertex index)
+	*/
 	HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int face_, int origin_);
 	HalfEdge * twin, * next, * previous;
 	int face, origin;

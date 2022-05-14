@@ -8,7 +8,7 @@
 #pragma once
 
 // Project includes
-#include "Entity_Skeleton.hpp"
+#include "AEntity.hpp"
 
 // GLM includes
 #include <glm\glm.hpp>

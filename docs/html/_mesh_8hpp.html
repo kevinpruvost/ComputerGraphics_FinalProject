@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Assignment 6 of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/Mesh/Mesh.hpp File Reference</title>
+<title>Final Project of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Mesh/Mesh.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="tsinghua_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Assignment 6 of FCG
+   <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Assignment 6: Illumination Effect</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -86,7 +86,10 @@ $(function() {
 <code>#include &quot;<a class="el" href="_mesh___sphere_8hpp_source.html">Mesh_Sphere.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_mesh___image_8hpp_source.html">Mesh_Image.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_mesh___custom_8hpp_source.html">Mesh_Custom.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_mesh___simplification_8hpp_source.html">Modules\Mesh_Simplification.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_mesh___subdivision_8hpp_source.html">Modules\Mesh_Subdivision.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_log_8hpp_source.html">OGL_Implementation\DebugInfo\Log.hpp</a>&quot;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
 </div>
 <p><a href="_mesh_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -107,6 +110,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a74256b67fa09097a4640ecb26cf7af64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a> (const std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt; &amp;vertices)</td></tr>
 <tr class="memdesc:a74256b67fa09097a4640ecb26cf7af64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates mesh from vertices list.  <a href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">More...</a><br /></td></tr>
 <tr class="separator:a74256b67fa09097a4640ecb26cf7af64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d00606f1700e8c1a08ac3708b29ff91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#a2d00606f1700e8c1a08ac3708b29ff91">GenerateMesh</a> (const std::vector&lt; VertexPos &gt; &amp;vertices, const std::vector&lt; VertexNormal &gt; &amp;normals, const std::vector&lt; VertexTextureCoordinates &gt; &amp;textureCoords, const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces)</td></tr>
+<tr class="memdesc:a2d00606f1700e8c1a08ac3708b29ff91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates mesh from vertices, normals, texture coordinates and face indices.  <a href="_mesh_8hpp.html#a2d00606f1700e8c1a08ac3708b29ff91">More...</a><br /></td></tr>
+<tr class="separator:a2d00606f1700e8c1a08ac3708b29ff91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5286bae949116b1a50628f2fb723107a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#a5286bae949116b1a50628f2fb723107a">GenerateMesh</a> (const std::vector&lt; VertexPos &gt; &amp;vertices, const std::vector&lt; VertexNormal &gt; &amp;normals, const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces)</td></tr>
+<tr class="memdesc:a5286bae949116b1a50628f2fb723107a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates mesh from vertices, normals &amp; faces indices.  <a href="_mesh_8hpp.html#a5286bae949116b1a50628f2fb723107a">More...</a><br /></td></tr>
+<tr class="separator:a5286bae949116b1a50628f2fb723107a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab01a2b3274dbe55accdd69badebb23f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#ab01a2b3274dbe55accdd69badebb23f1">GenerateMesh</a> (const std::vector&lt; VertexPos &gt; &amp;vertices, const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces)</td></tr>
+<tr class="memdesc:ab01a2b3274dbe55accdd69badebb23f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates meshes only from vertices &amp; face indices.  <a href="_mesh_8hpp.html#ab01a2b3274dbe55accdd69badebb23f1">More...</a><br /></td></tr>
+<tr class="separator:ab01a2b3274dbe55accdd69badebb23f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93d5535ad6f71be9a802a11a243da968"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#a93d5535ad6f71be9a802a11a243da968">GenerateMesh</a> (const <a class="el" href="class_obj.html">Obj</a> &amp;obj)</td></tr>
 <tr class="memdesc:a93d5535ad6f71be9a802a11a243da968"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates mesh from obj class, stores it in the mesh database and returns a <a class="el" href="class_mesh.html" title="Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...">Mesh</a> class.  <a href="_mesh_8hpp.html#a93d5535ad6f71be9a802a11a243da968">More...</a><br /></td></tr>
 <tr class="separator:a93d5535ad6f71be9a802a11a243da968"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,6 +128,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a69ffd27583fbdbdc90981dac7f7b667d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#a69ffd27583fbdbdc90981dac7f7b667d">GenerateMesh</a> (const uint16_t meshId)</td></tr>
 <tr class="memdesc:a69ffd27583fbdbdc90981dac7f7b667d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates mesh from mesh id.  <a href="_mesh_8hpp.html#a69ffd27583fbdbdc90981dac7f7b667d">More...</a><br /></td></tr>
 <tr class="separator:a69ffd27583fbdbdc90981dac7f7b667d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a245fdaa36e90d486ada26d8d1240c761"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_mesh.html">Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_mesh_8hpp.html#a245fdaa36e90d486ada26d8d1240c761">GenerateMesh</a> (<a class="el" href="class_mesh___base.html">Mesh_Base</a> *mesh)</td></tr>
+<tr class="memdesc:a245fdaa36e90d486ada26d8d1240c761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates mesh from Mesh_base pointer, memory from this pointer will be managed by the <a class="el" href="class_mesh.html" title="Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...">Mesh</a> System afterwards.  <a href="_mesh_8hpp.html#a245fdaa36e90d486ada26d8d1240c761">More...</a><br /></td></tr>
+<tr class="separator:a245fdaa36e90d486ada26d8d1240c761"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_mesh.html" title="Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...">Mesh</a> class. </p>
@@ -123,7 +138,7 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>March, 27 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a59cec06cb826e0ee6b3472d5a8de9ff0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59cec06cb826e0ee6b3472d5a8de9ff0">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a59cec06cb826e0ee6b3472d5a8de9ff0">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,7 +165,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a93d5535ad6f71be9a802a11a243da968"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93d5535ad6f71be9a802a11a243da968">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a93d5535ad6f71be9a802a11a243da968">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +192,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a74256b67fa09097a4640ecb26cf7af64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74256b67fa09097a4640ecb26cf7af64">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a74256b67fa09097a4640ecb26cf7af64">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,8 +218,143 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ab01a2b3274dbe55accdd69badebb23f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab01a2b3274dbe55accdd69badebb23f1">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[4/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_mesh.html">Mesh</a> GenerateMesh </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; VertexPos &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vertices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>faces</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generates meshes only from vertices &amp; face indices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertices</td><td></td></tr>
+    <tr><td class="paramname">faces</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>mesh </dd></dl>
+
+</div>
+</div>
+<a id="a5286bae949116b1a50628f2fb723107a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5286bae949116b1a50628f2fb723107a">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_mesh.html">Mesh</a> GenerateMesh </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; VertexPos &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vertices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; VertexNormal &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>faces</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generates mesh from vertices, normals &amp; faces indices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertices</td><td></td></tr>
+    <tr><td class="paramname">normals</td><td></td></tr>
+    <tr><td class="paramname">faces</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>mesh </dd></dl>
+
+</div>
+</div>
+<a id="a2d00606f1700e8c1a08ac3708b29ff91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d00606f1700e8c1a08ac3708b29ff91">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[6/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_mesh.html">Mesh</a> GenerateMesh </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; VertexPos &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vertices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; VertexNormal &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; VertexTextureCoordinates &gt; &amp;&#160;</td>
+          <td class="paramname"><em>textureCoords</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>faces</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generates mesh from vertices, normals, texture coordinates and face indices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertices</td><td></td></tr>
+    <tr><td class="paramname">normals</td><td></td></tr>
+    <tr><td class="paramname">textureCoords</td><td></td></tr>
+    <tr><td class="paramname">faces</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>mesh </dd></dl>
+
+</div>
+</div>
 <a id="a69ffd27583fbdbdc90981dac7f7b667d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69ffd27583fbdbdc90981dac7f7b667d">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a69ffd27583fbdbdc90981dac7f7b667d">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,6 +370,33 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Generates mesh from mesh id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">meshId</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>mesh </dd></dl>
+
+</div>
+</div>
+<a id="a245fdaa36e90d486ada26d8d1240c761"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a245fdaa36e90d486ada26d8d1240c761">&#9670;&nbsp;</a></span>GenerateMesh() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_mesh.html">Mesh</a> GenerateMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_mesh___base.html">Mesh_Base</a> *&#160;</td>
+          <td class="paramname"><em>mesh</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generates mesh from Mesh_base pointer, memory from this pointer will be managed by the <a class="el" href="class_mesh.html" title="Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...">Mesh</a> System afterwards. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">meshId</td><td></td></tr>

@@ -1,4 +1,4 @@
-# Assignment 6 Documentation
+# Computer Graphics Final Project Documentation
 
 Author: Kevin Pruvost (pruvostkevin0@gmail.com)
 
@@ -41,6 +41,11 @@ with an executable file to launch directly.
 - [Mesh_Image](class_mesh__image.html)
 - [Mesh_Custom](class_mesh__custom.html)
 - [Mesh](class_mesh.html)
+
+- [Mesh_Subdivision](class_mesh__subdivision.html)
+- [Mesh_Simplification](class_mesh__simplification.html)
+- [Mesh_ThreadPool](class_mesh__thread_pool.html)
+- [Mesh_Thread](class_mesh__thread.html)
 
 ### Light
 

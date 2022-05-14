@@ -17,7 +17,7 @@
 // Project includes
 #include "Font.hpp"
 #include "OGL_Implementation\Shader\Shader.hpp"
-#include "OGL_Implementation\Entity\Entity_Skeleton.hpp"
+#include "OGL_Implementation\Entity\AEntity.hpp"
 
 // C++ includes
 #include <string>
@@ -60,7 +60,7 @@ public:
 /**
  * @brief 3D Text class
 */
-class Text3D : public Entity_Skeleton
+class Text3D : public AEntity
 {
 public:
     /**
@@ -88,7 +88,7 @@ public:
     */
     virtual glm::mat4 GetModelMatrix(bool ignoreRotation = false, bool ignoreScale = false) const;
 
-    // Entity_Skeleton abstract
+    // AEntity abstract
     virtual glm::vec3 GetLocalPosition() const;
 
 public:

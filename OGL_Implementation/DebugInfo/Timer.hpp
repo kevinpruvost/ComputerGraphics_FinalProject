@@ -10,6 +10,9 @@
 // Project includes
 #include <chrono>
 
+/**
+ * @brief Measures running time between 2 time points and returns the duration when asked to
+*/
 class Timer
 {
 public:

@@ -23,7 +23,7 @@ Entity::Entity(const Mesh & mesh,
     const glm::vec3 & defaultPosition,
     const glm::vec3 & defaultEulerAngles,
     const glm::vec3 & defaultScale)
-    : Entity_Skeleton()
+    : AEntity()
     , __mesh{ mesh }
     , __shaderPoint{ pointShader }
     , __shaderWireframe{ wireframeShader }

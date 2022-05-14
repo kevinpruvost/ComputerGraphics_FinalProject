@@ -1,9 +1,13 @@
 var searchData=
 [
-  ['text2d_503',['Text2D',['../class_text2_d.html#a8300e1cc6c59aa30b45b86cc5fe9a526',1,'Text2D::Text2D(const Font &amp;_font, const Shader &amp;_shader, const std::string &amp;_str, const glm::vec2 &amp;xy, const GLfloat _scale, const glm::vec3 &amp;_color)'],['../class_text2_d.html#a286e8be5ac156a76caeabafc12e49c80',1,'Text2D::Text2D(const std::string &amp;_str, const glm::vec2 &amp;xy, const GLfloat _scale, const glm::vec3 &amp;_color)']]],
-  ['text3d_504',['Text3D',['../class_text3_d.html#a02f0b8cff477e817126866b320d15694',1,'Text3D::Text3D(const Font &amp;_font, const Shader &amp;_shader, const std::string &amp;_str, const glm::vec3 &amp;xyz, const GLfloat _scale, const glm::vec3 &amp;_color)'],['../class_text3_d.html#a3e2f997df2c1edb599624d08292c9a23',1,'Text3D::Text3D(const std::string &amp;_str, const glm::vec3 &amp;xyz, const GLfloat _scale, const glm::vec3 &amp;_color)']]],
-  ['tobase_505',['ToBase',['../class_particle___base.html#ad94a922e28a51324f353da28e6d56f45',1,'Particle_Base::ToBase() const'],['../class_particle___base.html#a523ed88f2f7c40265dc43a73005f5048',1,'Particle_Base::ToBase()']]],
-  ['toeulerangles_506',['ToEulerAngles',['../class_quaternion.html#a4fd9c29ad16207fe1f8b3877da94c99f',1,'Quaternion']]],
-  ['toparticlesystembase_507',['ToParticleSystemBase',['../class_particle_system___base.html#ae90a325c513b455d07cdd35e241505e4',1,'ParticleSystem_Base::ToParticleSystemBase() const'],['../class_particle_system___base.html#a4ce839cf78ddcecf2eb32fe083cf3efc',1,'ParticleSystem_Base::ToParticleSystemBase()']]],
-  ['tryload_508',['TryLoad',['../class_obj.html#addee8e85995bc3289d00c7518a6e436b',1,'Obj']]]
+  ['setfov_525',['SetFov',['../class_camera.html#ae92fbea0de8c0c53b72f21a5822b0e6a',1,'Camera']]],
+  ['setmovement_526',['SetMovement',['../class_particle___base.html#a5fe5b55a235c4c02f80c7ea7323c2177',1,'Particle_Base']]],
+  ['setrotation_527',['SetRotation',['../class_quaternion.html#acf53fb1394d38cdad458f78de68072ec',1,'Quaternion']]],
+  ['settimemultiplier_528',['SetTimeMultiplier',['../class_window.html#aabaa40fab78bb4b50aa84be94f178c6c',1,'Window']]],
+  ['setwindowdimensions_529',['SetWindowDimensions',['../class_camera.html#a302871e554a91289d0a4133fc36b5b91',1,'Camera']]],
+  ['setznearfar_530',['SetZNearFar',['../class_camera.html#a8566dc9cb7661b94ec13212a12401078',1,'Camera']]],
+  ['shader_531',['Shader',['../class_shader.html#aa012d6b29899a9f4740fc69f1dbf3da0',1,'Shader']]],
+  ['shader_5fbase_532',['Shader_Base',['../class_shader___base.html#a06e0fd430871bb6412a6023a1f6a40e2',1,'Shader_Base::Shader_Base(const GLchar *vertexPath, const GLchar *fragmentPath)'],['../class_shader___base.html#a2b278fdac80ca5c158af054ed15b9829',1,'Shader_Base::Shader_Base(const GLchar *vertexPath, const GLchar *fragmentPath, const GLchar *tcsPath, const GLchar *tesPath)']]],
+  ['start_533',['Start',['../class_particle_system___base.html#ab9781c04e37b4dff920fa2b9d67ac3ca',1,'ParticleSystem_Base::Start()'],['../class_open_g_l___timer.html#a3a15579ec4bcf48033b65fd64163ea38',1,'OpenGL_Timer::Start()']]],
+  ['stop_534',['Stop',['../class_particle_system___base.html#a17f5fa2328e9d760f96a6d406e695ff6',1,'ParticleSystem_Base']]]
 ];

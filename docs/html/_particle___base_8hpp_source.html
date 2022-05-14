@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Assignment 6 of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/Entity/ParticleSystem/Particle_Base.hpp Source File</title>
+<title>Final Project of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Entity/ParticleSystem/Particle_Base.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="tsinghua_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Assignment 6 of FCG
+   <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Assignment 6: Illumination Effect</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -88,7 +88,7 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="_particle___base_8hpp.html#af3142da491338b6ac88688c312bc5b32">   20</a></span>&#160;concept <a class="code" href="_particle___base_8hpp.html#af3142da491338b6ac88688c312bc5b32">Particle_Based</a> = std::is_base_of_v&lt;Particle_Base, T&gt;;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_particle___base.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_particle___base.html">Particle_Base</a> : <span class="keyword">public</span> <a class="code" href="class_entity___skeleton.html">Entity_Skeleton</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_particle___base.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_particle___base.html">Particle_Base</a> : <span class="keyword">public</span> <a class="code" href="class_a_entity.html">AEntity</a></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_particle___base.html">Particle_Base</a>(<span class="keyword">const</span> <span class="keywordtype">float</span> lifeSpan, <span class="keyword">const</span> glm::vec3 &amp; pos_, <span class="keyword">const</span> glm::vec3 &amp; scale_);</div>
@@ -133,7 +133,7 @@ $(function() {
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_particle___base_8inl.html">Particle_Base.inl</a>&quot;</span></div>
 <div class="ttc" id="a_particle___base_8hpp_html_af3142da491338b6ac88688c312bc5b32"><div class="ttname"><a href="_particle___base_8hpp.html#af3142da491338b6ac88688c312bc5b32">Particle_Based</a></div><div class="ttdeci">concept Particle_Based</div><div class="ttdoc">Concept checking if the type is based on particle class.</div><div class="ttdef"><b>Definition:</b> Particle_Base.hpp:20</div></div>
 <div class="ttc" id="a_particle___base_8inl_html"><div class="ttname"><a href="_particle___base_8inl.html">Particle_Base.inl</a></div><div class="ttdoc">Implementation of Particle_Base templated code.</div></div>
-<div class="ttc" id="aclass_entity___skeleton_html"><div class="ttname"><a href="class_entity___skeleton.html">Entity_Skeleton</a></div><div class="ttdoc">Basis for all entities.</div><div class="ttdef"><b>Definition:</b> Entity_Skeleton.hpp:27</div></div>
+<div class="ttc" id="aclass_a_entity_html"><div class="ttname"><a href="class_a_entity.html">AEntity</a></div><div class="ttdoc">Base for all entities.</div><div class="ttdef"><b>Definition:</b> AEntity.hpp:27</div></div>
 <div class="ttc" id="aclass_particle___base_html"><div class="ttname"><a href="class_particle___base.html">Particle_Base</a></div><div class="ttdoc">Base class for all particles.</div><div class="ttdef"><b>Definition:</b> Particle_Base.hpp:26</div></div>
 <div class="ttc" id="aclass_particle___base_html_a0b5e7de7a7874e54317907955af2ae96"><div class="ttname"><a href="class_particle___base.html#a0b5e7de7a7874e54317907955af2ae96">Particle_Base::ParticlePropertiesStyle</a></div><div class="ttdeci">ParticlePropertiesStyle</div><div class="ttdoc">For further properties specialization (for GLSL)</div><div class="ttdef"><b>Definition:</b> Particle_Base.hpp:107</div></div>
 <div class="ttc" id="aclass_particle___base_html_a0ee92c0a1f71b4adf953ffd1f08fbaea"><div class="ttname"><a href="class_particle___base.html#a0ee92c0a1f71b4adf953ffd1f08fbaea">Particle_Base::scale</a></div><div class="ttdeci">const glm::vec3 scale</div><div class="ttdoc">3D Scale</div><div class="ttdef"><b>Definition:</b> Particle_Base.hpp:86</div></div>

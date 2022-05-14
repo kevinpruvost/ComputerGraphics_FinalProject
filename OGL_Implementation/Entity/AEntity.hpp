@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   Entity_Skeleton.hpp
+ * \file   AEntity.hpp
  * \brief  Entity Skeleton code, base of all entities
  * 
  * \author Kevin Pruvost (pruvostkevin0@gmail.com)
@@ -14,43 +14,43 @@
 #include <type_traits>
 #include <vector>
 
-class Entity_Skeleton;
+class AEntity;
 
 template<class T>
 /// @brief Concept checking if the type is an integral or a floating point.
-concept Entity_Skeleton_Based = std::is_base_of_v<Entity_Skeleton, T>;
+concept AEntity_Based = std::is_base_of_v<AEntity, T>;
 
 /**
- * @brief Basis for all entities
+ * @brief Base for all entities
 */
-class Entity_Skeleton
+class AEntity
 {
 protected:
-    Entity_Skeleton();
+    AEntity();
 public:
-    virtual ~Entity_Skeleton();
+    virtual ~AEntity();
 
     virtual glm::mat4 GetModelMatrix(bool ignoreRotation = false, bool ignoreScale = false) const = 0;
     virtual glm::vec3 GetLocalPosition() const = 0;
     glm::vec3 GetWorldPosition() const;
 
 public:
-    template<Entity_Skeleton_Based E>
+    template<AEntity_Based E>
     void SetParent(E & parent);
 
-    template<Entity_Skeleton_Based Parent = Entity_Skeleton>
+    template<AEntity_Based Parent = AEntity>
     const Parent * GetParent() const;
 
-    template<Entity_Skeleton_Based Parent = Entity_Skeleton>
+    template<AEntity_Based Parent = AEntity>
     Parent * GetParent();
 
-    template<Entity_Skeleton_Based Child = Entity_Skeleton>
+    template<AEntity_Based Child = AEntity>
     void AddChild(const Child * child);
 
-    template<Entity_Skeleton_Based Child = Entity_Skeleton>
+    template<AEntity_Based Child = AEntity>
     void RemoveChild(const Child * child);
 
-    template<Entity_Skeleton_Based Child = Entity_Skeleton>
+    template<AEntity_Based Child = AEntity>
     bool HasChild(const Child * child) const;
     bool HasChildren() const;
     size_t ChildrenCount() const;
@@ -58,14 +58,14 @@ public:
     void RemoveParent();
     void RemoveChildren();
 
-    const Entity_Skeleton * ToSkeleton() const;
-    Entity_Skeleton * ToSkeleton();
+    const AEntity * ToSkeleton() const;
+    AEntity * ToSkeleton();
 
-    const std::vector<Entity_Skeleton *> & GetChildren() const;
+    const std::vector<AEntity *> & GetChildren() const;
     
 private:
-    Entity_Skeleton * __parent;
-    std::vector<Entity_Skeleton *> __children;
+    AEntity * __parent;
+    std::vector<AEntity *> __children;
 };
 
-#include "Entity_Skeleton.inl"
+#include "AEntity.inl"

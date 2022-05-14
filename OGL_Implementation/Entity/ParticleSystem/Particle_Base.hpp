@@ -22,7 +22,7 @@ concept Particle_Based = std::is_base_of_v<Particle_Base, T>;
 /**
  * @brief Base class for all particles
 */
-class Particle_Base : public Entity_Skeleton
+class Particle_Base : public AEntity
 {
 public:
     Particle_Base(const float lifeSpan, const glm::vec3 & pos_, const glm::vec3 & scale_);

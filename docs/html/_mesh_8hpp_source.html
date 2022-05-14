@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Assignment 6 of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Assignments/Assignment 6/OGL_Implementation/Mesh/Mesh.hpp Source File</title>
+<title>Final Project of FCG: C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Mesh/Mesh.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="tsinghua_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Assignment 6 of FCG
+   <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Assignment 6: Illumination Effect</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -87,53 +87,73 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_mesh___image_8hpp.html">Mesh_Image.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_mesh___custom_8hpp.html">Mesh_Custom.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_log_8hpp.html">OGL_Implementation\DebugInfo\Log.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_mesh.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_mesh.html">Mesh</a></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="class_mesh.html#a7b1572ec2569260bcec20eeffb441c20">Mesh</a>(<span class="keyword">const</span> GLuint meshId);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="class_mesh.html">Mesh</a> &amp; operator=(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    GLuint meshId() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    GLuint verticesVAO() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    GLuint facesVAO() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    GLuint verticesVBO() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    GLuint facesVBO() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    GLuint verticesNVert() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    GLuint facesNVert() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="class_mesh___base.html">Mesh_Base</a> * operator*();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_mesh___base.html">Mesh_Base</a> * operator*() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    GLuint facesEBO() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> isUsingEBO() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_mesh___simplification_8hpp.html">Modules\Mesh_Simplification.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_mesh___subdivision_8hpp.html">Modules\Mesh_Subdivision.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_log_8hpp.html">OGL_Implementation\DebugInfo\Log.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// C++ includes</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_mesh.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_mesh.html">Mesh</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="class_mesh.html#a7b1572ec2569260bcec20eeffb441c20">Mesh</a>(<span class="keyword">const</span> GLuint meshId);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_mesh.html">Mesh</a> &amp; operator=(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    GLuint meshId() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    GLuint verticesVAO() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    GLuint facesVAO() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    GLuint verticesVBO() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    GLuint facesVBO() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    GLuint verticesNVert() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    GLuint facesNVert() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    Mesh_Base::DrawMode GetDrawMode() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    GLuint __meshId;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="class_mesh___base.html">Mesh_Base</a> * operator*();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_mesh___base.html">Mesh_Base</a> * operator*() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    GLuint facesEBO() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> isUsingEBO() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#ac33ac88672b842617d017008a214b3f5">GenerateMeshImage</a>();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a203fd3b536365189548f7cb489c034c4">GenerateMeshSphere</a>(<span class="keywordtype">float</span> radius = 1.0f, <span class="keywordtype">int</span> sectorCount = 36, <span class="keywordtype">int</span> stackCount = 18, <span class="keywordtype">bool</span> smooth = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> std::vector&lt;VertexNormalTexture&gt; &amp; vertices);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> uint16_t meshId);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="class_mesh.html">Mesh</a> Simplify();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> SimplifyParallel();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="class_mesh.html">Mesh</a> Subdivide();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> SubdivideParallel();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> IsMeshOperationFinished() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    Mesh_Base::DrawMode GetDrawMode() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    GLuint __meshId;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#ac33ac88672b842617d017008a214b3f5">GenerateMeshImage</a>();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a203fd3b536365189548f7cb489c034c4">GenerateMeshSphere</a>(<span class="keywordtype">float</span> radius = 1.0f, <span class="keywordtype">int</span> sectorCount = 36, <span class="keywordtype">int</span> stackCount = 18, <span class="keywordtype">bool</span> smooth = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> std::vector&lt;VertexNormalTexture&gt; &amp; vertices);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> std::vector&lt;VertexPos&gt; &amp; vertices, <span class="keyword">const</span> std::vector&lt;VertexNormal&gt; &amp; normals, <span class="keyword">const</span> std::vector&lt;VertexTextureCoordinates&gt; &amp; textureCoords, <span class="keyword">const</span> std::vector&lt;Face&gt; &amp; faces);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> std::vector&lt;VertexPos&gt; &amp; vertices, <span class="keyword">const</span> std::vector&lt;VertexNormal&gt; &amp; normals, <span class="keyword">const</span> std::vector&lt;Face&gt; &amp; faces);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> std::vector&lt;VertexPos&gt; &amp; vertices, <span class="keyword">const</span> std::vector&lt;Face&gt; &amp; faces);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<span class="keyword">const</span> uint16_t meshId);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<a class="code" href="class_mesh.html">Mesh</a> <a class="code" href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a>(<a class="code" href="class_mesh___base.html">Mesh_Base</a> * mesh);</div>
 <div class="ttc" id="a_log_8hpp_html"><div class="ttname"><a href="_log_8hpp.html">Log.hpp</a></div><div class="ttdoc">Log class for debug purposes.</div></div>
-<div class="ttc" id="a_mesh_8hpp_html_a203fd3b536365189548f7cb489c034c4"><div class="ttname"><a href="_mesh_8hpp.html#a203fd3b536365189548f7cb489c034c4">GenerateMeshSphere</a></div><div class="ttdeci">Mesh GenerateMeshSphere(float radius=1.0f, int sectorCount=36, int stackCount=18, bool smooth=true)</div><div class="ttdoc">Generates mesh from sphere parameters.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:62</div></div>
-<div class="ttc" id="a_mesh_8hpp_html_a74256b67fa09097a4640ecb26cf7af64"><div class="ttname"><a href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a></div><div class="ttdeci">Mesh GenerateMesh(const std::vector&lt; VertexNormalTexture &gt; &amp;vertices)</div><div class="ttdoc">Generates mesh from vertices list.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:68</div></div>
-<div class="ttc" id="a_mesh_8hpp_html_ac33ac88672b842617d017008a214b3f5"><div class="ttname"><a href="_mesh_8hpp.html#ac33ac88672b842617d017008a214b3f5">GenerateMeshImage</a></div><div class="ttdeci">Mesh GenerateMeshImage()</div><div class="ttdoc">Generates mesh from image parameters.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:56</div></div>
+<div class="ttc" id="a_mesh_8hpp_html_a203fd3b536365189548f7cb489c034c4"><div class="ttname"><a href="_mesh_8hpp.html#a203fd3b536365189548f7cb489c034c4">GenerateMeshSphere</a></div><div class="ttdeci">Mesh GenerateMeshSphere(float radius=1.0f, int sectorCount=36, int stackCount=18, bool smooth=true)</div><div class="ttdoc">Generates mesh from sphere parameters.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:95</div></div>
+<div class="ttc" id="a_mesh_8hpp_html_a74256b67fa09097a4640ecb26cf7af64"><div class="ttname"><a href="_mesh_8hpp.html#a74256b67fa09097a4640ecb26cf7af64">GenerateMesh</a></div><div class="ttdeci">Mesh GenerateMesh(const std::vector&lt; VertexNormalTexture &gt; &amp;vertices)</div><div class="ttdoc">Generates mesh from vertices list.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:101</div></div>
+<div class="ttc" id="a_mesh_8hpp_html_ac33ac88672b842617d017008a214b3f5"><div class="ttname"><a href="_mesh_8hpp.html#ac33ac88672b842617d017008a214b3f5">GenerateMeshImage</a></div><div class="ttdeci">Mesh GenerateMeshImage()</div><div class="ttdoc">Generates mesh from image parameters.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:89</div></div>
 <div class="ttc" id="a_mesh___base_8hpp_html"><div class="ttname"><a href="_mesh___base_8hpp.html">Mesh_Base.hpp</a></div><div class="ttdoc">Mesh_Base class.</div></div>
 <div class="ttc" id="a_mesh___custom_8hpp_html"><div class="ttname"><a href="_mesh___custom_8hpp.html">Mesh_Custom.hpp</a></div><div class="ttdoc">Mesh_Custom class.</div></div>
 <div class="ttc" id="a_mesh___image_8hpp_html"><div class="ttname"><a href="_mesh___image_8hpp.html">Mesh_Image.hpp</a></div><div class="ttdoc">Mesh of Image.</div></div>
 <div class="ttc" id="a_mesh___obj_8hpp_html"><div class="ttname"><a href="_mesh___obj_8hpp.html">Mesh_Obj.hpp</a></div><div class="ttdoc">Mesh created from Obj class.</div></div>
+<div class="ttc" id="a_mesh___simplification_8hpp_html"><div class="ttname"><a href="_mesh___simplification_8hpp.html">Mesh_Simplification.hpp</a></div><div class="ttdoc">Mesh Simplifier.</div></div>
 <div class="ttc" id="a_mesh___sphere_8hpp_html"><div class="ttname"><a href="_mesh___sphere_8hpp.html">Mesh_Sphere.hpp</a></div><div class="ttdoc">Mesh_Sphere class.</div></div>
-<div class="ttc" id="aclass_mesh___base_html"><div class="ttname"><a href="class_mesh___base.html">Mesh_Base</a></div><div class="ttdoc">Contains the real data of the mesh to be stored in a static database.</div><div class="ttdef"><b>Definition:</b> Mesh_Base.hpp:27</div></div>
-<div class="ttc" id="aclass_mesh_html"><div class="ttname"><a href="class_mesh.html">Mesh</a></div><div class="ttdoc">Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...</div><div class="ttdef"><b>Definition:</b> Mesh.hpp:31</div></div>
+<div class="ttc" id="a_mesh___subdivision_8hpp_html"><div class="ttname"><a href="_mesh___subdivision_8hpp.html">Mesh_Subdivision.hpp</a></div><div class="ttdoc">Mesh Subdivision module.</div></div>
+<div class="ttc" id="aclass_mesh___base_html"><div class="ttname"><a href="class_mesh___base.html">Mesh_Base</a></div><div class="ttdoc">Contains the real data of the mesh to be stored in a static database.</div><div class="ttdef"><b>Definition:</b> Mesh_Base.hpp:32</div></div>
+<div class="ttc" id="aclass_mesh_html"><div class="ttname"><a href="class_mesh.html">Mesh</a></div><div class="ttdoc">Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...</div><div class="ttdef"><b>Definition:</b> Mesh.hpp:37</div></div>
 <div class="ttc" id="aclass_mesh_html_a7b1572ec2569260bcec20eeffb441c20"><div class="ttname"><a href="class_mesh.html#a7b1572ec2569260bcec20eeffb441c20">Mesh::Mesh</a></div><div class="ttdeci">Mesh(const GLuint meshId)</div><div class="ttdoc">Constructor from Mesh ID.</div><div class="ttdef"><b>Definition:</b> Mesh.cpp:12</div></div>
 <div class="ttc" id="aclass_obj_html"><div class="ttname"><a href="class_obj.html">Obj</a></div><div class="ttdoc">Manages parsing and loading of .obj files.</div><div class="ttdef"><b>Definition:</b> Obj.hpp:26</div></div>
 </div><!-- fragment --></div><!-- contents -->
