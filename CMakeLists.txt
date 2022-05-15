@@ -5,6 +5,8 @@ cmake_minimum_required (VERSION 3.8)
 # Project Name
 project ("FinalProject")
 
+find_package(OpenMP)
+
 # C++ Standard Version
 set(CMAKE_CXX_STANDARD 20)
 
@@ -39,7 +41,7 @@ add_subdirectory("Documentation")
 
 # Assignment2 Executable
 file (GLOB ASSIGNMENT_SOURCES
-    *.cpp
+    main.cpp
     OGL_Implementation/*.cpp
     OGL_Implementation/DebugInfo/*.cpp
     OGL_Implementation/Mesh/*.cpp
@@ -80,17 +82,32 @@ file (GLOB ASSIGNMENT_HEADERS
     OGL_Implementation/Tools/*.hpp
 )
 
+file (GLOB RAYTRACER_SOURCES
+    main_raytracer.cpp
+    Raytracing_Implementation/*.cpp
+)
+
+file (GLOB RAYTRACER_HEADERS
+    Raytracing_Implementation/*.hpp
+)
+
 add_executable(FinalProject
     ${ASSIGNMENT_SOURCES}
     ${ASSIGNMENT_HEADERS}
 )
 
-# Linking libraries to Assignment2
-target_link_libraries(FinalProject opengl32 glad glfw glm ImGui SOIL freetype
+add_executable(RayTracer
+    ${RAYTRACER_SOURCES}
+    ${RAYTRACER_HEADERS}
 )
+
+# Linking libraries
+target_link_libraries(FinalProject opengl32 glad glfw glm ImGui SOIL freetype OpenMP::OpenMP_CXX)
+target_link_libraries(RayTracer opengl32 glad glfw glm ImGui SOIL freetype OpenMP::OpenMP_CXX)
 
 # Profiling
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/PROFILE")
+set_target_properties(RayTracer PROPERTIES LINK_FLAGS "/PROFILE")
 
 #--------------------------------------------------------------------
 # Hide the console window in visual studio projects - Release
@@ -101,6 +118,10 @@ endif()
 
 # Including root directory & libraries directories
 target_include_directories(FinalProject PUBLIC
+    ${PROJECT_SOURCE_DIR}
+    $<INSTALL_INTERFACE:include>
+)
+target_include_directories(RayTracer PUBLIC
     ${PROJECT_SOURCE_DIR}
     $<INSTALL_INTERFACE:include>
 )

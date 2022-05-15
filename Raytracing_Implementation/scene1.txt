@@ -1,0 +1,80 @@
+background
+    color= 0.1 0.1 0.1
+end
+
+camera
+    O= -2 2 0.5
+    N= 0.6 1 -0.6
+    shade_quality= 1
+    drefl_quality= 1
+    image_H= 760
+    image_W= 1280
+    lens_H= 0.6
+    lens_W= 1.0
+end
+
+light point
+    O= 3 3 3
+    color= 2 2 2
+end
+
+
+primitive sphere
+    O= 0.5 5.14 -1.8
+    R= 0.2
+    refr= 1
+    rindex= 1.7
+    absor= 0 0 1
+end
+
+
+primitive sphere
+    O= -0.5 4.2 -1.8
+    R= 0.1
+    color= 1 0 0
+    diff= 1
+end
+
+primitive sphere
+    O= 1.5 6.3 -1.6
+    R= 0.4
+    color= 0.5 0.5 1
+    spec= 0.2
+    refl= 0.8
+end
+
+primitive sphere
+    O= 0 6 -1.5
+    R= 0.5
+    color= 1 1 1
+    texture= Raytracing_Implementation/marble.bmp
+    De= 0 0 1
+    Dc= 0 1 0
+    diff= 0.45
+    spec= 0.25
+    refl= 0.3
+    drefl= 0.25
+    blur= exp
+end
+
+primitive plane
+    N= 0 0 1
+    R= -2
+    color= 1 1 1
+    diff= 0.3
+    refl= 0.7
+    drefl= 0.15
+    texture= Raytracing_Implementation/floor.bmp
+    Dx= 8 0 0
+    Dy= 0 8 0
+    blur= exp
+end
+
+primitive plane
+    N= 0 0 -1
+    R= -4
+    color= 0 0 1
+    diff= 1
+    Dx= 8 0 0
+    Dy= 0 8 0
+end

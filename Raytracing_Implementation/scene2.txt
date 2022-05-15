@@ -1,0 +1,128 @@
+# ============================================
+# Cornell Box Scene
+# Author: Yifei Li
+#
+#        ^ y
+#        |  left=1        right=99
+# -------.--/-------------/--> x
+#        - back=0
+#        |
+#        |
+#        |
+#        |
+#        |          ^
+#        |          @ camera=(50,-295.6,52)
+#        - front=-300
+#        |
+#
+# Height: [0, 81]
+#
+# ============================================
+
+# ================ background ================
+
+# blue sky
+background
+    top= 0.5 0.7 1.0
+    bottom= 1.0 1.0 1.0
+end
+
+# ================ camera ================
+
+camera
+    O= 50 -295.6 52
+    N= 0 1 -0.04
+    shade_quality= 1
+    drefl_quality= 1
+    image_H= 960
+    image_W= 1280
+    lens_H= 0.75
+    lens_W= 1.0
+end
+
+# ================ lights ================
+
+light point
+    O= 50 -81 65
+    color= 0.8 0.8 0.8
+end
+
+# ================ world ================
+
+# left wall
+primitive sphere
+    O= 100001 -81.6 40.8
+    R= 100000
+    color= 0.78 0.39 0.39
+    diff= 1
+end
+
+# right wall
+primitive sphere
+    O= -99901 -81.6 40.8
+    R= 100000
+    color= 0.45 0.39 0.86
+    diff= 1
+end
+
+# back wall
+primitive sphere
+    O= 50 -100000 40.8
+    R= 100000
+    color= 0.8 0.8 0.8
+    diff= 1
+end
+
+# front wall
+primitive sphere
+    O= 50 99700 40.8
+    R= 100000
+    color= .1 .1 .1
+    diff= 1
+end
+
+# ceil
+primitive sphere
+    O= 50 -81.6 -99919
+    R= 100000
+    color= 0.78 0.78 0.78
+    diff= 1
+end
+
+# floor
+primitive plane
+    N= 0 0 1
+    R= 0
+    color= 1 1 1
+    diff= 0.7
+    refl= 0.1
+    drefl= 0.15
+    texture= Raytracing_Implementation/floor.bmp
+    Dx= 99 0 0
+    Dy= 0 99 0
+    blur= exp
+end
+
+# ================ objects ================
+
+primitive sphere
+    O= 27 -47 16
+    R= 16
+    color= 1 1 1
+    texture= Raytracing_Implementation/marble.bmp
+    De= 0 0 1
+    Dc= 0 1 0
+    diff= 0.45
+    spec= 0.25
+    refl= 0.3
+    drefl= 0.25
+    blur= exp
+end
+
+primitive sphere
+    O= 79 -78 14
+    R= 14
+    color= 0.78 0.78 0.78
+    refr= 1
+    rindex= 1.7
+end
