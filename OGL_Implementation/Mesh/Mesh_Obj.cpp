@@ -53,23 +53,10 @@ void Mesh_Obj::bindFaces(const Obj & obj)
 
 	for (const auto & face : obj.faces)
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			int vid = face.v[i];
-			data.emplace_back(obj.verticesPos[vid].x);
-			data.emplace_back(obj.verticesPos[vid].y);
-			data.emplace_back(obj.verticesPos[vid].z);
-			int vnid = face.vn[i];
-			data.emplace_back(obj.verticesNormals[vnid].x);
-			data.emplace_back(obj.verticesNormals[vnid].y);
-			data.emplace_back(obj.verticesNormals[vnid].z);
-			if (hasTextCoords)
-			{
-				int vtid = face.vt[i];
-				data.emplace_back(obj.verticesTextureCoordinates[vtid].x);
-				data.emplace_back(obj.verticesTextureCoordinates[vtid].y);
-			}
-		}
+		if (face.v.size() == 3)
+			MakeTriangle(data, obj, face, hasTextCoords);
+		else if (face.v.size() == 4)
+			MakeQuad(data, obj, face, hasTextCoords);
 	}
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * data.size(), &data.front(), GL_STATIC_DRAW);
@@ -91,6 +78,48 @@ void Mesh_Obj::bindFaces(const Obj & obj)
 	glBindVertexArray(0);
 
 	__facesNVert = GLsizei(data.size() / (6 + (hasTextCoords ? 2 : 0)));
+}
+
+void Mesh_Obj::MakeTriangle(std::vector<GLfloat> & data, const Obj & obj, const Face & face, const bool hasTextCoords)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		int vid = face.v[i];
+		data.emplace_back(obj.verticesPos[vid].x);
+		data.emplace_back(obj.verticesPos[vid].y);
+		data.emplace_back(obj.verticesPos[vid].z);
+		int vnid = face.vn[i];
+		data.emplace_back(obj.verticesNormals[vnid].x);
+		data.emplace_back(obj.verticesNormals[vnid].y);
+		data.emplace_back(obj.verticesNormals[vnid].z);
+		if (hasTextCoords)
+		{
+			int vtid = face.vt[i];
+			data.emplace_back(obj.verticesTextureCoordinates[vtid].x);
+			data.emplace_back(obj.verticesTextureCoordinates[vtid].y);
+		}
+	}
+}
+
+void Mesh_Obj::MakeQuad(std::vector<GLfloat> & data, const Obj & obj, const Face & face, const bool hasTextCoords)
+{
+	Face face1(
+		{ face.v[0], face.v[1], face.v[2] },
+		{ },
+		{ face.vn[0], face.vn[1], face.vn[2] }
+	);
+	Face face2(
+		{ face.v[2], face.v[3], face.v[0] },
+		{ },
+		{ face.vn[2], face.vn[3], face.vn[0] }
+	);
+	if (hasTextCoords)
+	{
+		face1.vt = { face.vt[0], face.vt[1], face.vt[2] };
+		face2.vt = { face.vt[2], face.vt[3], face.vt[0] };
+	}
+	MakeTriangle(data, obj, face1, hasTextCoords);
+	MakeTriangle(data, obj, face2, hasTextCoords);
 }
 
 void Mesh_Obj::bindVertices(const Obj & obj)

@@ -53,7 +53,12 @@ int main()
 		LOG_PRINT(stderr, "Couldn't load texture '%s'\n", "resources/Textures/sun.jpg");
 		return EXIT_FAILURE;
 	}
-
+	Obj obj4;
+	if (!obj4.TryLoad(Constants::Paths::Models::Face::objFile))
+	{
+		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Face::objFile);
+		return EXIT_FAILURE;
+	}
 	Obj obj1;
 	if (!obj1.TryLoad(Constants::Paths::Models::Bunny::objFile))
 	{
@@ -72,16 +77,15 @@ int main()
 		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Icosahedron::objFile);
 		return EXIT_FAILURE;
 	}
-	obj1.GenerateNormals(false);
-	Mesh meshObjNotSmooth = GenerateMesh(obj1.verticesPos, obj1.verticesNormals, obj1.faces);
 	obj1.GenerateNormals(true);
 	Mesh meshObjSmooth = GenerateMesh(obj1.verticesPos, obj1.verticesNormals, obj1.faces);
 	obj2.GenerateNormals(true);
 	obj3.GenerateNormals(true);
 	Mesh mesh2 = GenerateMesh(obj2.verticesPos, obj2.verticesNormals, obj2.faces);
 	Mesh mesh3 = GenerateMesh(obj3.verticesPos, obj3.verticesNormals, obj3.faces);
+	Mesh mesh4 = GenerateMesh(obj4);
 
-	Entity entity1(meshObjNotSmooth,
+	Entity entity1(meshObjSmooth,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::faceShaderVertex));
@@ -93,18 +97,27 @@ int main()
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::faceShaderVertex));
+	Entity entity4(mesh4,
+		Rendering::Shaders(Constants::Paths::pointShaderVertex),
+		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
+		Rendering::Shaders(Constants::Paths::faceShaderVertex));
+	entity4.name = "HumanFace";
 	Material & entityMaterial = entity1.AddMaterial();
 	Material & entity2Material = entity2.AddMaterial();
 	Material & entity3Material = entity3.AddMaterial();
-	entity1.SetShaderAttribute("isNormalFlat", 1);
+	Material & entity4Material = entity4.AddMaterial();
+	entity1.SetShaderAttribute("isNormalFlat", 0);
 	entity2.SetShaderAttribute("isNormalFlat", 1);
 	entity3.SetShaderAttribute("isNormalFlat", 1);
-	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = glm::vec3(1.0f);
-	entityMaterial.specularColor = entity2Material.specularColor = entity3Material.specularColor = glm::vec3(0.0f);
+	entity4.SetShaderAttribute("isNormalFlat", 0);
+	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = entity4Material.diffuseColor = glm::vec3(1.0f);
+	entityMaterial.specularColor = entity2Material.specularColor = entity3Material.specularColor = entity4Material.specularColor = glm::vec3(0.0f);
 
 	entity1.scale = glm::vec3(10.0f);
 	entity1.pos = glm::vec3(-1.0f, 0.0f, -1.0f);
 	entity3.pos = glm::vec3(1.5f, 0.0f, 1.5f);
+	entity4.scale = glm::vec3(0.4f);
+	entity4.pos = glm::vec3(0.0f, 0.0f, -9.0f);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
@@ -158,6 +171,7 @@ int main()
 		gui.EditEntity(entity1);
 		gui.EditEntity(entity2);
 		gui.EditEntity(entity3);
+		gui.EditEntity(entity4);
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -274,6 +288,7 @@ int main()
 			entity1.quat.RotateY(30.0f * window->DeltaTime());
 			entity2.quat.RotateY(30.0f * window->DeltaTime());
 			entity3.quat.RotateY(30.0f * window->DeltaTime());
+			entity4.quat.RotateY(30.0f * window->DeltaTime());
 		}
 
 		Rendering::Refresh();
@@ -282,6 +297,7 @@ int main()
 		Rendering::DrawEntity(entity1);
 		Rendering::DrawEntity(entity2);
 		Rendering::DrawEntity(entity3);
+		Rendering::DrawEntity(entity4);
 		Rendering::DrawEntity(sun);
 
 		if (enableGui)

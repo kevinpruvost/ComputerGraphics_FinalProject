@@ -89,6 +89,10 @@ namespace Icosahedron
 {
 constexpr const char * objFile = "resources/Models/Icosahedron.obj";
 }; // !Constants::Paths::Models::Icosahedron
+namespace Face
+{
+constexpr const char * objFile = "resources/Models/HumanHead.obj";
+}; // !Constants::Paths::Models::Face
 }; // !Constants::Paths::Models
 }; // !Constants::Paths
 
