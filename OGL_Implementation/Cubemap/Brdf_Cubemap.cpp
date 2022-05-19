@@ -18,6 +18,8 @@
 // C++ includes
 #include <stdexcept>
 
+Brdf_Cubemap * s_cubemap = nullptr;
+
 Brdf_Cubemap::Brdf_Cubemap(const std::string & hdrTexturePath, const Shader & backgroundShader_)
     : shader{ backgroundShader_ }
 {
@@ -198,7 +200,9 @@ Brdf_Cubemap::Brdf_Cubemap(const std::string & hdrTexturePath, const Shader & ba
     glViewport(0, 0, 1024, 1024);
     brdfShader.Use();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDisable(GL_BLEND);
     RenderQuad();
+    glEnable(GL_BLEND);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -208,11 +212,15 @@ Brdf_Cubemap::Brdf_Cubemap(const std::string & hdrTexturePath, const Shader & ba
 
     // then before rendering, configure the viewport to the original framebuffer's screen dimensions
     glViewport(0, 0, Window::Get()->windowWidth(), Window::Get()->windowHeight());
+
+    if (!s_cubemap) s_cubemap = this;
 }
 
 Brdf_Cubemap::~Brdf_Cubemap()
 {
     glDeleteTextures(4, &cubemapTexture);
+
+    s_cubemap = nullptr;
 }
 
 static unsigned int cubeVAO = 0;

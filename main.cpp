@@ -101,27 +101,34 @@ int main()
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::faceShaderVertex));
-	Entity entity4(mesh4,
+	Entity humanHead(mesh4,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
-		Rendering::Shaders(Constants::Paths::faceShaderVertex));
-	entity4.name = "HumanFace";
+		Rendering::Shaders(Constants::Paths::pbrVertex));
+	humanHead.name = "HumanFace";
 	Material & entityMaterial = entity1.AddMaterial();
 	Material & entity2Material = entity2.AddMaterial();
 	Material & entity3Material = entity3.AddMaterial();
-	Material & entity4Material = entity4.AddMaterial();
 	entity1.SetShaderAttribute("isNormalFlat", 0);
 	entity2.SetShaderAttribute("isNormalFlat", 1);
 	entity3.SetShaderAttribute("isNormalFlat", 1);
-	entity4.SetShaderAttribute("isNormalFlat", 0);
-	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = entity4Material.diffuseColor = glm::vec3(1.0f);
-	entityMaterial.specularColor = entity2Material.specularColor = entity3Material.specularColor = entity4Material.specularColor = glm::vec3(0.0f);
+	humanHead.SetShaderAttribute("isNormalFlat", 0);
+	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = glm::vec3(1.0f);
+	entityMaterial.specularColor = entity2Material.specularColor = entity3Material.specularColor = glm::vec3(0.0f);
 
 	entity1.scale = glm::vec3(10.0f);
 	entity1.pos = glm::vec3(-1.0f, 0.0f, -1.0f);
 	entity3.pos = glm::vec3(1.5f, 0.0f, 1.5f);
-	entity4.scale = glm::vec3(0.4f);
-	entity4.pos = glm::vec3(0.0f, 0.0f, -9.0f);
+	humanHead.scale = glm::vec3(0.3f);
+	humanHead.pos = glm::vec3(0.0f, 0.0f, -9.0f);
+
+	humanHead.AddPbrMaterial(
+		Constants::Paths::Textures::HumanHead::albedo,
+		Constants::Paths::Textures::HumanHead::normal,
+		Constants::Paths::Textures::HumanHead::metallic,
+		Constants::Paths::Textures::HumanHead::roughness,
+		Constants::Paths::Textures::HumanHead::ao
+	);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
@@ -131,11 +138,26 @@ int main()
 	sun.ChangeDiffuse(glm::vec3(1.0f));
 	sun.ChangeAmbient(glm::vec3(1.0f));
 
+	Entity goldBall(sphereMesh,
+		Rendering::Shaders(Constants::Paths::pointShaderVertex),
+		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
+		Rendering::Shaders(Constants::Paths::pbrVertex));
+	goldBall.SetShaderAttribute("isNormalFlat", 0);
+	goldBall.AddPbrMaterial(
+		Constants::Paths::Textures::Gold::albedo,
+		Constants::Paths::Textures::Gold::normal,
+		Constants::Paths::Textures::Gold::metallic,
+		Constants::Paths::Textures::Gold::roughness,
+		Constants::Paths::Textures::Gold::ao
+	);
+	goldBall.scale = glm::vec3(2.5f);
+	goldBall.pos = glm::vec3(-7.0f, 1.5f, -7.0f);
+
 	Camera camera(window->windowWidth(), window->windowHeight(), -2.0f, 4.0f, 5.0f);
 	camera.MovementSpeed *= 1.0f;
 	mainCamera = &camera;
 
-	camera.LookAt(entity2.pos);
+	camera.LookAt(humanHead.pos);
 
 	bool cameraLock = false;
 	// GUI
@@ -175,7 +197,8 @@ int main()
 		gui.EditEntity(entity1);
 		gui.EditEntity(entity2);
 		gui.EditEntity(entity3);
-		gui.EditEntity(entity4);
+		gui.EditEntity(humanHead);
+		gui.EditEntity(goldBall);
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -292,7 +315,7 @@ int main()
 			entity1.quat.RotateY(30.0f * window->DeltaTime());
 			entity2.quat.RotateY(30.0f * window->DeltaTime());
 			entity3.quat.RotateY(30.0f * window->DeltaTime());
-			entity4.quat.RotateY(30.0f * window->DeltaTime());
+			humanHead.quat.RotateY(30.0f * window->DeltaTime());
 		}
 
 		Rendering::Refresh();
@@ -302,7 +325,8 @@ int main()
 		Rendering::DrawEntity(entity1);
 		Rendering::DrawEntity(entity2);
 		Rendering::DrawEntity(entity3);
-		Rendering::DrawEntity(entity4);
+		Rendering::DrawEntity(humanHead);
+		Rendering::DrawEntity(goldBall);
 		Rendering::DrawEntity(sun);
 
 		if (enableGui)

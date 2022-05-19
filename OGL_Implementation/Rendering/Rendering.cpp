@@ -144,6 +144,29 @@ void Rendering::DrawFaces(Entity & entity)
 	//glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(model));
 	shader.SetUniformMatrix4f("model", model);
 
+	if (entity.GetPbrMaterial() && s_cubemap)
+	{
+		shader.SetUniformInt("irradianceMap", 0);
+		shader.SetUniformInt("prefilterMap", 1);
+		shader.SetUniformInt("brdfLUT", 2);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, s_cubemap->irradianceMap);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, s_cubemap->prefilterMap);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, s_cubemap->brdfLUTTexture);
+	}
+	else if ((*entity.GetMesh())->HasTextureCoordinates() && entity.GetTexture().GetWidth() != 0)
+	{
+		shader.SetUniformInt("_texture", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, entity.GetTexture().GetTexture());
+	}
+	else
+	{
+		shader.SetUniformInt("useTexture", 0);
+	}
+
 	for (const auto & pair : entity.shaderAttributes)
 		pair.second->Render(pair.first, shader);
 
@@ -151,20 +174,6 @@ void Rendering::DrawFaces(Entity & entity)
 	{
 		auto & attribute = *pair.second;
 		attribute.Render(shader);
-	}
-
-	if ((*entity.GetMesh())->HasTextureCoordinates())
-	{
-		shader.SetUniformInt("_texture", 0);
-		glActiveTexture(GL_TEXTURE0);
-		if (entity.GetTexture().GetWidth() != 0)
-			glBindTexture(GL_TEXTURE_2D, entity.GetTexture().GetTexture());
-		else
-			glBindTexture(GL_TEXTURE_2D, 0);
-	}
-	else
-	{
-		shader.SetUniformInt("useTexture", 0);
 	}
 
 	glBindVertexArray(entity.GetMesh().facesVAO());
@@ -456,6 +465,8 @@ void Rendering::LoadShadersAndFonts()
 	Shader backgroundShader = GenerateShader(Constants::Paths::backgroundVertex, Constants::Paths::backgroundFrag);
 	backgroundShader.SetUniformInt("environmentMap", 0);
 
+	Shader pbrShader = GenerateShader(Constants::Paths::pbrVertex, Constants::Paths::pbrFrag);
+
 	shaders.insert({Constants::Paths::lightShaderVertex,     std::make_unique<Shader>(lightShader)});
 	shaders.insert({Constants::Paths::pointShaderVertex,     std::make_unique<Shader>(pointShader)});
 	shaders.insert({Constants::Paths::faceShaderVertex,      std::make_unique<Shader>(faceShader)});
@@ -469,6 +480,7 @@ void Rendering::LoadShadersAndFonts()
 	shaders.insert({Constants::Paths::bezierWireframeShader,    std::make_unique<Shader>(bezierWireframeShader) });
 	shaders.insert({Constants::Paths::axisDisplayerShaderVertex,    std::make_unique<Shader>(axisDisplayerShader) });
 	shaders.insert({Constants::Paths::backgroundVertex,    std::make_unique<Shader>(backgroundShader) });
+	shaders.insert({Constants::Paths::pbrVertex,    std::make_unique<Shader>(pbrShader) });
 
 	// Setting default shaders
 	SetDefaultPointShader(pointShader);
@@ -486,11 +498,13 @@ void Rendering::LoadShadersAndFonts()
 	bezierShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
 	bezierWireframeShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
 	backgroundShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
+	pbrShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
 
 	face2DShader.AddGlobalUbo(Constants::UBO::Ids::projection, Constants::UBO::Names::projection);
 	axisDisplayerShader.AddGlobalUbo(Constants::UBO::Ids::projection, Constants::UBO::Names::projection);
 
 	faceShader.AddGlobalUbo(Constants::UBO::Ids::lights, Constants::UBO::Names::lights);
+	pbrShader.AddGlobalUbo(Constants::UBO::Ids::lights, Constants::UBO::Names::lights);
 
 	text2DShader.AddGlobalUbo(Constants::UBO::Ids::projection, Constants::UBO::Names::projection);
 	text3DShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);

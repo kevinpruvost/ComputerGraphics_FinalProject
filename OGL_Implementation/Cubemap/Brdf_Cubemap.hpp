@@ -10,6 +10,7 @@
 // Project includes
 #include "OGL_Implementation\Shader\Shader.hpp"
 #include "OGL_Implementation\Texture\HDRTexture.hpp"
+#include "OGL_Implementation\EntityAttribute\EntityAttribute.hpp"
 
 class Brdf_Cubemap
 {
@@ -29,3 +30,5 @@ public:
     HDRTexture texture;
     Shader shader;
 };
+
+extern Brdf_Cubemap * s_cubemap;

@@ -116,7 +116,7 @@ void GUI::EditEntity(Entity & entity)
             ImGui::LabelText("Faces", "%d", entity.GetMesh().facesNVert() / 3);
             ImGui::TreePop();
         }
-        if (ImGui::TreeNodeEx("Material Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
+        if (entity.GetMaterial() && ImGui::TreeNodeEx("Material Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
         {
             ImGui::SliderFloat("Shininess", &entity.GetMaterial()->shininess, 0.0f, 1024.0f);
             ImGui::ColorEdit3("Diffuse", glm::value_ptr(entity.GetMaterial()->diffuseColor));

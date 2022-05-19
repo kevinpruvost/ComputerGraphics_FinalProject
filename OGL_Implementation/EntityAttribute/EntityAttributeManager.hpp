@@ -9,7 +9,7 @@
 
 // Project includes
 #include "Material.hpp"
-#include "OGL_Implementation\Texture\Texture.hpp"
+#include "Pbr_Material.hpp"
 
 /**
  * @brief Part of an entity that manages its attributes
@@ -25,20 +25,32 @@ public:
      * @return material
     */
     Material & AddMaterial();
-    Texture & AddTexture(const Texture & texture);
+    /**
+     * @brief Adds Default Material
+     * @return material
+    */
+    Pbr_Material & AddPbrMaterial(const char * albedoMap,
+        const char * normalMap,
+        const char * metallicMap,
+        const char * roughnessMap,
+        const char * aoMap);
 
     /**
      * @brief Returns material
      * @return material
     */
     Material * GetMaterial();
-    Texture * GetTexture();
+    /**
+     * @brief Returns material
+     * @return material
+    */
+    Pbr_Material * GetPbrMaterial();
 
 public:
     enum class EntityAttributeId
     {
-        EA_Material = 0,
-        EA_Texture  = 1
+        EA_Material     = 0,
+        EA_PbrMaterial  = 1
     };
 
     std::unordered_map<EntityAttributeId, std::unique_ptr<EntityAttribute>> attributes;

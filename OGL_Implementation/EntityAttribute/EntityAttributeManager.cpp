@@ -14,10 +14,10 @@ Material & EntityAttributeManager::AddMaterial()
     return *dynamic_cast<Material *>(attributes.at(EntityAttributeId::EA_Material).get());
 }
 
-Texture & EntityAttributeManager::AddTexture(const Texture & texture)
+Pbr_Material & EntityAttributeManager::AddPbrMaterial(const char * albedoMap, const char * normalMap, const char * metallicMap, const char * roughnessMap, const char * aoMap)
 {
-//    attributes.emplace(EntityAttributeId::EA_Texture, new Texture(texture));
-    return *dynamic_cast<Texture *>(attributes.at(EntityAttributeId::EA_Texture).get());
+    attributes[EntityAttributeId::EA_PbrMaterial] = std::unique_ptr<EntityAttribute>(new Pbr_Material(albedoMap, normalMap, metallicMap, roughnessMap, aoMap));
+    return *dynamic_cast<Pbr_Material *>(attributes.at(EntityAttributeId::EA_PbrMaterial).get());
 }
 
 Material * EntityAttributeManager::GetMaterial()
@@ -27,9 +27,9 @@ Material * EntityAttributeManager::GetMaterial()
     return nullptr;
 }
 
-Texture * EntityAttributeManager::GetTexture()
+Pbr_Material * EntityAttributeManager::GetPbrMaterial()
 {
-    if (attributes.contains(EntityAttributeId::EA_Texture))
-        return dynamic_cast<Texture *>(attributes.at(EntityAttributeId::EA_Material).get());
+    if (attributes.contains(EntityAttributeId::EA_PbrMaterial))
+        return dynamic_cast<Pbr_Material *>(attributes.at(EntityAttributeId::EA_PbrMaterial).get());
     return nullptr;
 }

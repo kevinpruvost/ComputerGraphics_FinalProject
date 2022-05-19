@@ -67,6 +67,9 @@ constexpr const char * prefilterFrag     = "resources/Shaders/PBR/prefilter.frag
 constexpr const char * brdfVertex = "resources/Shaders/PBR/brdf.vert.glsl";
 constexpr const char * brdfFrag   = "resources/Shaders/PBR/brdf.frag.glsl";
 
+constexpr const char * pbrVertex = "resources/Shaders/PBR/pbr.vert.glsl";
+constexpr const char * pbrFrag = "resources/Shaders/PBR/pbr.frag.glsl";
+
 // Planets
 constexpr const char * star = "resources/Textures/Star.bmp";
 // Snow
@@ -84,7 +87,23 @@ namespace Textures
 namespace Cubemap
 {
 constexpr const char * texture = "resources/Textures/cubemap.hdr";
-}
+}; // !Constants::Paths::Textures::Cubemap
+namespace HumanHead
+{
+constexpr const char * albedo    = "resources/Textures/HumanFace/diffuse_albedo.bmp";
+constexpr const char * roughness = "resources/Textures/HumanFace/specular_albedo.bmp";
+constexpr const char * normal    = "resources/Textures/HumanFace/specular_normal_tangent.bmp";
+constexpr const char * metallic  = "resources/Textures/HumanFace/metallic.bmp";
+constexpr const char * ao        = "resources/Textures/HumanFace/ao.bmp";
+}; // !Constants::Paths::Textures::HumanHead
+namespace Gold
+{
+constexpr const char * albedo    = "resources/Textures/Gold/albedo.png";
+constexpr const char * roughness = "resources/Textures/Gold/roughness.png";
+constexpr const char * normal    = "resources/Textures/Gold/normal.png";
+constexpr const char * metallic  = "resources/Textures/Gold/metallic.png";
+constexpr const char * ao        = "resources/Textures/Gold/ao.png";
+}; // !Constants::Paths::Textures::Gold
 }; // !Constants::Paths::Textures
 namespace Models
 {
