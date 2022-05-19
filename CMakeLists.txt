@@ -43,6 +43,8 @@ add_subdirectory("Documentation")
 file (GLOB ASSIGNMENT_SOURCES
     main.cpp
     OGL_Implementation/*.cpp
+    OGL_Implementation/Cubemap/*.cpp
+    OGL_Implementation/Texture/*.cpp
     OGL_Implementation/DebugInfo/*.cpp
     OGL_Implementation/Mesh/*.cpp
     OGL_Implementation/Mesh/Modules/*.cpp
@@ -62,6 +64,8 @@ file (GLOB ASSIGNMENT_SOURCES
 file (GLOB ASSIGNMENT_HEADERS
     *.hpp
     OGL_Implementation/*.hpp
+    OGL_Implementation/Cubemap/*.hpp
+    OGL_Implementation/Texture/*.hpp
     OGL_Implementation/DebugInfo/*.hpp
     OGL_Implementation/Mesh/*.inl
     OGL_Implementation/Mesh/*.hpp
@@ -88,7 +92,7 @@ add_executable(FinalProject
 )
 
 # Linking libraries
-target_link_libraries(FinalProject opengl32 glad glfw glm ImGui SOIL freetype OpenMP::OpenMP_CXX)
+target_link_libraries(FinalProject opengl32 glad glfw glm ImGui Stb_image freetype OpenMP::OpenMP_CXX)
 
 # Profiling
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/PROFILE")

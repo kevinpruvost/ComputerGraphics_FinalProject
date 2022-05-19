@@ -199,9 +199,8 @@ void Shader_Base::SetUniformMatrix4f(const GLchar * uniformName, const glm::mat4
 GLuint Shader_Base::GetUniformId(const GLchar * uniformName)
 {
 	if (__uniformIds.contains(uniformName))
-		return __uniformIds[uniformName];
-	auto pair = __uniformIds.emplace(uniformName, glGetUniformLocation(__program, uniformName));
-	return pair.second;
+		return __uniformIds.at(uniformName);
+	return __uniformIds[uniformName] = glGetUniformLocation(__program, uniformName);
 }
 
 GLenum Shader_Base::GetPrimitiveMode() const

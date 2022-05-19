@@ -10,7 +10,7 @@
 // Project includes
 #include "OGL_Implementation\Mesh\Mesh.hpp"
 #include "OGL_Implementation\Shader\Shader.hpp"
-#include "OGL_Implementation\EntityAttribute\Texture.hpp"
+#include "OGL_Implementation\Texture\Texture.hpp"
 
 /**
  * @brief Texture drawn in an orthogonal projection.

@@ -35,6 +35,8 @@
 
 #include "OGL_Implementation\DebugInfo\AxisDisplayer.hpp"
 
+#include "OGL_Implementation\Cubemap\Brdf_Cubemap.hpp"
+
 #include "Constants.hpp"
 
 #include <thread>
@@ -46,6 +48,8 @@ int main()
 		return EXIT_FAILURE;
 
 	Rendering::Init();
+
+	Brdf_Cubemap cubemap(Constants::Paths::Textures::Cubemap::texture, Rendering::Shaders(Constants::Paths::backgroundVertex));
 
 	Texture sunTexture;
 	if (!sunTexture.GenerateTexture("resources/Textures/sun.jpg"))
@@ -294,6 +298,7 @@ int main()
 		Rendering::Refresh();
 
 		// display mode & activate shader
+		Rendering::DrawBrdfCubemap(cubemap);
 		Rendering::DrawEntity(entity1);
 		Rendering::DrawEntity(entity2);
 		Rendering::DrawEntity(entity3);

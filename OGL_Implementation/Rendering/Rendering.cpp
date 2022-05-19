@@ -30,6 +30,8 @@ RenderingMode DisplayMode = RenderingMode::FacesMode;
 Rendering::Rendering()
 	: __textVAO{ 0 }
 	, __textVBO{ 0 }
+	, __cubeVAO{ 0 }
+	, __cubeVBO{ 0 }
 {
 	// Configure VAO/VBO for texture quads
 	glGenVertexArrays(1, &__textVAO);
@@ -41,16 +43,80 @@ Rendering::Rendering()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	constexpr const float vertices[] = {
+            // back face
+             1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+             1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+            -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
+            -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+             1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            // front face
+             1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+             1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+            -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            -1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
+             1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            // left face
+            -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
+            -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            -1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+            -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            // right face
+             1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
+             1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+             1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+             1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
+             1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+             1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            // bottom face
+             1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+             1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
+            -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+            -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+            -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+             1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+            // top face
+             1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
+             1.0f,  1.0f , 1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+            -1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f,  // bottom-left        
+            -1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+             1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+        };
+	glGenVertexArrays(1, &__cubeVAO);
+	glGenBuffers(1, &__cubeVBO);
+	// fill buffer
+	glBindBuffer(GL_ARRAY_BUFFER, __cubeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// link vertex attributes
+	glBindVertexArray(__cubeVAO);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 Rendering::~Rendering()
 {
 	glDeleteVertexArrays(1, &__textVAO);
 	glDeleteBuffers(1, &__textVBO);
+	glDeleteVertexArrays(1, &__cubeVAO);
+	glDeleteBuffers(1, &__cubeVBO);
 }
 
 GLuint Rendering::GetTextVAO() { return __textVAO; }
 GLuint Rendering::GetTextVBO() { return __textVBO; }
+GLuint Rendering::GetCubeVAO() { return __cubeVAO; }
+GLuint Rendering::GetCubeVBO() { return __cubeVBO; }
 
 void Rendering::Init()
 {
@@ -346,6 +412,15 @@ void Rendering::RotateFonts()
 	std::rotate(fonts.begin(), fonts.begin() + 1, fonts.end());
 }
 
+void Rendering::DrawBrdfCubemap(Brdf_Cubemap & cubemap)
+{
+	cubemap.shader.Use();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap.cubemapTexture);
+	RenderCube();
+}
+
 void Rendering::DrawParticleSystem(ParticleSystem_Base * particleSystem)
 {
 	ParticleSystemRendering::DrawParticleSystem(particleSystem);
@@ -378,6 +453,9 @@ void Rendering::LoadShadersAndFonts()
 
 	Shader axisDisplayerShader = GenerateShader(Constants::Paths::axisDisplayerShaderVertex, Constants::Paths::axisDisplayerShaderFrag);
 
+	Shader backgroundShader = GenerateShader(Constants::Paths::backgroundVertex, Constants::Paths::backgroundFrag);
+	backgroundShader.SetUniformInt("environmentMap", 0);
+
 	shaders.insert({Constants::Paths::lightShaderVertex,     std::make_unique<Shader>(lightShader)});
 	shaders.insert({Constants::Paths::pointShaderVertex,     std::make_unique<Shader>(pointShader)});
 	shaders.insert({Constants::Paths::faceShaderVertex,      std::make_unique<Shader>(faceShader)});
@@ -390,6 +468,7 @@ void Rendering::LoadShadersAndFonts()
 	shaders.insert({Constants::Paths::bezierShaderVertex,    std::make_unique<Shader>(bezierShader) });
 	shaders.insert({Constants::Paths::bezierWireframeShader,    std::make_unique<Shader>(bezierWireframeShader) });
 	shaders.insert({Constants::Paths::axisDisplayerShaderVertex,    std::make_unique<Shader>(axisDisplayerShader) });
+	shaders.insert({Constants::Paths::backgroundVertex,    std::make_unique<Shader>(backgroundShader) });
 
 	// Setting default shaders
 	SetDefaultPointShader(pointShader);
@@ -406,6 +485,7 @@ void Rendering::LoadShadersAndFonts()
 	snowShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
 	bezierShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
 	bezierWireframeShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
+	backgroundShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
 
 	face2DShader.AddGlobalUbo(Constants::UBO::Ids::projection, Constants::UBO::Names::projection);
 	axisDisplayerShader.AddGlobalUbo(Constants::UBO::Ids::projection, Constants::UBO::Names::projection);
@@ -414,6 +494,14 @@ void Rendering::LoadShadersAndFonts()
 
 	text2DShader.AddGlobalUbo(Constants::UBO::Ids::projection, Constants::UBO::Names::projection);
 	text3DShader.AddGlobalUbo(Constants::UBO::Ids::cameraProps, Constants::UBO::Names::cameraProps);
+}
+
+void Rendering::RenderCube()
+{
+	// render Cube
+	glBindVertexArray(s_Rendering->GetCubeVAO());
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
 }
 
 Shader & Rendering::Shaders(const std::string & str)

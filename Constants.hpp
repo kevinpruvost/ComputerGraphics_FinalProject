@@ -54,6 +54,19 @@ constexpr const char * bezierWireframeShaderTes    = "resources/Shaders/bezier.t
 
 constexpr const char * axisDisplayerShaderVertex = "resources/Shaders/axisdisplayer.vert.glsl";
 constexpr const char * axisDisplayerShaderFrag   = "resources/Shaders/axisdisplayer.frag.glsl";
+
+constexpr const char * backgroundVertex = "resources/Shaders/PBR/background.vert.glsl";
+constexpr const char * backgroundFrag   = "resources/Shaders/PBR/background.frag.glsl";
+
+constexpr const char * cubemapVertex = "resources/Shaders/PBR/cubemap.vert.glsl";
+
+constexpr const char * equiToCubemapFrag = "resources/Shaders/PBR/equirectangular_to_cubemap.frag.glsl";
+constexpr const char * irradianceFrag    = "resources/Shaders/PBR/irradiance_convolution.frag.glsl";
+constexpr const char * prefilterFrag     = "resources/Shaders/PBR/prefilter.frag.glsl";
+
+constexpr const char * brdfVertex = "resources/Shaders/PBR/brdf.vert.glsl";
+constexpr const char * brdfFrag   = "resources/Shaders/PBR/brdf.frag.glsl";
+
 // Planets
 constexpr const char * star = "resources/Textures/Star.bmp";
 // Snow
@@ -65,6 +78,14 @@ constexpr const char * ground1 = "resources/Textures/ground1.png";
 constexpr const char * arialFont = "resources/Fonts/arial.ttf";
 constexpr const char * starFont  = "resources/Fonts/star.ttf";
 constexpr const char * notesFont = "resources/Fonts/notes.ttf";
+
+namespace Textures
+{
+namespace Cubemap
+{
+constexpr const char * texture = "resources/Textures/cubemap.hdr";
+}
+}; // !Constants::Paths::Textures
 namespace Models
 {
 namespace Rat

@@ -9,7 +9,7 @@
 
 // Project includes
 #include "OGL_Implementation\DebugInfo\Log.hpp"
-#include <SOIL.h>
+#include <stb_image.h>
 
 // C++ includes
 #include <thread>
@@ -60,11 +60,12 @@ bool Window::Initialize(const char * windowName, const char * iconPath)
 	if (iconPath)
 	{
 		GLFWimage icon;
-		icon.pixels = SOIL_load_image(iconPath, &icon.width, &icon.height, nullptr, SOIL_LOAD_RGBA);
+		int numChannels;
+		icon.pixels = stbi_load(iconPath, &icon.width, &icon.height, &numChannels, 0);
 		if (icon.pixels)
 		{
 			glfwSetWindowIcon(window, 1, &icon);
-			SOIL_free_image_data(icon.pixels);
+			stbi_image_free(icon.pixels);
 		}
 	}
 
@@ -95,11 +96,15 @@ bool Window::Initialize(const char * windowName, const char * iconPath)
 
 	// Setup OpenGL options
 	glEnable(GL_DEPTH_TEST); // Depth
+	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_CULL_FACE); // Face Culling
 	glEnable(GL_BLEND); // Blending
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Blending options
 
 	glEnable(GL_MULTISAMPLE);
+
+	// enable seamless cubemap sampling for lower mip levels in the pre-filter map.
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	return true;
 }
 

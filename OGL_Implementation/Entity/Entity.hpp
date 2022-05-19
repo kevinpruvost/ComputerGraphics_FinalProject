@@ -12,7 +12,7 @@
 
 #include "OGL_Implementation\Mesh\Mesh.hpp"
 #include "OGL_Implementation\Shader\Shader.hpp"
-#include "OGL_Implementation\EntityAttribute\Texture.hpp"
+#include "OGL_Implementation\Texture\Texture.hpp"
 #include "OGL_Implementation\Quaternion.hpp"
 
 #include "OGL_Implementation\EntityAttribute\EntityAttributeManager.hpp"

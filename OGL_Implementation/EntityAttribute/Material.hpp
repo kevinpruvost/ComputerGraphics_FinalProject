@@ -7,7 +7,7 @@
  *********************************************************************/
 
 // Project includes
-#include "Texture.hpp"
+#include "OGL_Implementation\Texture\Texture.hpp"
 #include "EntityAttribute.hpp"
 
 /**

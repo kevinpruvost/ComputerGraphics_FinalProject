@@ -11,6 +11,7 @@
 #include "OGL_Implementation\Entity\Entity.hpp"
 #include "OGL_Implementation\Text\Text.hpp"
 #include "OGL_Implementation\Image\Image2D.hpp"
+#include "OGL_Implementation\Cubemap\Brdf_Cubemap.hpp"
 #include "LightRendering.hpp"
 #include "ParticleSystemRendering.hpp"
 #include "Constants.hpp"
@@ -26,9 +27,11 @@ public:
 public:
     GLuint GetTextVAO();
     GLuint GetTextVBO();
+    GLuint GetCubeVAO();
+    GLuint GetCubeVBO();
 
 private:
-    GLuint __textVAO, __textVBO;
+    GLuint __textVAO, __textVBO, __cubeVAO, __cubeVBO;
 
 public:
     /**
@@ -55,11 +58,15 @@ public:
 
     static void RotateFonts();
 
+    // Cubemaps
+    static void DrawBrdfCubemap(Brdf_Cubemap & cubemap);
+
     // ParticleSystem
     static void DrawParticleSystem(ParticleSystem_Base * particleSystem);
 
 private:
     static void LoadShadersAndFonts();
+    static void RenderCube();
 
 public:
     static Shader & Shaders(const std::string & str);

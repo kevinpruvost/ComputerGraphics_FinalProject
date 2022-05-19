@@ -91,5 +91,5 @@ private:
 	/**
 	 * @brief Contains uniform ids
 	*/
-	std::unordered_map<const GLchar *, GLuint> __uniformIds;
+	std::unordered_map<std::string, GLuint> __uniformIds;
 };

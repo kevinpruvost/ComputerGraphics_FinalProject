@@ -9,7 +9,7 @@
 
 // Project includes
 #include "Material.hpp"
-#include "Texture.hpp"
+#include "OGL_Implementation\Texture\Texture.hpp"
 
 /**
  * @brief Part of an entity that manages its attributes
