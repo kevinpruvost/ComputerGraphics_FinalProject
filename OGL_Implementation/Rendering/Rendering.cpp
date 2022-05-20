@@ -144,19 +144,7 @@ void Rendering::DrawFaces(Entity & entity)
 	//glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(model));
 	shader.SetUniformMatrix4f("model", model);
 
-	if (entity.GetPbrMaterial() && s_cubemap)
-	{
-		shader.SetUniformInt("irradianceMap", 0);
-		shader.SetUniformInt("prefilterMap", 1);
-		shader.SetUniformInt("brdfLUT", 2);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, s_cubemap->irradianceMap);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, s_cubemap->prefilterMap);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, s_cubemap->brdfLUTTexture);
-	}
-	else if ((*entity.GetMesh())->HasTextureCoordinates() && entity.GetTexture().GetWidth() != 0)
+	if ((*entity.GetMesh())->HasTextureCoordinates() && entity.GetTexture().GetWidth() != 0)
 	{
 		shader.SetUniformInt("_texture", 0);
 		glActiveTexture(GL_TEXTURE0);

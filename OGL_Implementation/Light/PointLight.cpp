@@ -59,6 +59,11 @@ glm::mat4 PointLight::GetModelMatrix(bool ignoreRotation, bool ignoreScale) cons
 
 PointLight_Shader PointLight::GetShaderInfo() const
 {
+    constexpr const float nearPlane = 0.1f;
+    constexpr const float farPlane = 10000.0f;
+    const glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
+    const glm::mat4 lightView = glm::lookAt(pos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    const glm::mat4 spaceMatrix = lightProjection * lightView;
     PointLight_Shader shaderInfo{
         pos,
         __constant,
@@ -66,7 +71,9 @@ PointLight_Shader PointLight::GetShaderInfo() const
         __linear,
         __diffuse,
         __quadratic,
-        __specular
+        __specular,
+        farPlane,
+        spaceMatrix
     };
     return shaderInfo;
 }

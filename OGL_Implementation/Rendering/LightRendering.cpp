@@ -9,11 +9,17 @@
 
 // Project includes
 #include "Constants.hpp"
+#include "OGL_Implementation\Window.hpp"
+
+// C++ includes
+#include <format>
 
 static std::unique_ptr<LightRendering> s_lightRendering;
+static const size_t shadowWidth = 1024, static const shadowHeight = 1024;
 
 LightRendering::LightRendering()
     : __uboLights{ 0 }
+    , __shadowMappingShader{ GenerateShader(Constants::Paths::shadowMappingVertex, Constants::Paths::shadowMappingFrag) }
 {
     // Allocating UBO ViewProj
     glGenBuffers(1, &__uboLights);
@@ -29,16 +35,52 @@ LightRendering::LightRendering()
     // Binds buffer to a specific binding point so that it'll be used at this exact place
     // by shaders
     glBindBufferRange(GL_UNIFORM_BUFFER, Constants::UBO::Ids::lights, __uboLights, 0, LightsSize);
+
+    ////////////////////////
+    // Binding shadow maps
+    ////////////////////////
+    glGenTextures(PointLight::maxPointLightsCount, shadowMaps.data());
+    glGenFramebuffers(PointLight::maxPointLightsCount, __depthMapFbo.data());
+    // create depth texture
+    for (int i = 0; i < PointLight::maxPointLightsCount; ++i)
+    {
+        glBindTexture(GL_TEXTURE_2D, shadowMaps[i]);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+        // attach depth texture as FBO's depth buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, __depthMapFbo[i]);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowMaps[i], 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 LightRendering::~LightRendering()
 {
     glDeleteBuffers(1, &__uboLights);
+    glDeleteTextures(PointLight::maxPointLightsCount, shadowMaps.data());
+    glDeleteFramebuffers(PointLight::maxPointLightsCount, __depthMapFbo.data());
 }
 
 GLuint LightRendering::GetUboLights()
 {
     return __uboLights;
+}
+
+Shader & LightRendering::GetShadowMappingShader()
+{
+    return __shadowMappingShader;
+}
+
+const std::array<GLuint, PointLight::maxPointLightsCount> & LightRendering::GetDepthMapFbo() const
+{
+    return __depthMapFbo;
 }
 
 void LightRendering::Init()
@@ -56,17 +98,58 @@ void LightRendering::RefreshUbo()
 {
     const int pointLightsCount = PointLight::GetPointLightsCount();
     const auto & pointLights = PointLight::GetAllPointLights();
+    const auto & entities = Entity::GetAllEntities();
 
     glBindBuffer(GL_UNIFORM_BUFFER, s_lightRendering->GetUboLights());
 
+    Shader & shader = s_lightRendering->GetShadowMappingShader();
+    const std::array<GLuint, PointLight::maxPointLightsCount> & framebuffers = s_lightRendering->GetDepthMapFbo();
+    shader.Use();
+
+    glViewport(0, 0, shadowWidth, shadowHeight);
     for (size_t i = 0; i < pointLightsCount; ++i)
     {
-//        if (pointLights[i]->HasChanged())
-//        {
         auto shaderInfo = pointLights[i]->GetShaderInfo();
         glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(PointLight_Shader), sizeof(PointLight_Shader), &shaderInfo);
-//        }
+
+        shader.SetUniformMatrix4f("lightSpaceMatrix", shaderInfo.pointLightViewMatrix);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffers[i]);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        for (int i = 0; i < entities.size(); ++i)
+        {
+            shader.SetUniformMatrix4f("model", entities[i]->GetModelMatrix());
+            glBindVertexArray(entities[i]->GetMesh().facesVAO());
+
+            GLenum primitiveMode = (*shader)->GetPrimitiveMode();
+            if (primitiveMode == GL_PATCHES) glPatchParameteri(GL_PATCH_VERTICES, 25);
+
+            switch (entities[i]->GetMesh().GetDrawMode())
+            {
+                case Mesh_Base::DrawMode::DrawElements:
+                    glDrawElements(primitiveMode, entities[i]->GetMesh().facesNVert(), GL_UNSIGNED_INT, 0);
+                    break;
+                case Mesh_Base::DrawMode::DrawArrays:
+                    glDrawArrays(primitiveMode, 0, entities[i]->GetMesh().facesNVert());
+                    break;
+            }
+        }
     }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, Window::Get()->windowWidth(), Window::Get()->windowHeight());
+
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(PointLight_Shader) * PointLight::maxPointLightsCount,
         sizeof(int), &pointLightsCount);
+
+    for (int i = 0; i < entities.size(); ++i)
+    {
+        if (entities[i]->GetPbrMaterial())
+        {
+            for (int j = 0; j < pointLightsCount; ++j)
+            {
+                entities[i]->GetFaceShader().Use();
+                entities[i]->GetFaceShader().SetUniformInt(std::format("shadowMapsPerPointLight[{}]", j).c_str(), s_lightRendering->shadowMaps[j]);
+            }
+        }
+    }
 }

@@ -93,7 +93,7 @@ void GUI::EditEntity(Entity & entity)
                 ImGui::PushStyleVar(ImGuiStyleVar_::ImGuiStyleVar_Alpha, 0.25f);
                 ImGui::PushItemFlag(ImGuiItemFlags_::ImGuiItemFlags_Disabled, true);
             }
-            if (ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
+            if (entity.GetShaderAttribute<int>("isNormalFlat") && ImGui::Checkbox("Flat Mesh", (bool *)entity.GetShaderAttribute<int>("isNormalFlat")))
             {
                 if (*entity.GetShaderAttribute<int>("isNormalFlat")) (*entity.GetMesh())->GenerateNormals(true);
                 else (*entity.GetMesh())->GenerateNormals(false);

@@ -32,7 +32,9 @@ struct PointLight // 64 bytes
     float quadratic; 
 
     vec3 specular;
-    float pad0; // Padding
+    float farPlane;
+
+    mat4 spaceMatrix;
 };
 
 struct DirectionLight

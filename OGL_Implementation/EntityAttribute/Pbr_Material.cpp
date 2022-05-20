@@ -7,6 +7,8 @@
  *********************************************************************/
 #include "Pbr_Material.hpp"
 
+#include "OGL_Implementation\Cubemap\Brdf_Cubemap.hpp"
+
 Pbr_Material::Pbr_Material(const char * albedoMap, const char * normalMap, const char * metallicMap, const char * roughnessMap, const char * aoMap)
 {
     if (!GenerateTexture(albedoMap, albedo) || !GenerateTexture(normalMap, normal) || !GenerateTexture(metallicMap, metallic) || !GenerateTexture(roughnessMap, roughness) || !GenerateTexture(aoMap, ao))
@@ -21,6 +23,19 @@ Pbr_Material::~Pbr_Material()
 
 void Pbr_Material::Render(Shader & shader)
 {
+    if (s_cubemap)
+    {
+        shader.SetUniformInt("irradianceMap", 0);
+        shader.SetUniformInt("prefilterMap", 1);
+        shader.SetUniformInt("brdfLUT", 2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, s_cubemap->irradianceMap);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, s_cubemap->prefilterMap);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, s_cubemap->brdfLUTTexture);
+    }
+
     shader.SetUniformInt("albedoMap", 3);
     shader.SetUniformInt("normalMap", 4);
     shader.SetUniformInt("metallicMap", 5);

@@ -17,15 +17,18 @@
 struct PointLight_Shader
 {
     glm::vec3 position; // 0
-    float constant; // 16
+    float constant; // 12
 
-    glm::vec3 ambient; // 32
-    float linear; // 20
+    glm::vec3 ambient; // 16
+    float linear; // 28
 
-    glm::vec3 diffuse; // 48
-    float quadratic; // 24
+    glm::vec3 diffuse; // 32
+    float quadratic; // 44
 
-    glm::vec3 alignas(16) specular; // 64
+    glm::vec3 specular; // 48
+    float farPlane; // 60
+
+    glm::mat4 pointLightViewMatrix; // 64
 };
 
 /**

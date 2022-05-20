@@ -88,6 +88,66 @@
  * If you've got any doubts, just contact us!
  */
 
+//-----------------------------------------------------------------------------
+// Porting Functions
+
+#if SSSS_HLSL_3 == 1
+#define SSSSTexture2D sampler2D
+#define SSSSSampleLevelZero(tex, coord) tex2Dlod(tex, float4(coord, 0.0, 0.0))
+#define SSSSSampleLevelZeroPoint(tex, coord) tex2Dlod(tex, float4(coord, 0.0, 0.0))
+#define SSSSSample(tex, coord) tex2D(tex, coord)
+#define SSSSSamplePoint(tex, coord) tex2D(tex, coord)
+#define SSSSSampleLevelZeroOffset(tex, coord, offset) tex2Dlod(tex, float4(coord + offset * SSSS_PIXEL_SIZE, 0.0, 0.0))
+#define SSSSSampleOffset(tex, coord, offset) tex2D(tex, coord + offset * SSSS_PIXEL_SIZE)
+#define SSSSLerp(a, b, t) lerp(a, b, t)
+#define SSSSSaturate(a) saturate(a)
+#define SSSSMad(a, b, c) mad(a, b, c)
+#define SSSSMul(v, m) mul(v, m)
+#define SSSS_FLATTEN [flatten]
+#define SSSS_BRANCH [branch]
+#define SSSS_UNROLL [unroll]
+#endif
+#if SSSS_HLSL_4 == 1
+SamplerState LinearSampler{ Filter = MIN_MAG_LINEAR_MIP_POINT; AddressU = Clamp; AddressV = Clamp; };
+SamplerState PointSampler{ Filter = MIN_MAG_MIP_POINT; AddressU = Clamp; AddressV = Clamp; };
+#define SSSSTexture2D Texture2D
+#define SSSSSampleLevelZero(tex, coord) tex.SampleLevel(LinearSampler, coord, 0)
+#define SSSSSampleLevelZeroPoint(tex, coord) tex.SampleLevel(PointSampler, coord, 0)
+#define SSSSSample(tex, coord) SSSSSampleLevelZero(tex, coord)
+#define SSSSSamplePoint(tex, coord) SSSSSampleLevelZeroPoint(tex, coord)
+#define SSSSSampleLevelZeroOffset(tex, coord, offset) tex.SampleLevel(LinearSampler, coord, 0, offset)
+#define SSSSSampleOffset(tex, coord, offset) SSSSSampleLevelZeroOffset(tex, coord, offset)
+#define SSSSLerp(a, b, t) lerp(a, b, t)
+#define SSSSSaturate(a) saturate(a)
+#define SSSSMad(a, b, c) mad(a, b, c)
+#define SSSSMul(v, m) mul(v, m)
+#define SSSS_FLATTEN [flatten]
+#define SSSS_BRANCH [branch]
+#define SSSS_UNROLL [unroll]
+#endif
+#if SSSS_GLSL_3 == 1
+#define SSSSTexture2D sampler2D
+#define SSSSSampleLevelZero(tex, coord) textureLod(tex, coord, 0.0)
+#define SSSSSampleLevelZeroPoint(tex, coord) textureLod(tex, coord, 0.0)
+#define SSSSSample(tex, coord) texture(tex, coord)
+#define SSSSSamplePoint(tex, coord) texture(tex, coord)
+#define SSSSSampleLevelZeroOffset(tex, coord, offset) textureLodOffset(tex, coord, 0.0, offset)
+#define SSSSSampleOffset(tex, coord, offset) texture(tex, coord, offset)
+#define SSSSLerp(a, b, t) mix(a, b, t)
+#define SSSSSaturate(a) clamp(a, 0.0, 1.0)
+#define SSSSMad(a, b, c) (a * b + c)
+#define SSSSMul(v, m) (m * v)
+#define SSSS_FLATTEN
+#define SSSS_BRANCH
+#define SSSS_UNROLL
+#define float2 vec2
+#define float3 vec3
+#define float4 vec4
+#define int2 ivec2
+#define int3 ivec3
+#define int4 ivec4
+#define float4x4 mat4x4
+#endif
 
 //-----------------------------------------------------------------------------
 // Configurable Defines
@@ -214,68 +274,6 @@ float4 kernel[] = {
 #error Quality must be one of {0,1,2}
 #endif
 #endif
-
-//-----------------------------------------------------------------------------
-// Porting Functions
-
-#if SSSS_HLSL_3 == 1
-#define SSSSTexture2D sampler2D
-#define SSSSSampleLevelZero(tex, coord) tex2Dlod(tex, float4(coord, 0.0, 0.0))
-#define SSSSSampleLevelZeroPoint(tex, coord) tex2Dlod(tex, float4(coord, 0.0, 0.0))
-#define SSSSSample(tex, coord) tex2D(tex, coord)
-#define SSSSSamplePoint(tex, coord) tex2D(tex, coord)
-#define SSSSSampleLevelZeroOffset(tex, coord, offset) tex2Dlod(tex, float4(coord + offset * SSSS_PIXEL_SIZE, 0.0, 0.0))
-#define SSSSSampleOffset(tex, coord, offset) tex2D(tex, coord + offset * SSSS_PIXEL_SIZE)
-#define SSSSLerp(a, b, t) lerp(a, b, t)
-#define SSSSSaturate(a) saturate(a)
-#define SSSSMad(a, b, c) mad(a, b, c)
-#define SSSSMul(v, m) mul(v, m)
-#define SSSS_FLATTEN [flatten]
-#define SSSS_BRANCH [branch]
-#define SSSS_UNROLL [unroll]
-#endif
-#if SSSS_HLSL_4 == 1
-SamplerState LinearSampler { Filter = MIN_MAG_LINEAR_MIP_POINT; AddressU = Clamp; AddressV = Clamp; };
-SamplerState PointSampler { Filter = MIN_MAG_MIP_POINT; AddressU = Clamp; AddressV = Clamp; };
-#define SSSSTexture2D Texture2D
-#define SSSSSampleLevelZero(tex, coord) tex.SampleLevel(LinearSampler, coord, 0)
-#define SSSSSampleLevelZeroPoint(tex, coord) tex.SampleLevel(PointSampler, coord, 0)
-#define SSSSSample(tex, coord) SSSSSampleLevelZero(tex, coord)
-#define SSSSSamplePoint(tex, coord) SSSSSampleLevelZeroPoint(tex, coord)
-#define SSSSSampleLevelZeroOffset(tex, coord, offset) tex.SampleLevel(LinearSampler, coord, 0, offset)
-#define SSSSSampleOffset(tex, coord, offset) SSSSSampleLevelZeroOffset(tex, coord, offset)
-#define SSSSLerp(a, b, t) lerp(a, b, t)
-#define SSSSSaturate(a) saturate(a)
-#define SSSSMad(a, b, c) mad(a, b, c)
-#define SSSSMul(v, m) mul(v, m)
-#define SSSS_FLATTEN [flatten]
-#define SSSS_BRANCH [branch]
-#define SSSS_UNROLL [unroll]
-#endif
-#if SSSS_GLSL_3 == 1
-#define SSSSTexture2D sampler2D
-#define SSSSSampleLevelZero(tex, coord) textureLod(tex, coord, 0.0)
-#define SSSSSampleLevelZeroPoint(tex, coord) textureLod(tex, coord, 0.0)
-#define SSSSSample(tex, coord) texture(tex, coord)
-#define SSSSSamplePoint(tex, coord) texture(tex, coord)
-#define SSSSSampleLevelZeroOffset(tex, coord, offset) textureLodOffset(tex, coord, 0.0, offset)
-#define SSSSSampleOffset(tex, coord, offset) texture(tex, coord, offset)
-#define SSSSLerp(a, b, t) mix(a, b, t)
-#define SSSSSaturate(a) clamp(a, 0.0, 1.0)
-#define SSSSMad(a, b, c) (a * b + c)
-#define SSSSMul(v, m) (m * v)
-#define SSSS_FLATTEN
-#define SSSS_BRANCH
-#define SSSS_UNROLL
-#define float2 vec2
-#define float3 vec3
-#define float4 vec4
-#define int2 ivec2
-#define int3 ivec3
-#define int4 ivec4
-#define float4x4 mat4x4
-#endif
-
 
 //-----------------------------------------------------------------------------
 // Separable SSS Transmittance Function

@@ -90,6 +90,8 @@ public:
     // AEntity abstract
     virtual glm::vec3 GetLocalPosition() const;
 
+    static const std::vector<Entity *> & GetAllEntities();
+
 public:
     /**
      * @brief Transformation Vector.

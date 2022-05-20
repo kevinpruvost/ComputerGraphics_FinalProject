@@ -1,4 +1,14 @@
-#version 330 core
+#version 460 core
+
+#ifndef SSSS_GLSL_3
+#define SSSS_GLSL_3 1
+#endif
+
+#include "SeparableSSS.h"
+
+uniform float sssWidth;
+uniform bool ssssEnabled;
+
 out vec4 FragColor;
 in vec2 TexCoords;
 in vec3 WorldPos;
@@ -16,6 +26,10 @@ uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
 uniform sampler2D brdfLUT;
 
+#define NR_POINT_LIGHTS 128
+
+uniform sampler2D shadowMapsPerPointLight[NR_POINT_LIGHTS];
+
 // lights
 struct PointLight // 64 bytes
 {
@@ -29,7 +43,9 @@ struct PointLight // 64 bytes
     float quadratic; 
 
     vec3 specular;
-    float pad0; // Padding
+    float farPlane;
+
+    mat4 spaceMatrix;
 };
 
 struct DirectionLight
@@ -56,8 +72,6 @@ struct SpotLight
     vec3 diffuse;
     vec3 specular;       
 };
-
-#define NR_POINT_LIGHTS 128
 
 layout (std140) uniform Lights
 {
@@ -197,7 +211,9 @@ void main()
 
         // add to outgoing radiance Lo
         Lo += (kD * albedo / PI + specular) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
-    }   
+//        if (ssssEnabled)
+//            Lo += radiance * SSSSTransmittance();
+    }
     
     // ambient lighting (we now use IBL as the ambient term)
     vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);

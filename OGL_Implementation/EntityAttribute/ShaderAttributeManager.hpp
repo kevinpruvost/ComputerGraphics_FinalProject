@@ -15,6 +15,7 @@ template<class T>
 concept ShaderAttributeTypable =
     std::is_same_v<T, float> 
  || std::is_same_v<T, int>
+ || std::is_same_v<T, bool>
  || std::is_same_v<T, glm::mat4>;
 
 template<class T>

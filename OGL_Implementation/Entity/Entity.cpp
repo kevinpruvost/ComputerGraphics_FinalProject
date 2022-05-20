@@ -15,6 +15,7 @@ static std::unique_ptr<Shader> defaultWireframeShader(nullptr);
 static std::unique_ptr<Shader> defaultFaceShader(nullptr);
 
 int nameGiver = 0;
+static std::vector<Entity *> entities;
 
 Entity::Entity(const Mesh & mesh,
     const Shader & pointShader,
@@ -33,6 +34,7 @@ Entity::Entity(const Mesh & mesh,
     , quat{ defaultEulerAngles }
     , name{ std::format("Entity{0}", nameGiver++)}
 {
+    entities.emplace_back(this);
 }
 
 Entity::Entity(const Mesh & mesh, const glm::vec3 & defaultPosition, const glm::vec3 & defaultEulerAngles, const glm::vec3 & defaultScale)
@@ -48,6 +50,7 @@ catch (const std::exception & e)
 
 Entity::~Entity()
 {
+    entities.erase(std::remove(entities.begin(), entities.end(), this), entities.end());
 }
 
 void Entity::SetPointShader(const Shader & shader)
@@ -126,6 +129,11 @@ glm::mat4 Entity::GetModelMatrix(bool ignoreRotation, bool ignoreScale) const
 glm::vec3 Entity::GetLocalPosition() const
 {
     return pos;
+}
+
+const std::vector<Entity *> & Entity::GetAllEntities()
+{
+    return entities;
 }
 
 void SetDefaultPointShader(const Shader & shader)

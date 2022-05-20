@@ -12,6 +12,7 @@
 
 // Project includes
 #include "OGL_Implementation\DebugInfo\Log.hpp"
+#include "Shadinclude.hpp"
 
 /**
  * @brief Program memory for Use() because it is a heavy process
@@ -94,22 +95,11 @@ bool Shader_Base::CompileShader(const GLchar * shaderPath, const GLenum shaderTy
 {
 	// 1. Retrieve the vertex/fragment source code from filePath
 	std::string code;
-	std::ifstream shaderFile;
-	// ensures ifstream objects can throw exceptions:
-	shaderFile.exceptions(std::ifstream::badbit);
 	try
 	{
-		// Open files
-		shaderFile.open(shaderPath);
-		std::stringstream shaderStream;
-		// Read file's buffer contents into streams
-		shaderStream << shaderFile.rdbuf();
-		// close file handlers
-		shaderFile.close();
-		// Convert stream into string
-		code = shaderStream.str();
+		code = ShadInclude::load(shaderPath);
 	} catch (std::ifstream::failure e) {
-		LOG_PRINT(stderr, "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ for %s\n", shaderPath);
+		LOG_PRINT(stderr, "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ for %s: Error code: %d\n", shaderPath, e.code().value());
 		return false;
 	}
 	const GLchar * shaderCode = code.c_str();
@@ -125,7 +115,7 @@ bool Shader_Base::CompileShader(const GLchar * shaderPath, const GLenum shaderTy
 	if (!success)
 	{
 		glGetShaderInfoLog(*shaderID, 512, NULL, infoLog);
-		LOG_PRINT(stderr, "ERROR::SHADER::COMPILATION_FAILED for %s\n", shaderPath);
+		LOG_PRINT(stderr, "ERROR::SHADER::COMPILATION_FAILED for %s:\n%s\n", shaderPath, infoLog);
 		return false;
 	}
 	return true;

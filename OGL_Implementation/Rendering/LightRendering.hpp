@@ -21,13 +21,20 @@ public:
     ~LightRendering();
 
     GLuint GetUboLights();
+    Shader & GetShadowMappingShader();
+    const std::array<GLuint, PointLight::maxPointLightsCount> & GetDepthMapFbo() const;
 
     static void Init();
     static const LightRendering & Get();
     static void RefreshUbo();
 
+public:
+    std::array<GLuint, PointLight::maxPointLightsCount> shadowMaps;
+
 private:
+    std::array<GLuint, PointLight::maxPointLightsCount> __depthMapFbo;
     GLuint __uboLights;
+    Shader __shadowMappingShader;
 };
 
 /**

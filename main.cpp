@@ -105,6 +105,14 @@ int main()
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::pbrVertex));
+	Entity plane(mesh2,
+		Rendering::Shaders(Constants::Paths::pointShaderVertex),
+		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
+		Rendering::Shaders(Constants::Paths::pbrVertex));
+	entity1.name = "Bunny";
+	entity2.name = "Cube";
+	entity3.name = "Icosahedron";
+	plane.name = "Ground";
 	humanHead.name = "HumanFace";
 	Material & entityMaterial = entity1.AddMaterial();
 	Material & entity2Material = entity2.AddMaterial();
@@ -113,9 +121,12 @@ int main()
 	entity2.SetShaderAttribute("isNormalFlat", 1);
 	entity3.SetShaderAttribute("isNormalFlat", 1);
 	humanHead.SetShaderAttribute("isNormalFlat", 0);
+	plane.SetShaderAttribute("isNormalFlat", 0);
 	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = glm::vec3(1.0f);
 	entityMaterial.specularColor = entity2Material.specularColor = entity3Material.specularColor = glm::vec3(0.0f);
 
+	plane.pos = glm::vec3(-4.0f, -6.0f, -6.0f );
+	plane.scale = glm::vec3(15.0f, 1.0f, 15.0f);
 	entity1.scale = glm::vec3(10.0f);
 	entity1.pos = glm::vec3(-1.0f, 0.0f, -1.0f);
 	entity3.pos = glm::vec3(1.5f, 0.0f, 1.5f);
@@ -129,6 +140,8 @@ int main()
 		Constants::Paths::Textures::HumanHead::roughness,
 		Constants::Paths::Textures::HumanHead::ao
 	);
+	humanHead.SetShaderAttribute("sssWidth", 0.5f);
+	humanHead.SetShaderAttribute("ssssEnabled", true);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
@@ -144,6 +157,13 @@ int main()
 		Rendering::Shaders(Constants::Paths::pbrVertex));
 	goldBall.SetShaderAttribute("isNormalFlat", 0);
 	goldBall.AddPbrMaterial(
+		Constants::Paths::Textures::Gold::albedo,
+		Constants::Paths::Textures::Gold::normal,
+		Constants::Paths::Textures::Gold::metallic,
+		Constants::Paths::Textures::Gold::roughness,
+		Constants::Paths::Textures::Gold::ao
+	);
+	plane.AddPbrMaterial(
 		Constants::Paths::Textures::Gold::albedo,
 		Constants::Paths::Textures::Gold::normal,
 		Constants::Paths::Textures::Gold::metallic,
@@ -181,6 +201,8 @@ int main()
 			ImGui::SliderInt("FPS cap", (int *)&window->fpsCap, 0, 60);
 			ImGui::SliderFloat("Time Multiplier", const_cast<float *>(&window->GetTimeMultiplier()), 0.0f, 5.0f);
 
+			ImGui::Checkbox("SSSS Enabled", humanHead.GetShaderAttribute<bool>("ssssEnabled"));
+			ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 1.0f);
 			int displayMode = DisplayMode;
 			bool verticesDisplay   = (displayMode) & RenderingMode::VerticesMode;
 			bool wireframesDisplay = (displayMode) & RenderingMode::WireframeMode;
@@ -197,6 +219,7 @@ int main()
 		gui.EditEntity(entity1);
 		gui.EditEntity(entity2);
 		gui.EditEntity(entity3);
+		gui.EditEntity(plane);
 		gui.EditEntity(humanHead);
 		gui.EditEntity(goldBall);
 
@@ -325,6 +348,7 @@ int main()
 		Rendering::DrawEntity(entity1);
 		Rendering::DrawEntity(entity2);
 		Rendering::DrawEntity(entity3);
+		Rendering::DrawEntity(plane);
 		Rendering::DrawEntity(humanHead);
 		Rendering::DrawEntity(goldBall);
 		Rendering::DrawEntity(sun);
