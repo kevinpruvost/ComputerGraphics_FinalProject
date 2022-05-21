@@ -127,6 +127,7 @@ SamplerState PointSampler{ Filter = MIN_MAG_MIP_POINT; AddressU = Clamp; Address
 #endif
 #if SSSS_GLSL_3 == 1
 #define SSSSTexture2D sampler2D
+#define SSSSTexture3D samplerCube
 #define SSSSSampleLevelZero(tex, coord) textureLod(tex, coord, 0.0)
 #define SSSSSampleLevelZeroPoint(tex, coord) textureLod(tex, coord, 0.0)
 #define SSSSSample(tex, coord) texture(tex, coord)
@@ -274,6 +275,92 @@ float4 kernel[] = {
 #error Quality must be one of {0,1,2}
 #endif
 #endif
+
+//-----------------------------------------------------------------------------
+// Separable SSS Transmittance Function
+
+float3 SSSSTransmittance(
+        /**
+         * This parameter allows to control the transmittance effect. Its range
+         * should be 0..1. Higher values translate to a stronger effect.
+         */
+    float translucency,
+
+    /**
+     * This parameter should be the same as the 'SSSSBlurPS' one. See below
+     * for more details.
+     */
+    float sssWidth,
+
+    /**
+     * Position in world space.
+     */
+    float3 worldPosition,
+
+    /**
+     * Normal in world space.
+     */
+    float3 worldNormal,
+
+    /**
+     * Light vector: lightWorldPosition - worldPosition.
+     */
+    float3 light,
+
+    /**
+     * Linear 0..1 shadow map.
+     */
+    SSSSTexture3D shadowMap,
+
+    /**
+     * Regular world to light space matrix.
+     */
+    float4x4 lightViewProjection,
+
+    /**
+     * Far plane distance used in the light projection matrix.
+     */
+    float lightFarPlane)
+{
+/**
+ * Calculate the scale of the effect.
+ */
+    float scale = 8.25 * (1.0 - translucency) / sssWidth;
+
+    /**
+     * First we shrink the position inwards the surface to avoid artifacts:
+     * (Note that this can be done once for all the lights)
+     */
+    float4 shrinkedPos = float4(worldPosition - 0.005 * worldNormal, 1.0);
+
+    /**
+     * Now we calculate the thickness from the light point of view:
+     */
+    float4 shadowPosition = SSSSMul(shrinkedPos, lightViewProjection);
+    float d1 = SSSSSample(shadowMap, shadowPosition.xyz / shadowPosition.w).r; // 'd1' has a range of 0..1
+//    float d2 = shadowPosition.z; // 'd2' has a range of 0..'lightFarPlane'
+//    d1 *= lightFarPlane; // So we scale 'd1' accordingly:
+    float d = scale * abs(d1);
+
+    /**
+     * Armed with the thickness, we can now calculate the color by means of the
+     * precalculated transmittance profile.
+     * (It can be precomputed into a texture, for maximum performance):
+     */
+    float dd = -d * d;
+    float3 profile = float3(0.233, 0.455, 0.649) * exp(dd / 0.0064) +
+        float3(0.1, 0.336, 0.344) * exp(dd / 0.0484) +
+        float3(0.118, 0.198, 0.0) * exp(dd / 0.187) +
+        float3(0.113, 0.007, 0.007) * exp(dd / 0.567) +
+        float3(0.358, 0.004, 0.0) * exp(dd / 1.99) +
+        float3(0.078, 0.0, 0.0) * exp(dd / 7.41);
+
+/**
+ * Using the profile, we finally approximate the transmitted lighting from
+ * the back of the object:
+ */
+    return profile * SSSSSaturate(0.3 + dot(light, -worldNormal));
+}
 
 //-----------------------------------------------------------------------------
 // Separable SSS Transmittance Function
