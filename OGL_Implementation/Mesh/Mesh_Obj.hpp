@@ -36,8 +36,8 @@ public:
 private:
     void bindFaces(const Obj & obj);
 
-    void MakeTriangle(std::vector<GLfloat> & data, const Obj & obj, const Face & face, const bool hasTextCoords);
-    void MakeQuad(std::vector<GLfloat> & data, const Obj & obj, const Face & face, const bool hasTextCoords);
+    void MakeTriangle(std::vector<GLfloat> & data, const Obj & obj, const Face & face);
+    void MakeQuad(std::vector<GLfloat> & data, const Obj & obj, const Face & face, const bool hasNormals, const bool hasTextCoords);
 
     void bindVertices(const Obj & obj);
 };

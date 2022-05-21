@@ -99,6 +99,14 @@ constexpr const char * normal    = "resources/Textures/HumanFace/specular_normal
 constexpr const char * metallic  = "resources/Textures/HumanFace/metallic.bmp";
 constexpr const char * ao        = "resources/Textures/HumanFace/ao.bmp";
 }; // !Constants::Paths::Textures::HumanHead
+namespace HumanHead2
+{
+constexpr const char * albedo    = "resources/Textures/HumanFace2/diffuse_albedo.jpg";
+constexpr const char * roughness = "resources/Textures/HumanFace2/roughness.jpg";
+constexpr const char * normal    = "resources/Textures/HumanFace2/specular_normal_tangent.jpg";
+constexpr const char * metallic  = "resources/Textures/HumanFace2/metallic.bmp";
+constexpr const char * ao        = "resources/Textures/HumanFace2/ao.bmp";
+}; // !Constants::Paths::Textures::HumanHead2
 namespace Gold
 {
 constexpr const char * albedo    = "resources/Textures/Gold/albedo.png";
@@ -136,6 +144,10 @@ namespace Face
 {
 constexpr const char * objFile = "resources/Models/HumanHead.obj";
 }; // !Constants::Paths::Models::Face
+namespace Face2
+{
+constexpr const char * objFile = "resources/Models/HumanHead2.obj";
+}; // !Constants::Paths::Models::Face2
 }; // !Constants::Paths::Models
 }; // !Constants::Paths
 

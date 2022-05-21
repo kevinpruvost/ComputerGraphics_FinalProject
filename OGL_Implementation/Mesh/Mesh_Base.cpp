@@ -104,7 +104,7 @@ bool Mesh_Base::HasNormals() const
 	return __hasNormals;
 }
 
-void Mesh_Base::GenerateNormals(bool smooth)
+void Mesh_Base::GenerateNormals(bool smooth, bool loading)
 {
 	__vN.clear();
 	__vN.resize(__v.size(), glm::vec3(0.0f));
@@ -129,7 +129,7 @@ void Mesh_Base::GenerateNormals(bool smooth)
 			__vN[face.vn[2]] = faceNormal;
 		}
 	}
-	LoadFaces(GenerateAssembledVertices(true, false));
+	if (loading) LoadFaces(GenerateAssembledVertices(true, !__vT.empty()));
 }
 
 void Mesh_Base::SetGeometry(const std::vector<Face> & faces, const std::vector<VertexPos> & v, const std::vector<VertexNormal> & vN, const std::vector<VertexTextureCoordinates> & vT)

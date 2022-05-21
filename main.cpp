@@ -81,6 +81,12 @@ int main()
 		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Icosahedron::objFile);
 		return EXIT_FAILURE;
 	}
+	Obj objhumanface2;
+	if (!objhumanface2.TryLoad(Constants::Paths::Models::Face2::objFile))
+	{
+		LOG_PRINT(stderr, "Couldn't load obj '%s'\n", Constants::Paths::Models::Face2::objFile);
+		return EXIT_FAILURE;
+	}
 	obj1.GenerateNormals(true);
 	Mesh meshObjSmooth = GenerateMesh(obj1.verticesPos, obj1.verticesNormals, obj1.faces);
 	obj2.GenerateNormals(true);
@@ -141,8 +147,8 @@ int main()
 		Constants::Paths::Textures::HumanHead::roughness,
 		Constants::Paths::Textures::HumanHead::ao
 	);
-	humanHead.SetShaderAttribute("translucency", 0.5f);
-	humanHead.SetShaderAttribute("sssWidth", 0.01f);
+	humanHead.SetShaderAttribute("translucency", 0.85f);
+	humanHead.SetShaderAttribute("sssWidth", 85.0f);
 	humanHead.SetShaderAttribute("ssssEnabled", 0);
 
 	Mesh sphereMesh = GenerateMeshSphere();
@@ -173,13 +179,33 @@ int main()
 		Constants::Paths::Textures::Gold::ao
 	);
 	goldBall.scale = glm::vec3(2.5f);
-	goldBall.pos = glm::vec3(-7.0f, 1.5f, -7.0f);
+	goldBall.pos = glm::vec3(-9.0f, 1.5f, -1.0f);
 
 	Camera camera(window->windowWidth(), window->windowHeight(), -2.0f, 4.0f, 5.0f);
 	camera.MovementSpeed *= 1.0f;
 	mainCamera = &camera;
 
 	camera.LookAt(humanHead.pos);
+
+	Mesh meshface2 = GenerateMesh(objhumanface2);
+	Entity humanHead2(meshface2,
+		Rendering::Shaders(Constants::Paths::pointShaderVertex),
+		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
+		Rendering::Shaders(Constants::Paths::pbrVertex));
+	humanHead2.name = "HumanFace2";
+	humanHead2.SetShaderAttribute("isNormalFlat", 0);
+	humanHead2.scale = glm::vec3(12.0f);
+	humanHead2.pos = glm::vec3(-6.0f, 3.0f, -8.0f);
+	humanHead2.AddPbrMaterial(
+		Constants::Paths::Textures::HumanHead2::albedo,
+		Constants::Paths::Textures::HumanHead2::normal,
+		Constants::Paths::Textures::HumanHead2::metallic,
+		Constants::Paths::Textures::HumanHead2::roughness,
+		Constants::Paths::Textures::HumanHead2::ao
+	);
+	humanHead2.SetShaderAttribute("translucency", 0.85f);
+	humanHead2.SetShaderAttribute("sssWidth", 85.0f);
+	humanHead2.SetShaderAttribute("ssssEnabled", 0);
 
 	bool cameraLock = false;
 	// GUI
@@ -203,9 +229,18 @@ int main()
 			ImGui::SliderInt("FPS cap", (int *)&window->fpsCap, 0, 60);
 			ImGui::SliderFloat("Time Multiplier", const_cast<float *>(&window->GetTimeMultiplier()), 0.0f, 5.0f);
 
-			ImGui::Checkbox("SSSS Enabled", (bool *)humanHead.GetShaderAttribute<int>("ssssEnabled"));
-			ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 100.025f);
-			ImGui::SliderFloat("Translucency", humanHead.GetShaderAttribute<float>("translucency"), 0.0f, 1.0f);
+			if (ImGui::Checkbox("SSSS Enabled", (bool *)humanHead.GetShaderAttribute<int>("ssssEnabled")))
+			{
+				*humanHead2.GetShaderAttribute<int>("ssssEnabled") = *humanHead.GetShaderAttribute<int>("ssssEnabled");
+			}
+			if (ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 100.025f))
+			{
+				*humanHead2.GetShaderAttribute<float>("sssWidth") = *humanHead.GetShaderAttribute<float>("sssWidth");
+			}
+			if (ImGui::SliderFloat("Translucency", humanHead.GetShaderAttribute<float>("translucency"), 0.0f, 1.0f))
+			{
+				*humanHead2.GetShaderAttribute<float>("translucency") = *humanHead.GetShaderAttribute<float>("translucency");
+			}
 			int displayMode = DisplayMode;
 			bool verticesDisplay   = (displayMode) & RenderingMode::VerticesMode;
 			bool wireframesDisplay = (displayMode) & RenderingMode::WireframeMode;
@@ -224,6 +259,7 @@ int main()
 		gui.EditEntity(entity3);
 		gui.EditEntity(plane);
 		gui.EditEntity(humanHead);
+		gui.EditEntity(humanHead2);
 		gui.EditEntity(goldBall);
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
@@ -235,7 +271,7 @@ int main()
 
 			if (ImGui::SliderFloat("Ambient", &sun.__ambient.x, 0.0f, 1.0f))
 				sun.__ambient.y = sun.__ambient.z = sun.__ambient.x;
-			if (ImGui::SliderFloat("Diffuse", &sun.__diffuse.x, 0.0f, 5.0f))
+			if (ImGui::SliderFloat("Diffuse", &sun.__diffuse.x, 0.0f, 100.0f))
 				sun.__diffuse.y = sun.__diffuse.z = sun.__diffuse.x;
 			if (ImGui::SliderFloat("Specular", &sun.__specular.x, 0.0f, 1.0f))
 				sun.__specular.y = sun.__specular.z = sun.__specular.x;
@@ -354,6 +390,7 @@ int main()
 		Rendering::DrawEntity(entity3);
 		Rendering::DrawEntity(plane);
 		Rendering::DrawEntity(humanHead);
+		Rendering::DrawEntity(humanHead2);
 		Rendering::DrawEntity(goldBall);
 		Rendering::DrawEntity(sun);
 

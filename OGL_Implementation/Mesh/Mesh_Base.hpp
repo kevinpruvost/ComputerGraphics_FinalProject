@@ -67,7 +67,7 @@ public:
     bool HasTextureCoordinates() const;
     bool HasNormals() const;
 
-    void GenerateNormals(bool smooth);
+    void GenerateNormals(bool smooth, bool loading = true);
     void SetGeometry(const std::vector<Face> & faces, const std::vector<VertexPos> & v, const std::vector<VertexNormal> & vN = {}, const std::vector<VertexTextureCoordinates> & vT = {});
     void UpdateVerticesToApi();
 
@@ -77,11 +77,6 @@ protected:
     std::vector<VertexNormalTexture> GenerateAssembledVertices(bool isNormal, bool isTexture) const;
 
 protected:
-    GLuint __verticesVAO, __facesVAO;
-    GLuint __verticesVBO, __facesVBO;
-    GLuint __verticesNVert, __facesNVert;
-    bool __hasTextureCoordinates, __hasNormals;
-
     union
     {
         std::vector<VertexNormalTexture> __vertices;
@@ -93,6 +88,11 @@ protected:
             std::vector<Face> __faces;
         };
     };
+
+    GLuint __verticesVAO, __facesVAO;
+    GLuint __verticesVBO, __facesVBO;
+    GLuint __verticesNVert, __facesNVert;
+    bool __hasTextureCoordinates, __hasNormals;
 };
 
 #include "Mesh_Base.inl"
