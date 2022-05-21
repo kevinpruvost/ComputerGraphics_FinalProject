@@ -8,6 +8,7 @@
 #include "Pbr_Material.hpp"
 
 #include "OGL_Implementation\Cubemap\Brdf_Cubemap.hpp"
+#include "OGL_Implementation\Rendering\LightRendering.hpp"
 
 Pbr_Material::Pbr_Material(const char * albedoMap, const char * normalMap, const char * metallicMap, const char * roughnessMap, const char * aoMap)
 {
@@ -52,4 +53,14 @@ void Pbr_Material::Render(Shader & shader)
     glBindTexture(GL_TEXTURE_2D, roughness.GetTexture());
     glActiveTexture(GL_TEXTURE7);
     glBindTexture(GL_TEXTURE_2D, ao.GetTexture());
+
+    const auto shadowMaps = LightRendering::Get().shadowMaps;
+    std::vector<int> values(128, 8);
+    for (int i = 0; i < PointLight::GetPointLightsCount(); ++i)
+    {
+        values[i] = 8 + i;
+        glActiveTexture(GL_TEXTURE8 + i);
+        glBindTexture(GL_TEXTURE_2D, shadowMaps[i]);
+    }
+    shader.SetUniformInt("shadowMapsPerPointLight", values);
 }

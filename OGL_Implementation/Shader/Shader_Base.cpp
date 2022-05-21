@@ -146,6 +146,11 @@ void Shader_Base::SetUniformInt(const GLchar * uniformName, const GLint nb)
 	glUniform1i(GetUniformId(uniformName), nb);
 }
 
+void Shader_Base::SetUniformInt(const GLchar * uniformName, const std::vector<GLint> & nb)
+{
+	glUniform1iv(GetUniformId(uniformName), nb.size(), nb.data());
+}
+
 void Shader_Base::SetUniformFloat(const GLchar * uniformName, const GLfloat nb)
 {
 	glUniform1f(GetUniformId(uniformName), nb);

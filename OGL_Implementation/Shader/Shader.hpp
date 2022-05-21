@@ -40,6 +40,7 @@ public:
     GLuint GetShaderDatabaseID() const;
 
     void SetUniformInt(const GLchar * uniformName, const GLint nb);
+    void SetUniformInt(const GLchar * uniformName, const std::vector<GLint> & nb);
 
     void SetUniformFloat(const GLchar * uniformName, const GLfloat nb);
     void SetUniformFloat(const GLchar * uniformName, const glm::vec2 & nbs);

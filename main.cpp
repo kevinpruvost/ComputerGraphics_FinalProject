@@ -88,6 +88,7 @@ int main()
 	Mesh mesh2 = GenerateMesh(obj2.verticesPos, obj2.verticesNormals, obj2.faces);
 	Mesh mesh3 = GenerateMesh(obj3.verticesPos, obj3.verticesNormals, obj3.faces);
 	Mesh mesh4 = GenerateMesh(obj4);
+	Mesh meshCube = GenerateMesh(obj2);
 
 	Entity entity1(meshObjSmooth,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
@@ -105,7 +106,7 @@ int main()
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::pbrVertex));
-	Entity plane(mesh2,
+	Entity plane(meshCube,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
 		Rendering::Shaders(Constants::Paths::wireframeShaderVertex),
 		Rendering::Shaders(Constants::Paths::pbrVertex));
@@ -140,15 +141,16 @@ int main()
 		Constants::Paths::Textures::HumanHead::roughness,
 		Constants::Paths::Textures::HumanHead::ao
 	);
-	humanHead.SetShaderAttribute("sssWidth", 0.5f);
-	humanHead.SetShaderAttribute("ssssEnabled", true);
+	humanHead.SetShaderAttribute("translucency", 0.5f);
+	humanHead.SetShaderAttribute("sssWidth", 0.01f);
+	humanHead.SetShaderAttribute("ssssEnabled", 0);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
 	sun.SetTexture(sunTexture);
-	sun.pos = { 2.0f, 3.0f, -2.0f };
+	sun.pos = { -3.1f, 1.46f, -11.8f };
 	sun.ChangeSpecular(glm::vec3(1.0f));
-	sun.ChangeDiffuse(glm::vec3(1.0f));
+	sun.ChangeDiffuse(glm::vec3(5.0f));
 	sun.ChangeAmbient(glm::vec3(1.0f));
 
 	Entity goldBall(sphereMesh,
@@ -201,8 +203,9 @@ int main()
 			ImGui::SliderInt("FPS cap", (int *)&window->fpsCap, 0, 60);
 			ImGui::SliderFloat("Time Multiplier", const_cast<float *>(&window->GetTimeMultiplier()), 0.0f, 5.0f);
 
-			ImGui::Checkbox("SSSS Enabled", humanHead.GetShaderAttribute<bool>("ssssEnabled"));
-			ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 1.0f);
+			ImGui::Checkbox("SSSS Enabled", (bool *)humanHead.GetShaderAttribute<int>("ssssEnabled"));
+			ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 100.025f);
+			ImGui::SliderFloat("Translucency", humanHead.GetShaderAttribute<float>("translucency"), 0.0f, 1.0f);
 			int displayMode = DisplayMode;
 			bool verticesDisplay   = (displayMode) & RenderingMode::VerticesMode;
 			bool wireframesDisplay = (displayMode) & RenderingMode::WireframeMode;
@@ -225,13 +228,14 @@ int main()
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
+			ImGui::DragFloat3("Position", glm::value_ptr(sun.pos));
 			ImGui::SliderFloat("Constant", &sun.__constant, 0.0f, 1.0f);
 			ImGui::SliderFloat("Linear", &sun.__linear, 0.01f, 1.0f, "%.8f");
 			ImGui::SliderFloat("Quadratic", &sun.__quadratic, 0.001f, 1.0f, "%.10f");
 
 			if (ImGui::SliderFloat("Ambient", &sun.__ambient.x, 0.0f, 1.0f))
 				sun.__ambient.y = sun.__ambient.z = sun.__ambient.x;
-			if (ImGui::SliderFloat("Diffuse", &sun.__diffuse.x, 0.0f, 1.0f))
+			if (ImGui::SliderFloat("Diffuse", &sun.__diffuse.x, 0.0f, 5.0f))
 				sun.__diffuse.y = sun.__diffuse.z = sun.__diffuse.x;
 			if (ImGui::SliderFloat("Specular", &sun.__specular.x, 0.0f, 1.0f))
 				sun.__specular.y = sun.__specular.z = sun.__specular.x;

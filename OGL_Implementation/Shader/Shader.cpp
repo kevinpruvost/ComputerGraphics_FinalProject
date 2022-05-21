@@ -39,6 +39,11 @@ void Shader::SetUniformInt(const GLchar * uniformName, const GLint nb)
     shaderDB[__shaderId]->SetUniformInt(uniformName, nb);
 }
 
+void Shader::SetUniformInt(const GLchar * uniformName, const std::vector<GLint> & nb)
+{
+    shaderDB[__shaderId]->SetUniformInt(uniformName, nb);
+}
+
 Shader GenerateShader(const GLchar * vertexPath, const GLchar * fragmentPath)
 {
     shaderDB.emplace_back(new Shader_Base(vertexPath, fragmentPath));

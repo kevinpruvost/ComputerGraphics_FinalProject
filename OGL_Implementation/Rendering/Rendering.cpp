@@ -156,7 +156,9 @@ void Rendering::DrawFaces(Entity & entity)
 	}
 
 	for (const auto & pair : entity.shaderAttributes)
+	{
 		pair.second->Render(pair.first, shader);
+	}
 
 	for (const auto & pair : entity.attributes)
 	{
