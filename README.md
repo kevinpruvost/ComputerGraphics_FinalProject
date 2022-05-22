@@ -4,6 +4,26 @@
   <img src="https://github.com/kevinpruvost/OpenImages/blob/miscellaneous/images/1200px-Tsinghua_University_Logo.svg.png" width=250/><br/><br/>
 </p>
 
+Table of contents
+=================
+
+<!--ts-->
+   * [Introduction](#introduction)
+   * [Demonstration](#demonstration)
+      * [Mesh Subdivision/Simplification](#mesh-simplification-and-subdivision-demo)
+      * [Human Skin Rendering](#human-skin-rendering-demo)
+   * [Compilation](#compilation)
+   * [Research](#research)
+      * [Mesh Subdivision/Simplification](#mesh-simplification-and-subdivision)
+      * [Human Skin Rendering](#human-skin-rendering)
+   * [Content](#content)
+   * [How to use it](#how-to-use-it)
+   * [Controls](#controls)
+   * [Additional Interactions](#additional-interactions)
+   * [Code Architecture](#code-architecture)
+      * [Documentation](#documentation)
+<!--te-->
+
 # Introduction
 
 For this assignment, the main theme was `Illumination Effect`.
@@ -22,11 +42,11 @@ Depending on the different calculation ways for normals ("vertex" norma
 
 # Demonstration
 
-## Mesh Subdivision/Simplification
+## Mesh Simplification and Subdivision Demo
 
 [![Demo](embed.png)](https://youtu.be/ZxSr5YX9_Ec)
 
-## Human Skin Rendering
+## Human Skin Rendering Demo
 
 [![Demo](embed_2.png)](https://youtu.be/P_5v5bezrlM)
 
@@ -37,7 +57,7 @@ Though, as CMake permits it, you will be easily able to compile on other platfor
 
 # Research
 
-## Mesh Simplification / Subdivision
+## Mesh Simplification and Subdivision
 
 ### Side Notes
 
@@ -275,7 +295,9 @@ And that gives us this kind of results, keep in mind that my simplification stop
 
 ![Untitled](readme_resources/Untitled%2012.png)
 
-## Content
+## Human Skin Rendering
+
+# Content
 
 For my Assignment, I got all these points covered:
 
@@ -288,7 +310,7 @@ For my Assignment, I got all these points covered:
     - Mesh Simplification/Subdivision is multithreaded, so the process can be seen in realtime
     - Almost all properties of entities/mesh... are editable
 
-## How to use it
+# How to use it
 
 You can launch the `FinalProject.exe`directly, if you already have Visual C++ Redistribuable.
 
@@ -296,7 +318,7 @@ The program was compiled in Release mode.
 
 As it is displayed in the program, here are the controls by order of priority for the assignment:
 
-## Controls
+# Controls
 
 - Enable/Disable GUI: T
 - Wireframe Color Change: P
@@ -314,7 +336,7 @@ As it is displayed in the program, here are the controls by order of priority fo
     - Up: Space
     - Down: Left CTRL
 
-## Additional Interactions
+# Additional Interactions
 
 - You can change the Display Mode on the `Display Mode`menu.
 - You can change the FPS cap/limit
