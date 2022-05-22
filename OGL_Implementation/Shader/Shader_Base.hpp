@@ -41,6 +41,13 @@ public:
 	 * @param tesPath 
 	*/
 	Shader_Base(const GLchar * vertexPath, const GLchar * fragmentPath, const GLchar * tcsPath, const GLchar * tesPath);
+	/**
+	 * @brief Constructs and generates the shader with Vertex Shader, Fragment Shader & Geometry Shader
+	 * @param vertexPath
+	 * @param fragmentPath
+	 * @param geometryPath
+	*/
+	Shader_Base(const GLchar * vertexPath, const GLchar * fragmentPath, const GLchar * geometryPath);
 	~Shader_Base();
 
 	/**

@@ -248,12 +248,11 @@ void main()
 
         // add to outgoing radiance Lo
         float shadow = ShadowCalculation(pointLights[i].spaceMatrix * vec4(WorldPos, 1.0), shadowMapsPerPointLight[i], pointLights[i].position);
-        //Lo += vec3(1.0 - shadow);
         Lo += (1.0 - shadow) * (kD * albedo / PI + specular) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
         if (ssssEnabled)
         {
             //Lo += texture(shadowMapsPerPointLight[i], TexCoords).r;
-            Lo += albedo * radiance * SSSSTransmittance(translucency, sssWidth, WorldPos, Normal, L, shadowMapsPerPointLight[i], pointLights[i].spaceMatrix, pointLights[i].farPlane);
+            Lo += albedo * radiance * SSSSTransmittance(translucency, sssWidth, WorldPos, Normal, pointLights[i].position - WorldPos, shadowMapsPerPointLight[i], pointLights[i].spaceMatrix, pointLights[i].farPlane);
         }
     }
     

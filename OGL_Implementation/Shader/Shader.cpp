@@ -50,6 +50,12 @@ Shader GenerateShader(const GLchar * vertexPath, const GLchar * fragmentPath)
     return Shader(shaderDB.size() - 1);
 }
 
+Shader GenerateShader(const GLchar * vertexPath, const GLchar * fragmentPath, const GLchar * geometryPath)
+{
+    shaderDB.emplace_back(new Shader_Base(vertexPath, fragmentPath, geometryPath));
+    return Shader(shaderDB.size() - 1);
+}
+
 Shader GenerateShader(const GLchar * vertexPath, const GLchar * fragmentPath, const GLchar * tcsPath, const GLchar * tesPath)
 {
     shaderDB.emplace_back(new Shader_Base(vertexPath, fragmentPath, tcsPath, tesPath));

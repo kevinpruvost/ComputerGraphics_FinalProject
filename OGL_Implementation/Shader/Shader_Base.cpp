@@ -85,6 +85,39 @@ Shader_Base::Shader_Base(const GLchar * vertexPath, const GLchar * fragmentPath,
 	glDeleteShader(tesID);
 }
 
+Shader_Base::Shader_Base(const GLchar * vertexPath, const GLchar * fragmentPath, const GLchar * geometryPath)
+	: __primitiveMode(GL_TRIANGLES)
+{
+	GLuint vertexID, fragID, geometryID;
+	if (!CompileShader(vertexPath, GL_VERTEX_SHADER, &vertexID) ||
+		!CompileShader(fragmentPath, GL_FRAGMENT_SHADER, &fragID) ||
+		!CompileShader(geometryPath, GL_GEOMETRY_SHADER, &geometryID))
+	{
+		throw std::runtime_error("Couldn't create shader.");
+	}
+
+	__program = glCreateProgram();
+	glAttachShader(__program, vertexID);
+	glAttachShader(__program, fragID);
+	glAttachShader(__program, geometryID);
+	glLinkProgram(__program);
+
+	// Print linking errors if any
+	GLint success;
+	GLchar infoLog[512];
+	glGetProgramiv(__program, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		glGetProgramInfoLog(__program, 512, NULL, infoLog);
+		LOG_PRINT(stderr, "ERROR::SHADER::PROGRAM::LINKING_FAILED: %s\n", infoLog);
+		throw std::runtime_error("ERROR::SHADER::PROGRAM::LINKING_FAILED");
+	}
+
+	glDeleteShader(vertexID);
+	glDeleteShader(fragID);
+	glDeleteShader(geometryID);
+}
+
 Shader_Base::~Shader_Base()
 {
 	if (__program == programUsed) programUsed = (GLuint)(-1);

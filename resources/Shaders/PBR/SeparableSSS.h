@@ -339,7 +339,7 @@ float3 SSSSTransmittance(
     float4 shadowPosition = SSSSMul(shrinkedPos, lightViewProjection);
     float d1 = SSSSSample(shadowMap, shadowPosition.xyz / shadowPosition.w).r; // 'd1' has a range of 0..1
 //    float d2 = shadowPosition.z; // 'd2' has a range of 0..'lightFarPlane'
-//    d1 *= lightFarPlane; // So we scale 'd1' accordingly:
+    d1 *= lightFarPlane; // So we scale 'd1' accordingly:
     float d = scale * abs(d1);
 
     /**

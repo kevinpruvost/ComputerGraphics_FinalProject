@@ -127,6 +127,7 @@ public:
     glm::vec3 __ambient;
     glm::vec3 __diffuse;
     glm::vec3 __specular;
+    Entity * focus;
 };
 
 void SetDefaultLightShader(const Shader & shader);

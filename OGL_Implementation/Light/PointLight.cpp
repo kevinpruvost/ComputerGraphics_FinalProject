@@ -20,6 +20,7 @@ PointLight::PointLight(const Mesh & mesh, const Shader & pointShader, const Shad
     , __ambient{ ambient }
     , __diffuse{ diffuse }
     , __specular{ specular }
+    , focus{ nullptr }
 {
     InsertPointLight();
 }
@@ -59,10 +60,10 @@ glm::mat4 PointLight::GetModelMatrix(bool ignoreRotation, bool ignoreScale) cons
 
 PointLight_Shader PointLight::GetShaderInfo() const
 {
-    constexpr const float nearPlane = -10.0f;
+    constexpr const float nearPlane = 0.1f;
     constexpr const float farPlane = 50.0f;
-    const glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
-    const glm::mat4 lightView = glm::lookAt(pos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    const glm::mat4 lightProjection = glm::ortho(-farPlane, farPlane, -farPlane, farPlane, nearPlane, farPlane);
+    const glm::mat4 lightView = glm::lookAt(pos, focus->GetWorldPosition(), glm::vec3(0.0, 1.0, 0.0));
     const glm::mat4 spaceMatrix = lightProjection * lightView;
     PointLight_Shader shaderInfo{
         pos,

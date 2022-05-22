@@ -118,6 +118,8 @@ void LightRendering::RefreshUbo()
         glClear(GL_DEPTH_BUFFER_BIT);
         for (int i = 0; i < entities.size(); ++i)
         {
+            if (dynamic_cast<PointLight *>(entities[i])) continue;
+
             shader.SetUniformMatrix4f("model", entities[i]->GetModelMatrix());
             glBindVertexArray(entities[i]->GetMesh().facesVAO());
 

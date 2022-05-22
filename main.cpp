@@ -153,6 +153,7 @@ int main()
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
+	sun.focus = &humanHead;
 	sun.SetTexture(sunTexture);
 	sun.pos = { -3.1f, 1.46f, -11.8f };
 	sun.ChangeSpecular(glm::vec3(1.0f));
@@ -254,17 +255,41 @@ int main()
 			ImGui::TreePop();
 		}
 
-		gui.EditEntity(entity1);
-		gui.EditEntity(entity2);
-		gui.EditEntity(entity3);
-		gui.EditEntity(plane);
-		gui.EditEntity(humanHead);
-		gui.EditEntity(humanHead2);
-		gui.EditEntity(goldBall);
+		auto entities = Entity::GetAllEntities();
+		for (auto & entity : entities)
+		{
+			gui.EditEntity(*entity);
+		}
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::DragFloat3("Position", glm::value_ptr(sun.pos));
+			std::vector<const char *> entityNames;
+			entityNames.reserve(entities.size());
+			int entityNum = 0;
+			for (int x = 0; x < entities.size(); ++x)
+			{
+				if (entities[x] == sun.focus)
+					entityNum = x;
+				entityNames.push_back(entities[x]->name.c_str());
+			}
+			if (ImGui::BeginCombo("Light Focus", entityNames[entityNum]))
+			{
+				for (int n = 0; n < entityNames.size(); n++)
+				{
+					const bool is_selected = (entityNum == n);
+					if (ImGui::Selectable(entityNames[n], is_selected))
+					{
+						entityNum = n;
+						sun.focus = entities[n];
+					}
+
+					// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+					if (is_selected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
 			ImGui::SliderFloat("Constant", &sun.__constant, 0.0f, 1.0f);
 			ImGui::SliderFloat("Linear", &sun.__linear, 0.01f, 1.0f, "%.8f");
 			ImGui::SliderFloat("Quadratic", &sun.__quadratic, 0.001f, 1.0f, "%.10f");

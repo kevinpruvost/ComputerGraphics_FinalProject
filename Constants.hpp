@@ -73,6 +73,10 @@ constexpr const char * pbrFrag = "resources/Shaders/PBR/pbr.frag.glsl";
 constexpr const char * shadowMappingVertex = "resources/Shaders/shadow_mapping_depth.vert.glsl";
 constexpr const char * shadowMappingFrag   = "resources/Shaders/shadow_mapping_depth.frag.glsl";
 
+constexpr const char * pointShadowMappingVertex   = "resources/Shaders/point_shadow_mapping_depth.vert.glsl";
+constexpr const char * pointShadowMappingFrag     = "resources/Shaders/point_shadow_mapping_depth.frag.glsl";
+constexpr const char * pointShadowMappingGeometry = "resources/Shaders/point_shadow_mapping_depth.geometry.glsl";
+
 // Planets
 constexpr const char * star = "resources/Textures/Star.bmp";
 // Snow
