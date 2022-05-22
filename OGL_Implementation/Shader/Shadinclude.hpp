@@ -62,6 +62,9 @@ MISCELLANEOUS
 - Language	:	C++ (can easily be converted into other languages)
 */
 
+/**
+ * @brief Implementation of #include in shader GLSL files
+*/
 class ShadInclude
 {
 public:

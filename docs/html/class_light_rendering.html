@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -69,6 +69,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_light_rendering-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -86,6 +87,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af1b4cec5ce1f317d4924c1ddc027ffe6"><td class="memItemLeft" align="right" valign="top"><a id="af1b4cec5ce1f317d4924c1ddc027ffe6"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetUboLights</b> ()</td></tr>
 <tr class="separator:af1b4cec5ce1f317d4924c1ddc027ffe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37f48357e4ad053af003849569af8974"><td class="memItemLeft" align="right" valign="top"><a id="a37f48357e4ad053af003849569af8974"></a>
+<a class="el" href="class_shader.html">Shader</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetShadowMappingShader</b> ()</td></tr>
+<tr class="separator:a37f48357e4ad053af003849569af8974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdd3f85b0b9fca3bcaef88f1c5f21666"><td class="memItemLeft" align="right" valign="top"><a id="acdd3f85b0b9fca3bcaef88f1c5f21666"></a>
+const std::array&lt; GLuint, <a class="el" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">PointLight::maxPointLightsCount</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetDepthMapFbo</b> () const</td></tr>
+<tr class="separator:acdd3f85b0b9fca3bcaef88f1c5f21666"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -99,11 +106,23 @@ static const <a class="el" href="class_light_rendering.html">LightRendering</a> 
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>RefreshUbo</b> ()</td></tr>
 <tr class="separator:a735c8996ec7bc8c85818616103b03890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a94e234aaafa7da8d364cf47697f1e13b"><td class="memItemLeft" align="right" valign="top"><a id="a94e234aaafa7da8d364cf47697f1e13b"></a>
+std::array&lt; GLuint, <a class="el" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">PointLight::maxPointLightsCount</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>shadowMaps</b></td></tr>
+<tr class="separator:a94e234aaafa7da8d364cf47697f1e13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:a5bd4b011aba91892a9073245418d6012"><td class="memItemLeft" align="right" valign="top"><a id="a5bd4b011aba91892a9073245418d6012"></a>
+std::array&lt; GLuint, <a class="el" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">PointLight::maxPointLightsCount</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>__depthMapFbo</b></td></tr>
+<tr class="separator:a5bd4b011aba91892a9073245418d6012"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e433353d224467f56377b93f781e7a"><td class="memItemLeft" align="right" valign="top"><a id="ac0e433353d224467f56377b93f781e7a"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__uboLights</b></td></tr>
 <tr class="separator:ac0e433353d224467f56377b93f781e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a64fc946bb2532b3b90c10f8dc6eac5"><td class="memItemLeft" align="right" valign="top"><a id="a1a64fc946bb2532b3b90c10f8dc6eac5"></a>
+<a class="el" href="class_shader.html">Shader</a>&#160;</td><td class="memItemRight" valign="bottom"><b>__shadowMappingShader</b></td></tr>
+<tr class="separator:a1a64fc946bb2532b3b90c10f8dc6eac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages All variables needed GPU-side and gives everything for shaders to work with lights. </p>

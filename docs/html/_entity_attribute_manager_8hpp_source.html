@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -79,7 +79,7 @@ $(function() {
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// Project includes</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_material_8hpp.html">Material.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_texture_8hpp.html">Texture.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_pbr___material_8hpp.html">Pbr_Material.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_entity_attribute_manager.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_entity_attribute_manager.html">EntityAttributeManager</a></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
@@ -88,27 +88,33 @@ $(function() {
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ~<a class="code" href="class_entity_attribute_manager.html">EntityAttributeManager</a>();</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_material.html">Material</a> &amp; <a class="code" href="class_entity_attribute_manager.html#a50b1ac7940f2df586f79885a8347420c">AddMaterial</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_texture.html">Texture</a> &amp; AddTexture(<span class="keyword">const</span> <a class="code" href="class_texture.html">Texture</a> &amp; texture);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="class_material.html">Material</a> * <a class="code" href="class_entity_attribute_manager.html#a64f5d28ca6b941bc90be29ce9646f146">GetMaterial</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_texture.html">Texture</a> * GetTexture();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">enum class</span> EntityAttributeId</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        EA_Material = 0,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        EA_Texture  = 1</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    };</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::unordered_map&lt;EntityAttributeId, std::unique_ptr&lt;EntityAttribute&gt;&gt; attributes;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="class_pbr___material.html">Pbr_Material</a> &amp; <a class="code" href="class_entity_attribute_manager.html#ad8b3fa627c9552d4924a0f302231cf83">AddPbrMaterial</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * albedoMap,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> * normalMap,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> * metallicMap,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> * roughnessMap,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> * aoMap);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="class_material.html">Material</a> * <a class="code" href="class_entity_attribute_manager.html#a64f5d28ca6b941bc90be29ce9646f146">GetMaterial</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="class_pbr___material.html">Pbr_Material</a> * <a class="code" href="class_entity_attribute_manager.html#af6c4c96ac411181e858cb0f04103ed19">GetPbrMaterial</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">enum class</span> EntityAttributeId</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        EA_Material     = 0,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        EA_PbrMaterial  = 1</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    };</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::unordered_map&lt;EntityAttributeId, std::unique_ptr&lt;EntityAttribute&gt;&gt; attributes;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
 <div class="ttc" id="a_material_8hpp_html"><div class="ttname"><a href="_material_8hpp.html">Material.hpp</a></div><div class="ttdoc">Material class.</div></div>
-<div class="ttc" id="a_texture_8hpp_html"><div class="ttname"><a href="_texture_8hpp.html">Texture.hpp</a></div><div class="ttdoc">Texture Loading Class.</div></div>
+<div class="ttc" id="a_pbr___material_8hpp_html"><div class="ttname"><a href="_pbr___material_8hpp.html">Pbr_Material.hpp</a></div><div class="ttdoc">PBR Material class.</div></div>
 <div class="ttc" id="aclass_entity_attribute_manager_html"><div class="ttname"><a href="class_entity_attribute_manager.html">EntityAttributeManager</a></div><div class="ttdoc">Part of an entity that manages its attributes.</div><div class="ttdef"><b>Definition:</b> EntityAttributeManager.hpp:18</div></div>
 <div class="ttc" id="aclass_entity_attribute_manager_html_a50b1ac7940f2df586f79885a8347420c"><div class="ttname"><a href="class_entity_attribute_manager.html#a50b1ac7940f2df586f79885a8347420c">EntityAttributeManager::AddMaterial</a></div><div class="ttdeci">Material &amp; AddMaterial()</div><div class="ttdoc">Adds Default Material.</div><div class="ttdef"><b>Definition:</b> EntityAttributeManager.cpp:11</div></div>
 <div class="ttc" id="aclass_entity_attribute_manager_html_a64f5d28ca6b941bc90be29ce9646f146"><div class="ttname"><a href="class_entity_attribute_manager.html#a64f5d28ca6b941bc90be29ce9646f146">EntityAttributeManager::GetMaterial</a></div><div class="ttdeci">Material * GetMaterial()</div><div class="ttdoc">Returns material.</div><div class="ttdef"><b>Definition:</b> EntityAttributeManager.cpp:23</div></div>
+<div class="ttc" id="aclass_entity_attribute_manager_html_ad8b3fa627c9552d4924a0f302231cf83"><div class="ttname"><a href="class_entity_attribute_manager.html#ad8b3fa627c9552d4924a0f302231cf83">EntityAttributeManager::AddPbrMaterial</a></div><div class="ttdeci">Pbr_Material &amp; AddPbrMaterial(const char *albedoMap, const char *normalMap, const char *metallicMap, const char *roughnessMap, const char *aoMap)</div><div class="ttdoc">Adds Default Material.</div><div class="ttdef"><b>Definition:</b> EntityAttributeManager.cpp:17</div></div>
+<div class="ttc" id="aclass_entity_attribute_manager_html_af6c4c96ac411181e858cb0f04103ed19"><div class="ttname"><a href="class_entity_attribute_manager.html#af6c4c96ac411181e858cb0f04103ed19">EntityAttributeManager::GetPbrMaterial</a></div><div class="ttdeci">Pbr_Material * GetPbrMaterial()</div><div class="ttdoc">Returns material.</div><div class="ttdef"><b>Definition:</b> EntityAttributeManager.cpp:30</div></div>
 <div class="ttc" id="aclass_material_html"><div class="ttname"><a href="class_material.html">Material</a></div><div class="ttdoc">Manages Diffuse, Specular mapping and shininess.</div><div class="ttdef"><b>Definition:</b> Material.hpp:17</div></div>
-<div class="ttc" id="aclass_texture_html"><div class="ttname"><a href="class_texture.html">Texture</a></div><div class="ttdoc">Contains and manages every information about textures.</div><div class="ttdef"><b>Definition:</b> Texture.hpp:26</div></div>
+<div class="ttc" id="aclass_pbr___material_html"><div class="ttname"><a href="class_pbr___material.html">Pbr_Material</a></div><div class="ttdef"><b>Definition:</b> Pbr_Material.hpp:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->

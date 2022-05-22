@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -94,15 +94,20 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> bindFaces(<span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> bindVertices(<span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> MakeTriangle(std::vector&lt;GLfloat&gt; &amp; data, <span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj, <span class="keyword">const</span> <a class="code" href="struct_face.html">Face</a> &amp; face);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> MakeQuad(std::vector&lt;GLfloat&gt; &amp; data, <span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj, <span class="keyword">const</span> <a class="code" href="struct_face.html">Face</a> &amp; face, <span class="keyword">const</span> <span class="keywordtype">bool</span> hasNormals, <span class="keyword">const</span> <span class="keywordtype">bool</span> hasTextCoords);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> bindVertices(<span class="keyword">const</span> <a class="code" href="class_obj.html">Obj</a> &amp; obj);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
 <div class="ttc" id="a_mesh___base_8hpp_html"><div class="ttname"><a href="_mesh___base_8hpp.html">Mesh_Base.hpp</a></div><div class="ttdoc">Mesh_Base class.</div></div>
 <div class="ttc" id="a_obj_8hpp_html"><div class="ttname"><a href="_obj_8hpp.html">Obj.hpp</a></div><div class="ttdoc">.obj files loading class/parser</div></div>
 <div class="ttc" id="aclass_mesh___base_html"><div class="ttname"><a href="class_mesh___base.html">Mesh_Base</a></div><div class="ttdoc">Contains the real data of the mesh to be stored in a static database.</div><div class="ttdef"><b>Definition:</b> Mesh_Base.hpp:32</div></div>
 <div class="ttc" id="aclass_mesh___obj_html"><div class="ttname"><a href="class_mesh___obj.html">Mesh_Obj</a></div><div class="ttdoc">Mesh constructed from the Obj class, with the help of .obj files.</div><div class="ttdef"><b>Definition:</b> Mesh_Obj.hpp:18</div></div>
 <div class="ttc" id="aclass_mesh___obj_html_a333a9c82fe7ae03972dbaa9b625e8649"><div class="ttname"><a href="class_mesh___obj.html#a333a9c82fe7ae03972dbaa9b625e8649">Mesh_Obj::Mesh_Obj</a></div><div class="ttdeci">Mesh_Obj(const Obj &amp;obj)</div><div class="ttdoc">Constructor from .obj class.</div><div class="ttdef"><b>Definition:</b> Mesh_Obj.cpp:13</div></div>
-<div class="ttc" id="aclass_mesh___obj_html_a446c24e606256b26bb3d4ac8b5c9316b"><div class="ttname"><a href="class_mesh___obj.html#a446c24e606256b26bb3d4ac8b5c9316b">Mesh_Obj::GetDrawMode</a></div><div class="ttdeci">DrawMode GetDrawMode() const override</div><div class="ttdoc">Returns draw mode (glDrawArrays/glDrawElements)</div><div class="ttdef"><b>Definition:</b> Mesh_Obj.cpp:38</div></div>
+<div class="ttc" id="aclass_mesh___obj_html_a446c24e606256b26bb3d4ac8b5c9316b"><div class="ttname"><a href="class_mesh___obj.html#a446c24e606256b26bb3d4ac8b5c9316b">Mesh_Obj::GetDrawMode</a></div><div class="ttdeci">DrawMode GetDrawMode() const override</div><div class="ttdoc">Returns draw mode (glDrawArrays/glDrawElements)</div><div class="ttdef"><b>Definition:</b> Mesh_Obj.cpp:39</div></div>
 <div class="ttc" id="aclass_obj_html"><div class="ttname"><a href="class_obj.html">Obj</a></div><div class="ttdoc">Manages parsing and loading of .obj files.</div><div class="ttdef"><b>Definition:</b> Obj.hpp:26</div></div>
+<div class="ttc" id="astruct_face_html"><div class="ttname"><a href="struct_face.html">Face</a></div><div class="ttdoc">Contains information about Tri Faces.</div><div class="ttdef"><b>Definition:</b> Mesh_Geometry.hpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->

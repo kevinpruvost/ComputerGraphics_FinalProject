@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -148,9 +148,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasTextureCoordinates
 <tr class="memitem:a53afc4dfd80940fe053218090fca1448 inherit pub_methods_class_mesh___base"><td class="memItemLeft" align="right" valign="top"><a id="a53afc4dfd80940fe053218090fca1448"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasNormals</b> () const</td></tr>
 <tr class="separator:a53afc4dfd80940fe053218090fca1448 inherit pub_methods_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8937a830b1f6959117906380a330f1 inherit pub_methods_class_mesh___base"><td class="memItemLeft" align="right" valign="top"><a id="a0d8937a830b1f6959117906380a330f1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateNormals</b> (bool smooth)</td></tr>
-<tr class="separator:a0d8937a830b1f6959117906380a330f1 inherit pub_methods_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a321c478ee658b0f88ddc81e53ee51763 inherit pub_methods_class_mesh___base"><td class="memItemLeft" align="right" valign="top"><a id="a321c478ee658b0f88ddc81e53ee51763"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateNormals</b> (bool smooth, bool loading=true)</td></tr>
+<tr class="separator:a321c478ee658b0f88ddc81e53ee51763 inherit pub_methods_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec91037e48bb757f610c7851e54a0685 inherit pub_methods_class_mesh___base"><td class="memItemLeft" align="right" valign="top"><a id="aec91037e48bb757f610c7851e54a0685"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetGeometry</b> (const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces, const std::vector&lt; VertexPos &gt; &amp;v, const std::vector&lt; VertexNormal &gt; &amp;vN={}, const std::vector&lt; VertexTextureCoordinates &gt; &amp;vT={})</td></tr>
 <tr class="separator:aec91037e48bb757f610c7851e54a0685 inherit pub_methods_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,6 +163,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a1c90d455ce14020456aa9cb820644845"><td class="memItemLeft" align="right" valign="top"><a id="a1c90d455ce14020456aa9cb820644845"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>bindFaces</b> (const <a class="el" href="class_obj.html">Obj</a> &amp;obj)</td></tr>
 <tr class="separator:a1c90d455ce14020456aa9cb820644845"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4139ad23dac4177c0cbe10f064505ac7"><td class="memItemLeft" align="right" valign="top"><a id="a4139ad23dac4177c0cbe10f064505ac7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>MakeTriangle</b> (std::vector&lt; GLfloat &gt; &amp;data, const <a class="el" href="class_obj.html">Obj</a> &amp;obj, const <a class="el" href="struct_face.html">Face</a> &amp;face)</td></tr>
+<tr class="separator:a4139ad23dac4177c0cbe10f064505ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf78501a7d755f5358e3df9a7aaa92f2"><td class="memItemLeft" align="right" valign="top"><a id="adf78501a7d755f5358e3df9a7aaa92f2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>MakeQuad</b> (std::vector&lt; GLfloat &gt; &amp;data, const <a class="el" href="class_obj.html">Obj</a> &amp;obj, const <a class="el" href="struct_face.html">Face</a> &amp;face, const bool hasNormals, const bool hasTextCoords)</td></tr>
+<tr class="separator:adf78501a7d755f5358e3df9a7aaa92f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed6a4041eb9d4f1f5c274549a9a142ee"><td class="memItemLeft" align="right" valign="top"><a id="aed6a4041eb9d4f1f5c274549a9a142ee"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>bindVertices</b> (const <a class="el" href="class_obj.html">Obj</a> &amp;obj)</td></tr>
 <tr class="separator:aed6a4041eb9d4f1f5c274549a9a142ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,6 +194,29 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadFaces</b> (const 
 std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateAssembledVertices</b> (bool isNormal, bool isTexture) const</td></tr>
 <tr class="separator:aa237e3cd00decbbf6f894827fff7b7b4 inherit pro_methods_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_mesh___base"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_mesh___base')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_mesh___base.html">Mesh_Base</a></td></tr>
+<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" ><a id="a9e7741df7d4483aa1ef522a00b0df2a9"></a>
+union {</td></tr>
+<tr class="memitem:a4243d88c6d5bb23cb85427bf633499e1 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
+&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;&#160;&#160;<b>__vertices</b></td></tr>
+<tr class="separator:a4243d88c6d5bb23cb85427bf633499e1 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be6a493cadc625362a8c9859632827e inherit pro_attribs_class_mesh___base"><td class="memItemLeft" ><a id="a5be6a493cadc625362a8c9859632827e"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:a3d434089067ae9ddc27775acc57a9b89 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexPos &gt;&#160;&#160;&#160;<b>__v</b></td></tr>
+<tr class="separator:a3d434089067ae9ddc27775acc57a9b89 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bdee9af96a28b92ec457814d714b74a inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexNormal &gt;&#160;&#160;&#160;<b>__vN</b></td></tr>
+<tr class="separator:a8bdee9af96a28b92ec457814d714b74a inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a006d993b7caecd6720944f7512c60097 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexTextureCoordinates &gt;&#160;&#160;&#160;<b>__vT</b></td></tr>
+<tr class="separator:a006d993b7caecd6720944f7512c60097 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651de9c220bd4ec70970c7c941b0490a inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt;&#160;&#160;&#160;<b>__faces</b></td></tr>
+<tr class="separator:a651de9c220bd4ec70970c7c941b0490a inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be6a493cadc625362a8c9859632827e inherit pro_attribs_class_mesh___base"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a5be6a493cadc625362a8c9859632827e inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a9e7741df7d4483aa1ef522a00b0df2a9 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb1f36b680702f14fc0086df9ad77d6c inherit pro_attribs_class_mesh___base"><td class="memItemLeft" align="right" valign="top"><a id="afb1f36b680702f14fc0086df9ad77d6c"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__verticesVAO</b></td></tr>
 <tr class="separator:afb1f36b680702f14fc0086df9ad77d6c inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,29 +241,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>__hasTextureCoordinat
 <tr class="memitem:a9451e9196db12acd64a70fc9030ee431 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" align="right" valign="top"><a id="a9451e9196db12acd64a70fc9030ee431"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>__hasNormals</b></td></tr>
 <tr class="separator:a9451e9196db12acd64a70fc9030ee431 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" ><a id="a9e7741df7d4483aa1ef522a00b0df2a9"></a>
-union {</td></tr>
-<tr class="memitem:a4243d88c6d5bb23cb85427bf633499e1 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
-&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;&#160;&#160;<b>__vertices</b></td></tr>
-<tr class="separator:a4243d88c6d5bb23cb85427bf633499e1 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5be6a493cadc625362a8c9859632827e inherit pro_attribs_class_mesh___base"><td class="memItemLeft" ><a id="a5be6a493cadc625362a8c9859632827e"></a>
-&#160;&#160;&#160;struct {</td></tr>
-<tr class="memitem:a3d434089067ae9ddc27775acc57a9b89 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexPos &gt;&#160;&#160;&#160;<b>__v</b></td></tr>
-<tr class="separator:a3d434089067ae9ddc27775acc57a9b89 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bdee9af96a28b92ec457814d714b74a inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexNormal &gt;&#160;&#160;&#160;<b>__vN</b></td></tr>
-<tr class="separator:a8bdee9af96a28b92ec457814d714b74a inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a006d993b7caecd6720944f7512c60097 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexTextureCoordinates &gt;&#160;&#160;&#160;<b>__vT</b></td></tr>
-<tr class="separator:a006d993b7caecd6720944f7512c60097 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a651de9c220bd4ec70970c7c941b0490a inherit pro_attribs_class_mesh___base"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt;&#160;&#160;&#160;<b>__faces</b></td></tr>
-<tr class="separator:a651de9c220bd4ec70970c7c941b0490a inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5be6a493cadc625362a8c9859632827e inherit pro_attribs_class_mesh___base"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a5be6a493cadc625362a8c9859632827e inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9 inherit pro_attribs_class_mesh___base"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a9e7741df7d4483aa1ef522a00b0df2a9 inherit pro_attribs_class_mesh___base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_mesh.html" title="Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...">Mesh</a> constructed from the <a class="el" href="class_obj.html" title="Manages parsing and loading of .obj files.">Obj</a> class, with the help of .obj files. </p>

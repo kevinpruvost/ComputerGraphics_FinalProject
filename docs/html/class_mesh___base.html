@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -156,9 +156,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasTextureCoordinates
 <tr class="memitem:a53afc4dfd80940fe053218090fca1448"><td class="memItemLeft" align="right" valign="top"><a id="a53afc4dfd80940fe053218090fca1448"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasNormals</b> () const</td></tr>
 <tr class="separator:a53afc4dfd80940fe053218090fca1448"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8937a830b1f6959117906380a330f1"><td class="memItemLeft" align="right" valign="top"><a id="a0d8937a830b1f6959117906380a330f1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateNormals</b> (bool smooth)</td></tr>
-<tr class="separator:a0d8937a830b1f6959117906380a330f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a321c478ee658b0f88ddc81e53ee51763"><td class="memItemLeft" align="right" valign="top"><a id="a321c478ee658b0f88ddc81e53ee51763"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateNormals</b> (bool smooth, bool loading=true)</td></tr>
+<tr class="separator:a321c478ee658b0f88ddc81e53ee51763"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec91037e48bb757f610c7851e54a0685"><td class="memItemLeft" align="right" valign="top"><a id="aec91037e48bb757f610c7851e54a0685"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetGeometry</b> (const std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt; &amp;faces, const std::vector&lt; VertexPos &gt; &amp;v, const std::vector&lt; VertexNormal &gt; &amp;vN={}, const std::vector&lt; VertexTextureCoordinates &gt; &amp;vT={})</td></tr>
 <tr class="separator:aec91037e48bb757f610c7851e54a0685"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,6 +183,29 @@ std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNor
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memItemLeft" ><a id="a9e7741df7d4483aa1ef522a00b0df2a9"></a>
+union {</td></tr>
+<tr class="memitem:a4243d88c6d5bb23cb85427bf633499e1"><td class="memItemLeft" >
+&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;&#160;&#160;<b>__vertices</b></td></tr>
+<tr class="separator:a4243d88c6d5bb23cb85427bf633499e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be6a493cadc625362a8c9859632827e"><td class="memItemLeft" ><a id="a5be6a493cadc625362a8c9859632827e"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:a3d434089067ae9ddc27775acc57a9b89"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexPos &gt;&#160;&#160;&#160;<b>__v</b></td></tr>
+<tr class="separator:a3d434089067ae9ddc27775acc57a9b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bdee9af96a28b92ec457814d714b74a"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexNormal &gt;&#160;&#160;&#160;<b>__vN</b></td></tr>
+<tr class="separator:a8bdee9af96a28b92ec457814d714b74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a006d993b7caecd6720944f7512c60097"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexTextureCoordinates &gt;&#160;&#160;&#160;<b>__vT</b></td></tr>
+<tr class="separator:a006d993b7caecd6720944f7512c60097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651de9c220bd4ec70970c7c941b0490a"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt;&#160;&#160;&#160;<b>__faces</b></td></tr>
+<tr class="separator:a651de9c220bd4ec70970c7c941b0490a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be6a493cadc625362a8c9859632827e"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a5be6a493cadc625362a8c9859632827e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb1f36b680702f14fc0086df9ad77d6c"><td class="memItemLeft" align="right" valign="top"><a id="afb1f36b680702f14fc0086df9ad77d6c"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__verticesVAO</b></td></tr>
 <tr class="separator:afb1f36b680702f14fc0086df9ad77d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,29 +230,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>__hasTextureCoordinat
 <tr class="memitem:a9451e9196db12acd64a70fc9030ee431"><td class="memItemLeft" align="right" valign="top"><a id="a9451e9196db12acd64a70fc9030ee431"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>__hasNormals</b></td></tr>
 <tr class="separator:a9451e9196db12acd64a70fc9030ee431"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memItemLeft" ><a id="a9e7741df7d4483aa1ef522a00b0df2a9"></a>
-union {</td></tr>
-<tr class="memitem:a4243d88c6d5bb23cb85427bf633499e1"><td class="memItemLeft" >
-&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_vertex_normal_texture.html">VertexNormalTexture</a> &gt;&#160;&#160;&#160;<b>__vertices</b></td></tr>
-<tr class="separator:a4243d88c6d5bb23cb85427bf633499e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5be6a493cadc625362a8c9859632827e"><td class="memItemLeft" ><a id="a5be6a493cadc625362a8c9859632827e"></a>
-&#160;&#160;&#160;struct {</td></tr>
-<tr class="memitem:a3d434089067ae9ddc27775acc57a9b89"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexPos &gt;&#160;&#160;&#160;<b>__v</b></td></tr>
-<tr class="separator:a3d434089067ae9ddc27775acc57a9b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bdee9af96a28b92ec457814d714b74a"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexNormal &gt;&#160;&#160;&#160;<b>__vN</b></td></tr>
-<tr class="separator:a8bdee9af96a28b92ec457814d714b74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a006d993b7caecd6720944f7512c60097"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; VertexTextureCoordinates &gt;&#160;&#160;&#160;<b>__vT</b></td></tr>
-<tr class="separator:a006d993b7caecd6720944f7512c60097"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a651de9c220bd4ec70970c7c941b0490a"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;std::vector&lt; <a class="el" href="struct_face.html">Face</a> &gt;&#160;&#160;&#160;<b>__faces</b></td></tr>
-<tr class="separator:a651de9c220bd4ec70970c7c941b0490a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5be6a493cadc625362a8c9859632827e"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a5be6a493cadc625362a8c9859632827e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a9e7741df7d4483aa1ef522a00b0df2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the real data of the mesh to be stored in a static database. </p>

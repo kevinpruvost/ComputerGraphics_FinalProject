@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -91,6 +91,12 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetTextVAO</b> ()</
 <tr class="memitem:a1a7f5c89434e1702e6ba0f69cfed4504"><td class="memItemLeft" align="right" valign="top"><a id="a1a7f5c89434e1702e6ba0f69cfed4504"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetTextVBO</b> ()</td></tr>
 <tr class="separator:a1a7f5c89434e1702e6ba0f69cfed4504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaaaeae78491e85faa367122b7346b11"><td class="memItemLeft" align="right" valign="top"><a id="aaaaaeae78491e85faa367122b7346b11"></a>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetCubeVAO</b> ()</td></tr>
+<tr class="separator:aaaaaeae78491e85faa367122b7346b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f9f30fefab8976d071bf5ae8e9bd273"><td class="memItemLeft" align="right" valign="top"><a id="a2f9f30fefab8976d071bf5ae8e9bd273"></a>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>GetCubeVBO</b> ()</td></tr>
+<tr class="separator:a2f9f30fefab8976d071bf5ae8e9bd273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -127,6 +133,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>DrawText</b> (
 <tr class="memitem:a9d07104d78c9b4a85fb7815be85e7285"><td class="memItemLeft" align="right" valign="top"><a id="a9d07104d78c9b4a85fb7815be85e7285"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>RotateFonts</b> ()</td></tr>
 <tr class="separator:a9d07104d78c9b4a85fb7815be85e7285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca1fe1905a7f15bbe8d8012222352e25"><td class="memItemLeft" align="right" valign="top"><a id="aca1fe1905a7f15bbe8d8012222352e25"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>DrawBrdfCubemap</b> (<a class="el" href="class_brdf___cubemap.html">Brdf_Cubemap</a> &amp;cubemap)</td></tr>
+<tr class="separator:aca1fe1905a7f15bbe8d8012222352e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0425c97e8b70faee75d8dfa21f85c8f4"><td class="memItemLeft" align="right" valign="top"><a id="a0425c97e8b70faee75d8dfa21f85c8f4"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>DrawParticleSystem</b> (<a class="el" href="class_particle_system___base.html">ParticleSystem_Base</a> *particleSystem)</td></tr>
 <tr class="separator:a0425c97e8b70faee75d8dfa21f85c8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,6 +154,9 @@ Static Private Member Functions</h2></td></tr>
 <tr class="memitem:af20da124cc2dfbf154f2b80099b0137a"><td class="memItemLeft" align="right" valign="top"><a id="af20da124cc2dfbf154f2b80099b0137a"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadShadersAndFonts</b> ()</td></tr>
 <tr class="separator:af20da124cc2dfbf154f2b80099b0137a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f33207bb2c22a531e258b95c22eb1e0"><td class="memItemLeft" align="right" valign="top"><a id="a9f33207bb2c22a531e258b95c22eb1e0"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>RenderCube</b> ()</td></tr>
+<tr class="separator:a9f33207bb2c22a531e258b95c22eb1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -154,6 +166,12 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__textVAO</b></td><
 <tr class="memitem:ac254863351bfe9ff3c58884ec538e500"><td class="memItemLeft" align="right" valign="top"><a id="ac254863351bfe9ff3c58884ec538e500"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__textVBO</b></td></tr>
 <tr class="separator:ac254863351bfe9ff3c58884ec538e500"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84c5a3bb6508b8739117a979931fba87"><td class="memItemLeft" align="right" valign="top"><a id="a84c5a3bb6508b8739117a979931fba87"></a>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__cubeVAO</b></td></tr>
+<tr class="separator:a84c5a3bb6508b8739117a979931fba87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1587c810a0c240bd4af477719bdfbcfc"><td class="memItemLeft" align="right" valign="top"><a id="a1587c810a0c240bd4af477719bdfbcfc"></a>
+GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__cubeVBO</b></td></tr>
+<tr class="separator:a1587c810a0c240bd4af477719bdfbcfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Static class containing rendering utilities. </p>

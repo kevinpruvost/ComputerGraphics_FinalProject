@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -83,79 +83,83 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="struct_point_light___shader.html">   17</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_point_light___shader.html">PointLight_Shader</a></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    glm::vec3 position; <span class="comment">// 0</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">float</span> constant; <span class="comment">// 16</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">float</span> constant; <span class="comment">// 12</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    glm::vec3 ambient; <span class="comment">// 32</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">float</span> linear; <span class="comment">// 20</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    glm::vec3 ambient; <span class="comment">// 16</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">float</span> linear; <span class="comment">// 28</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    glm::vec3 diffuse; <span class="comment">// 48</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> quadratic; <span class="comment">// 24</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    glm::vec3 diffuse; <span class="comment">// 32</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> quadratic; <span class="comment">// 44</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    glm::vec3 <span class="keyword">alignas</span>(16) specular; <span class="comment">// 64</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    glm::vec3 specular; <span class="comment">// 48</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">float</span> farPlane; <span class="comment">// 60</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_point_light.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_point_light.html">PointLight</a> : <span class="keyword">public</span> <a class="code" href="class_entity.html">Entity</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="class_point_light.html#ac40e87d730837392fb2071daf34560bb">PointLight</a>(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; pointShader,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; wireframeShader,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; lightShader,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultPosition = glm::vec3(0.0f, 0.0f, 0.0f),</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultEulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultScale = glm::vec3(1.0f, 1.0f, 1.0f),</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> constant = 1.0f, <span class="keyword">const</span> <span class="keywordtype">float</span> linear = 0.09f, <span class="keyword">const</span> <span class="keywordtype">float</span> quadratic = 0.032f,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; ambient = glm::vec3(0.05f),</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; diffuse = glm::vec3(0.8f),</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; specular = glm::vec3(1.0f));</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="class_point_light.html#ac40e87d730837392fb2071daf34560bb">PointLight</a>(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultPosition = glm::vec3(0.0f, 0.0f, 0.0f),</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultEulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultScale = glm::vec3(1.0f, 1.0f, 1.0f),</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> constant = 1.0f, <span class="keyword">const</span> <span class="keywordtype">float</span> linear = 0.09f, <span class="keyword">const</span> <span class="keywordtype">float</span> quadratic = 0.032f,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; ambient = glm::vec3(0.05f),</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; diffuse = glm::vec3(0.8f),</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; specular = glm::vec3(1.0f));</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    ~<a class="code" href="class_point_light.html">PointLight</a>();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">  100</a></span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">maxPointLightsCount</a> = 128;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">virtual</span> glm::mat4 <a class="code" href="class_point_light.html#a5d9bbc7473d3df7b830cdf1b88d247dd">GetModelMatrix</a>(<span class="keywordtype">bool</span> ignoreRotation = <span class="keyword">false</span>, <span class="keywordtype">bool</span> ignoreScale = <span class="keyword">false</span>) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <a class="code" href="struct_point_light___shader.html">PointLight_Shader</a> GetShaderInfo() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">void</span> ChangeBrightnessSettings(<span class="keyword">const</span> <span class="keywordtype">float</span> constant, <span class="keyword">const</span> <span class="keywordtype">float</span> linear, <span class="keyword">const</span> <span class="keywordtype">float</span> quadratic);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">void</span> ChangeAmbient(<span class="keyword">const</span> glm::vec3 &amp; ambient);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span> ChangeDiffuse(<span class="keyword">const</span> glm::vec3 &amp; diffuse);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> ChangeSpecular(<span class="keyword">const</span> glm::vec3 &amp; specular);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">size_t</span> GetPointLightsCount();</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::array&lt;PointLight *, 128&gt; &amp; GetAllPointLights();</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">void</span> InsertPointLight();</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">void</span> DeletePointLight();</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">float</span> __constant;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">float</span> __linear;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">float</span> __quadratic;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    glm::vec3 __ambient;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    glm::vec3 __diffuse;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    glm::vec3 __specular;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;};</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keywordtype">void</span> SetDefaultLightShader(<span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; shader);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; GetDefaultLightShader();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    glm::mat4 pointLightViewMatrix; <span class="comment">// 64</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;};</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class_point_light.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_point_light.html">PointLight</a> : <span class="keyword">public</span> <a class="code" href="class_entity.html">Entity</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="class_point_light.html#ac40e87d730837392fb2071daf34560bb">PointLight</a>(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; pointShader,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; wireframeShader,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; lightShader,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultPosition = glm::vec3(0.0f, 0.0f, 0.0f),</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultEulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultScale = glm::vec3(1.0f, 1.0f, 1.0f),</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> constant = 1.0f, <span class="keyword">const</span> <span class="keywordtype">float</span> linear = 0.09f, <span class="keyword">const</span> <span class="keywordtype">float</span> quadratic = 0.032f,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; ambient = glm::vec3(0.05f),</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; diffuse = glm::vec3(0.8f),</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; specular = glm::vec3(1.0f));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="class_point_light.html#ac40e87d730837392fb2071daf34560bb">PointLight</a>(<span class="keyword">const</span> <a class="code" href="class_mesh.html">Mesh</a> &amp; mesh,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultPosition = glm::vec3(0.0f, 0.0f, 0.0f),</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultEulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; defaultScale = glm::vec3(1.0f, 1.0f, 1.0f),</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">float</span> constant = 1.0f, <span class="keyword">const</span> <span class="keywordtype">float</span> linear = 0.09f, <span class="keyword">const</span> <span class="keywordtype">float</span> quadratic = 0.032f,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; ambient = glm::vec3(0.05f),</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; diffuse = glm::vec3(0.8f),</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keyword">const</span> glm::vec3 &amp; specular = glm::vec3(1.0f));</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    ~<a class="code" href="class_point_light.html">PointLight</a>();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">  103</a></span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code" href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">maxPointLightsCount</a> = 128;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">virtual</span> glm::mat4 <a class="code" href="class_point_light.html#a5d9bbc7473d3df7b830cdf1b88d247dd">GetModelMatrix</a>(<span class="keywordtype">bool</span> ignoreRotation = <span class="keyword">false</span>, <span class="keywordtype">bool</span> ignoreScale = <span class="keyword">false</span>) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="struct_point_light___shader.html">PointLight_Shader</a> GetShaderInfo() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> ChangeBrightnessSettings(<span class="keyword">const</span> <span class="keywordtype">float</span> constant, <span class="keyword">const</span> <span class="keywordtype">float</span> linear, <span class="keyword">const</span> <span class="keywordtype">float</span> quadratic);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">void</span> ChangeAmbient(<span class="keyword">const</span> glm::vec3 &amp; ambient);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">void</span> ChangeDiffuse(<span class="keyword">const</span> glm::vec3 &amp; diffuse);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">void</span> ChangeSpecular(<span class="keyword">const</span> glm::vec3 &amp; specular);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">size_t</span> GetPointLightsCount();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::array&lt;PointLight *, 128&gt; &amp; GetAllPointLights();</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> InsertPointLight();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">void</span> DeletePointLight();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">float</span> __constant;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">float</span> __linear;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">float</span> __quadratic;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    glm::vec3 __ambient;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    glm::vec3 __diffuse;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    glm::vec3 __specular;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="class_entity.html">Entity</a> * focus;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;};</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordtype">void</span> SetDefaultLightShader(<span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; shader);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keyword">const</span> <a class="code" href="class_shader.html">Shader</a> &amp; GetDefaultLightShader();</div>
 <div class="ttc" id="a_entity_8hpp_html"><div class="ttname"><a href="_entity_8hpp.html">Entity.hpp</a></div><div class="ttdoc">Entity class.</div></div>
 <div class="ttc" id="aclass_entity_html"><div class="ttname"><a href="class_entity.html">Entity</a></div><div class="ttdoc">Representation of an entity with a mesh, position, rotation, scale. Able to give model matrix.</div><div class="ttdef"><b>Definition:</b> Entity.hpp:37</div></div>
 <div class="ttc" id="aclass_mesh_html"><div class="ttname"><a href="class_mesh.html">Mesh</a></div><div class="ttdoc">Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...</div><div class="ttdef"><b>Definition:</b> Mesh.hpp:37</div></div>
-<div class="ttc" id="aclass_point_light_html"><div class="ttname"><a href="class_point_light.html">PointLight</a></div><div class="ttdoc">Inherits Entity class and represents Lighting points.</div><div class="ttdef"><b>Definition:</b> PointLight.hpp:35</div></div>
-<div class="ttc" id="aclass_point_light_html_a42ef99e162d634b042422f3f6a3a0a31"><div class="ttname"><a href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">PointLight::maxPointLightsCount</a></div><div class="ttdeci">static constexpr const size_t maxPointLightsCount</div><div class="ttdoc">Maximum count of Point Lights in a scene.</div><div class="ttdef"><b>Definition:</b> PointLight.hpp:100</div></div>
-<div class="ttc" id="aclass_point_light_html_a5d9bbc7473d3df7b830cdf1b88d247dd"><div class="ttname"><a href="class_point_light.html#a5d9bbc7473d3df7b830cdf1b88d247dd">PointLight::GetModelMatrix</a></div><div class="ttdeci">virtual glm::mat4 GetModelMatrix(bool ignoreRotation=false, bool ignoreScale=false) const override</div><div class="ttdoc">Calculates Model Matrix.</div><div class="ttdef"><b>Definition:</b> PointLight.cpp:39</div></div>
+<div class="ttc" id="aclass_point_light_html"><div class="ttname"><a href="class_point_light.html">PointLight</a></div><div class="ttdoc">Inherits Entity class and represents Lighting points.</div><div class="ttdef"><b>Definition:</b> PointLight.hpp:38</div></div>
+<div class="ttc" id="aclass_point_light_html_a42ef99e162d634b042422f3f6a3a0a31"><div class="ttname"><a href="class_point_light.html#a42ef99e162d634b042422f3f6a3a0a31">PointLight::maxPointLightsCount</a></div><div class="ttdeci">static constexpr const size_t maxPointLightsCount</div><div class="ttdoc">Maximum count of Point Lights in a scene.</div><div class="ttdef"><b>Definition:</b> PointLight.hpp:103</div></div>
+<div class="ttc" id="aclass_point_light_html_a5d9bbc7473d3df7b830cdf1b88d247dd"><div class="ttname"><a href="class_point_light.html#a5d9bbc7473d3df7b830cdf1b88d247dd">PointLight::GetModelMatrix</a></div><div class="ttdeci">virtual glm::mat4 GetModelMatrix(bool ignoreRotation=false, bool ignoreScale=false) const override</div><div class="ttdoc">Calculates Model Matrix.</div><div class="ttdef"><b>Definition:</b> PointLight.cpp:40</div></div>
 <div class="ttc" id="aclass_point_light_html_ac40e87d730837392fb2071daf34560bb"><div class="ttname"><a href="class_point_light.html#ac40e87d730837392fb2071daf34560bb">PointLight::PointLight</a></div><div class="ttdeci">PointLight(const Mesh &amp;mesh, const Shader &amp;pointShader, const Shader &amp;wireframeShader, const Shader &amp;lightShader, const glm::vec3 &amp;defaultPosition=glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3 &amp;defaultEulerAngles=glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3 &amp;defaultScale=glm::vec3(1.0f, 1.0f, 1.0f), const float constant=1.0f, const float linear=0.09f, const float quadratic=0.032f, const glm::vec3 &amp;ambient=glm::vec3(0.05f), const glm::vec3 &amp;diffuse=glm::vec3(0.8f), const glm::vec3 &amp;specular=glm::vec3(1.0f))</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition:</b> PointLight.cpp:14</div></div>
 <div class="ttc" id="aclass_shader_html"><div class="ttname"><a href="class_shader.html">Shader</a></div><div class="ttdoc">Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...</div><div class="ttdef"><b>Definition:</b> Shader.hpp:27</div></div>
 <div class="ttc" id="astruct_point_light___shader_html"><div class="ttname"><a href="struct_point_light___shader.html">PointLight_Shader</a></div><div class="ttdoc">Structure aligned with the std140 norm that contains parameters of point lights for shaders.</div><div class="ttdef"><b>Definition:</b> PointLight.hpp:18</div></div>

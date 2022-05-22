@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -98,39 +98,48 @@ $(function() {
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    GLuint GetShaderDatabaseID() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> SetUniformInt(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLint nb);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::vec2 &amp; nbs);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb1, <span class="keyword">const</span> GLfloat nb2);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::vec3 &amp; nbs);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb1, <span class="keyword">const</span> GLfloat nb2, <span class="keyword">const</span> GLfloat nb3);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::vec4 &amp; nbs);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb1, <span class="keyword">const</span> GLfloat nb2, <span class="keyword">const</span> GLfloat nb3, <span class="keyword">const</span> GLfloat nb4);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> SetUniformMatrix4f(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::mat4 &amp; mat);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="class_shader___base.html">Shader_Base</a> * operator*();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_shader___base.html">Shader_Base</a> * operator*() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    GLuint __shaderId;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * @brief Generates shader from GLSL files</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * @param Vertex Path</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> * @param Fragment Path</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<a class="code" href="class_shader.html">Shader</a> GenerateShader(<span class="keyword">const</span> GLchar * vertexPath, <span class="keyword">const</span> GLchar * fragmentPath);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> * @brief Generates shader from GLSL files</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * @param Vertex Path</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * @param Fragment Path</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> * @param TCS Path</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> * @param TES Path</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> SetUniformInt(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> std::vector&lt;GLint&gt; &amp; nb);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::vec2 &amp; nbs);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb1, <span class="keyword">const</span> GLfloat nb2);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::vec3 &amp; nbs);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb1, <span class="keyword">const</span> GLfloat nb2, <span class="keyword">const</span> GLfloat nb3);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::vec4 &amp; nbs);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> SetUniformFloat(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> GLfloat nb1, <span class="keyword">const</span> GLfloat nb2, <span class="keyword">const</span> GLfloat nb3, <span class="keyword">const</span> GLfloat nb4);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> SetUniformMatrix4f(<span class="keyword">const</span> GLchar * uniformName, <span class="keyword">const</span> glm::mat4 &amp; mat);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="class_shader___base.html">Shader_Base</a> * operator*();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_shader___base.html">Shader_Base</a> * operator*() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    GLuint __shaderId;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * @brief Generates shader from GLSL files</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> * @param Vertex Path</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> * @param Fragment Path</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<a class="code" href="class_shader.html">Shader</a> GenerateShader(<span class="keyword">const</span> GLchar * vertexPath, <span class="keyword">const</span> GLchar * fragmentPath);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> * @brief Generates shader from GLSL files</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> * @param Vertex Path</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment"> * @param Fragment Path</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> * @param Geometry Path</span></div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<a class="code" href="class_shader.html">Shader</a> GenerateShader(<span class="keyword">const</span> GLchar * vertexPath, <span class="keyword">const</span> GLchar * fragmentPath, <span class="keyword">const</span> GLchar * tcsPath, <span class="keyword">const</span> GLchar * tesPath);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<a class="code" href="class_shader.html">Shader</a> GenerateShader(<span class="keyword">const</span> GLchar * vertexPath, <span class="keyword">const</span> GLchar * fragmentPath, <span class="keyword">const</span> GLchar * geometryPath);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"> * @brief Generates shader from GLSL files</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"> * @param Vertex Path</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"> * @param Fragment Path</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"> * @param TCS Path</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"> * @param TES Path</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<a class="code" href="class_shader.html">Shader</a> GenerateShader(<span class="keyword">const</span> GLchar * vertexPath, <span class="keyword">const</span> GLchar * fragmentPath, <span class="keyword">const</span> GLchar * tcsPath, <span class="keyword">const</span> GLchar * tesPath);</div>
 <div class="ttc" id="a_shader___base_8hpp_html"><div class="ttname"><a href="_shader___base_8hpp.html">Shader_Base.hpp</a></div><div class="ttdoc">Shader_Base class (from TA's sample)</div></div>
 <div class="ttc" id="aclass_shader___base_html"><div class="ttname"><a href="class_shader___base.html">Shader_Base</a></div><div class="ttdoc">Contains the real data of the shader to be stored in a static database.</div><div class="ttdef"><b>Definition:</b> Shader_Base.hpp:28</div></div>
 <div class="ttc" id="aclass_shader_html"><div class="ttname"><a href="class_shader.html">Shader</a></div><div class="ttdoc">Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...</div><div class="ttdef"><b>Definition:</b> Shader.hpp:27</div></div>

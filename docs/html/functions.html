@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -82,7 +82,7 @@ $(function() {
 : <a class="el" href="class_entity.html#a0796eebb2a3268d75f6b0de455b694e8">Entity</a>
 </li>
 <li>__uniformIds
-: <a class="el" href="class_shader___base.html#a358fb37015104a0cb02fdbbf0729235d">Shader_Base</a>
+: <a class="el" href="class_shader___base.html#adfa575ad98051dd5887e2e335a36f3d1">Shader_Base</a>
 </li>
 </ul>
 
@@ -99,6 +99,9 @@ $(function() {
 </li>
 <li>AddMaterial()
 : <a class="el" href="class_entity_attribute_manager.html#a50b1ac7940f2df586f79885a8347420c">EntityAttributeManager</a>
+</li>
+<li>AddPbrMaterial()
+: <a class="el" href="class_entity_attribute_manager.html#ad8b3fa627c9552d4924a0f302231cf83">EntityAttributeManager</a>
 </li>
 <li>AxisDisplayer()
 : <a class="el" href="class_axis_displayer.html#ae31d900f14db1669c82cd5da46174b2d">AxisDisplayer</a>
@@ -166,7 +169,8 @@ $(function() {
 : <a class="el" href="class_obj.html#a620caf76838df786affa251b4b60127d">Obj</a>
 </li>
 <li>GenerateTexture()
-: <a class="el" href="class_texture.html#a79379938bc77406f753d0b3839863ada">Texture</a>
+: <a class="el" href="class_h_d_r_texture.html#abcc19bbcc2fc533eb95523e44a07e7c8">HDRTexture</a>
+, <a class="el" href="class_texture.html#a129444bb0c8d386215d388ac007659bb">Texture</a>
 </li>
 <li>Get()
 : <a class="el" href="class_window.html#ae287a7a4bdac8d3ebe1a6300b3605bce">Window</a>
@@ -176,7 +180,8 @@ $(function() {
 , <a class="el" href="class_font___base.html#a238c7159018be3330f6dc2fc522f3f5e">Font_Base</a>
 </li>
 <li>GetDimensions()
-: <a class="el" href="class_texture.html#a6a284a2a11022fee8d6e4d337c06a505">Texture</a>
+: <a class="el" href="class_h_d_r_texture.html#aa99d2c9095114f7acdefb3c6802b09a4">HDRTexture</a>
+, <a class="el" href="class_texture.html#a6a284a2a11022fee8d6e4d337c06a505">Texture</a>
 </li>
 <li>GetDrawMode()
 : <a class="el" href="class_mesh___obj.html#a446c24e606256b26bb3d4ac8b5c9316b">Mesh_Obj</a>
@@ -192,7 +197,8 @@ $(function() {
 : <a class="el" href="class_camera.html#a2de68f40aac333fad5260db44beb40c3">Camera</a>
 </li>
 <li>GetHeight()
-: <a class="el" href="class_texture.html#a289701837e23c9272509f377524ee8f2">Texture</a>
+: <a class="el" href="class_h_d_r_texture.html#aef689d642bb584078641e71f5b87fbb2">HDRTexture</a>
+, <a class="el" href="class_texture.html#a289701837e23c9272509f377524ee8f2">Texture</a>
 </li>
 <li>GetLifeSpan()
 : <a class="el" href="class_particle___base.html#a4624d4184682210a45f394e6f49e7636">Particle_Base</a>
@@ -208,6 +214,9 @@ $(function() {
 <li>GetParticles()
 : <a class="el" href="class_particle_system___base.html#a979d6d17dc889e8aaa6e0741e198e197">ParticleSystem_Base</a>
 </li>
+<li>GetPbrMaterial()
+: <a class="el" href="class_entity_attribute_manager.html#af6c4c96ac411181e858cb0f04103ed19">EntityAttributeManager</a>
+</li>
 <li>GetProjectionMatrix()
 : <a class="el" href="class_camera.html#ab0a4bf5a65d45f25529e3cffda1c361b">Camera</a>
 </li>
@@ -215,7 +224,8 @@ $(function() {
 : <a class="el" href="class_camera.html#a0d34f7740e64785fbb1d007002283bd0">Camera</a>
 </li>
 <li>GetTexture()
-: <a class="el" href="class_texture.html#a69e712298a630fabf4d21727fb6407b3">Texture</a>
+: <a class="el" href="class_h_d_r_texture.html#aa85ea72de93016c0084c97340f95e78d">HDRTexture</a>
+, <a class="el" href="class_texture.html#a69e712298a630fabf4d21727fb6407b3">Texture</a>
 </li>
 <li>GetTimeMultiplier()
 : <a class="el" href="class_window.html#a251c448f4f5529ac14bf1a0d646bc783">Window</a>
@@ -224,7 +234,8 @@ $(function() {
 : <a class="el" href="class_camera.html#affa333055635aed96518c4c66be9a70c">Camera</a>
 </li>
 <li>GetWidth()
-: <a class="el" href="class_texture.html#a7f5ee18c7466f904fa371bd97399a944">Texture</a>
+: <a class="el" href="class_h_d_r_texture.html#a113703f3adc696768837345cb4d0a563">HDRTexture</a>
+, <a class="el" href="class_texture.html#a7f5ee18c7466f904fa371bd97399a944">Texture</a>
 </li>
 <li>GetWindowDimensions()
 : <a class="el" href="class_camera.html#ad65ee087467ab8d60c3e3ef7b1349a30">Camera</a>
@@ -424,6 +435,7 @@ $(function() {
 <li>Render()
 : <a class="el" href="class_entity_attribute.html#a868e21575b18af3285b70fe8b56cf328">EntityAttribute</a>
 , <a class="el" href="class_material.html#aa0d54de95f3788eddbbcccf7d539c98f">Material</a>
+, <a class="el" href="class_pbr___material.html#a781d84d1758bd7860d35e03f7e703d76">Pbr_Material</a>
 </li>
 <li>Reset()
 : <a class="el" href="class_particle_system___base.html#a6c27fcf2a6b705f494acebd7963d6b44">ParticleSystem_Base</a>

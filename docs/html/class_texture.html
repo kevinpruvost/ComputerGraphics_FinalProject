@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -82,9 +82,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a79379938bc77406f753d0b3839863ada"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_texture.html#a79379938bc77406f753d0b3839863ada">GenerateTexture</a> (const std::string &amp;filePath)</td></tr>
-<tr class="memdesc:a79379938bc77406f753d0b3839863ada"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates texture from texture file path.  <a href="class_texture.html#a79379938bc77406f753d0b3839863ada">More...</a><br /></td></tr>
-<tr class="separator:a79379938bc77406f753d0b3839863ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a129444bb0c8d386215d388ac007659bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_texture.html#a129444bb0c8d386215d388ac007659bb">GenerateTexture</a> (const std::string &amp;filePath, int forceChannels=0)</td></tr>
+<tr class="memdesc:a129444bb0c8d386215d388ac007659bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates texture from texture file path.  <a href="class_texture.html#a129444bb0c8d386215d388ac007659bb">More...</a><br /></td></tr>
+<tr class="separator:a129444bb0c8d386215d388ac007659bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f5ee18c7466f904fa371bd97399a944"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_texture.html#a7f5ee18c7466f904fa371bd97399a944">GetWidth</a> () const</td></tr>
 <tr class="memdesc:a7f5ee18c7466f904fa371bd97399a944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns texture width.  <a href="class_texture.html#a7f5ee18c7466f904fa371bd97399a944">More...</a><br /></td></tr>
 <tr class="separator:a7f5ee18c7466f904fa371bd97399a944"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,8 +113,8 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__textureId</b></td
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains and manages every information about textures. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a79379938bc77406f753d0b3839863ada"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79379938bc77406f753d0b3839863ada">&#9670;&nbsp;</a></span>GenerateTexture()</h2>
+<a id="a129444bb0c8d386215d388ac007659bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a129444bb0c8d386215d388ac007659bb">&#9670;&nbsp;</a></span>GenerateTexture()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -123,8 +123,18 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__textureId</b></td
           <td class="memname">bool Texture::GenerateTexture </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>forceChannels</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -221,8 +231,8 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>__textureId</b></td
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/EntityAttribute/<a class="el" href="_texture_8hpp_source.html">Texture.hpp</a></li>
-<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/EntityAttribute/<a class="el" href="_texture_8cpp.html">Texture.cpp</a></li>
+<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Texture/<a class="el" href="_texture_8hpp_source.html">Texture.hpp</a></li>
+<li>C:/Users/timmi/OneDrive/Documents/IMPORTANT/Tsinghua/Courses/Spring Semester/Fundamentals of Computer Graphics/Project/Code/OGL_Implementation/Texture/<a class="el" href="_texture_8cpp.html">Texture.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.9.1-->

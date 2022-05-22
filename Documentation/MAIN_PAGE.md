@@ -15,6 +15,8 @@ with an executable file to launch directly.
 
 <iframe width="1280" height="720" src="https://www.youtube.com/embed/ZxSr5YX9_Ec" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/P_5v5bezrlM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 \endhtmlonly
 
 ## Classes
@@ -23,11 +25,13 @@ with an executable file to launch directly.
 
 - [Log](class_log.html)
 - [AxisDisplayer](class_axis_displayer.html)
+- [Timer](class_timer.html)
 
 ### Shader
 
 - [Shader](class_shader.html)
 - [Shader_Base](class_shader__base.html)
+- [Shadinclude](class_shad_include.html)
 
 ### Mesh
 
@@ -89,6 +93,11 @@ with an executable file to launch directly.
 - [Image2D](class_image2_d.html)
 - [Image3D](class_image3_d.html)
 
+### Texture
+
+- [Texture](class_texture.html)
+- [HDRTexture](class_h_d_r_texture.html)
+
 ### Rendering
 
 - [Rendering](class_rendering.html)
@@ -101,6 +110,5 @@ with an executable file to launch directly.
 - [Input](class_input.html)
 - [Obj](class_obj.html)
 - [OpenGL_Timer](class_open_g_l___timer.html)
-- [Texture](class_texture.html)
 - [Window](class_window.html)
 - [Quaternion](class_quaternion.html)

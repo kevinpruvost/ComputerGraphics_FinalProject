@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['halfedge_297',['HalfEdge',['../struct_half_edge.html',1,'']]]
+  ['gui_311',['GUI',['../class_g_u_i.html',1,'']]]
 ];

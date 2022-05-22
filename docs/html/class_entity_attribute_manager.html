@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -94,7 +94,7 @@ Inheritance diagram for EntityAttributeManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:ae5c03b16f9ea73226c75b7eb9b4a83b1"><td class="memItemLeft" align="right" valign="top"><a id="ae5c03b16f9ea73226c75b7eb9b4a83b1"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>EntityAttributeId</b> { <b>EA_Material</b> = 0
-, <b>EA_Texture</b> = 1
+, <b>EA_PbrMaterial</b> = 1
  }</td></tr>
 <tr class="separator:ae5c03b16f9ea73226c75b7eb9b4a83b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -103,15 +103,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a50b1ac7940f2df586f79885a8347420c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_material.html">Material</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_entity_attribute_manager.html#a50b1ac7940f2df586f79885a8347420c">AddMaterial</a> ()</td></tr>
 <tr class="memdesc:a50b1ac7940f2df586f79885a8347420c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds Default <a class="el" href="class_material.html" title="Manages Diffuse, Specular mapping and shininess.">Material</a>.  <a href="class_entity_attribute_manager.html#a50b1ac7940f2df586f79885a8347420c">More...</a><br /></td></tr>
 <tr class="separator:a50b1ac7940f2df586f79885a8347420c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f445504cbb3d915fc073703bcacc291"><td class="memItemLeft" align="right" valign="top"><a id="a8f445504cbb3d915fc073703bcacc291"></a>
-<a class="el" href="class_texture.html">Texture</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>AddTexture</b> (const <a class="el" href="class_texture.html">Texture</a> &amp;texture)</td></tr>
-<tr class="separator:a8f445504cbb3d915fc073703bcacc291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8b3fa627c9552d4924a0f302231cf83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pbr___material.html">Pbr_Material</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_entity_attribute_manager.html#ad8b3fa627c9552d4924a0f302231cf83">AddPbrMaterial</a> (const char *albedoMap, const char *normalMap, const char *metallicMap, const char *roughnessMap, const char *aoMap)</td></tr>
+<tr class="memdesc:ad8b3fa627c9552d4924a0f302231cf83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds Default <a class="el" href="class_material.html" title="Manages Diffuse, Specular mapping and shininess.">Material</a>.  <a href="class_entity_attribute_manager.html#ad8b3fa627c9552d4924a0f302231cf83">More...</a><br /></td></tr>
+<tr class="separator:ad8b3fa627c9552d4924a0f302231cf83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64f5d28ca6b941bc90be29ce9646f146"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_material.html">Material</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_entity_attribute_manager.html#a64f5d28ca6b941bc90be29ce9646f146">GetMaterial</a> ()</td></tr>
 <tr class="memdesc:a64f5d28ca6b941bc90be29ce9646f146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns material.  <a href="class_entity_attribute_manager.html#a64f5d28ca6b941bc90be29ce9646f146">More...</a><br /></td></tr>
 <tr class="separator:a64f5d28ca6b941bc90be29ce9646f146"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a47f2c1c1032319d96e32ea49ad1ead"><td class="memItemLeft" align="right" valign="top"><a id="a7a47f2c1c1032319d96e32ea49ad1ead"></a>
-<a class="el" href="class_texture.html">Texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetTexture</b> ()</td></tr>
-<tr class="separator:a7a47f2c1c1032319d96e32ea49ad1ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6c4c96ac411181e858cb0f04103ed19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pbr___material.html">Pbr_Material</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_entity_attribute_manager.html#af6c4c96ac411181e858cb0f04103ed19">GetPbrMaterial</a> ()</td></tr>
+<tr class="memdesc:af6c4c96ac411181e858cb0f04103ed19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns material.  <a href="class_entity_attribute_manager.html#af6c4c96ac411181e858cb0f04103ed19">More...</a><br /></td></tr>
+<tr class="separator:af6c4c96ac411181e858cb0f04103ed19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -142,6 +142,55 @@ std::unordered_map&lt; EntityAttributeId, std::unique_ptr&lt; <a class="el" href
 
 </div>
 </div>
+<a id="ad8b3fa627c9552d4924a0f302231cf83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8b3fa627c9552d4924a0f302231cf83">&#9670;&nbsp;</a></span>AddPbrMaterial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_pbr___material.html">Pbr_Material</a> &amp; EntityAttributeManager::AddPbrMaterial </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>albedoMap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>normalMap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>metallicMap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>roughnessMap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>aoMap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds Default <a class="el" href="class_material.html" title="Manages Diffuse, Specular mapping and shininess.">Material</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>material </dd></dl>
+
+</div>
+</div>
 <a id="a64f5d28ca6b941bc90be29ce9646f146"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64f5d28ca6b941bc90be29ce9646f146">&#9670;&nbsp;</a></span>GetMaterial()</h2>
 
@@ -150,6 +199,26 @@ std::unordered_map&lt; EntityAttributeId, std::unique_ptr&lt; <a class="el" href
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_material.html">Material</a> * EntityAttributeManager::GetMaterial </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns material. </p>
+<dl class="section return"><dt>Returns</dt><dd>material </dd></dl>
+
+</div>
+</div>
+<a id="af6c4c96ac411181e858cb0f04103ed19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6c4c96ac411181e858cb0f04103ed19">&#9670;&nbsp;</a></span>GetPbrMaterial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_pbr___material.html">Pbr_Material</a> * EntityAttributeManager::GetPbrMaterial </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

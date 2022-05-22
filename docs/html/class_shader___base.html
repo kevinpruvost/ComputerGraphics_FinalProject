@@ -27,7 +27,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Final Project of FCG
    </div>
-   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Raytracing | Skin Rendering</div>
+   <div id="projectbrief">Fundamentals of Computer Graphics - Final Project : Mesh Subidvision/Simplification | Skin Rendering</div>
   </td>
  </tr>
  </tbody>
@@ -89,6 +89,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2b278fdac80ca5c158af054ed15b9829"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader___base.html#a2b278fdac80ca5c158af054ed15b9829">Shader_Base</a> (const GLchar *vertexPath, const GLchar *fragmentPath, const GLchar *tcsPath, const GLchar *tesPath)</td></tr>
 <tr class="memdesc:a2b278fdac80ca5c158af054ed15b9829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs and generates the shader with Vertex <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>, Fragment <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>, TCS <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a> &amp; TES <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>.  <a href="class_shader___base.html#a2b278fdac80ca5c158af054ed15b9829">More...</a><br /></td></tr>
 <tr class="separator:a2b278fdac80ca5c158af054ed15b9829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af48eb68d544fd92224cc3eaa25945377"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader___base.html#af48eb68d544fd92224cc3eaa25945377">Shader_Base</a> (const GLchar *vertexPath, const GLchar *fragmentPath, const GLchar *geometryPath)</td></tr>
+<tr class="memdesc:af48eb68d544fd92224cc3eaa25945377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs and generates the shader with Vertex <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>, Fragment <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a> &amp; Geometry <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>.  <a href="class_shader___base.html#af48eb68d544fd92224cc3eaa25945377">More...</a><br /></td></tr>
+<tr class="separator:af48eb68d544fd92224cc3eaa25945377"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61f46679081aac37ec949f2f19c7ed19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader___base.html#a61f46679081aac37ec949f2f19c7ed19">Use</a> () const</td></tr>
 <tr class="memdesc:a61f46679081aac37ec949f2f19c7ed19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uses the current shader.  <a href="class_shader___base.html#a61f46679081aac37ec949f2f19c7ed19">More...</a><br /></td></tr>
 <tr class="separator:a61f46679081aac37ec949f2f19c7ed19"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,6 +104,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1b728aab5b94d85f05c23d5fcb0c7224"><td class="memItemLeft" align="right" valign="top"><a id="a1b728aab5b94d85f05c23d5fcb0c7224"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetUniformInt</b> (const GLchar *uniformName, const GLint nb)</td></tr>
 <tr class="separator:a1b728aab5b94d85f05c23d5fcb0c7224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc21308b7f3bad70430e637be3cbd79d"><td class="memItemLeft" align="right" valign="top"><a id="acc21308b7f3bad70430e637be3cbd79d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetUniformInt</b> (const GLchar *uniformName, const std::vector&lt; GLint &gt; &amp;nb)</td></tr>
+<tr class="separator:acc21308b7f3bad70430e637be3cbd79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d83304e9da47bd2da0b72399051fd7f"><td class="memItemLeft" align="right" valign="top"><a id="a4d83304e9da47bd2da0b72399051fd7f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetUniformFloat</b> (const GLchar *uniformName, const GLfloat nb)</td></tr>
 <tr class="separator:a4d83304e9da47bd2da0b72399051fd7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,15 +152,15 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa6757ecddc3947b72d1080e22294e19f"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader___base.html#aa6757ecddc3947b72d1080e22294e19f">__program</a></td></tr>
 <tr class="memdesc:aa6757ecddc3947b72d1080e22294e19f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a> program id.  <a href="class_shader___base.html#aa6757ecddc3947b72d1080e22294e19f">More...</a><br /></td></tr>
 <tr class="separator:aa6757ecddc3947b72d1080e22294e19f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a358fb37015104a0cb02fdbbf0729235d"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; const GLchar *, GLuint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader___base.html#a358fb37015104a0cb02fdbbf0729235d">__uniformIds</a></td></tr>
-<tr class="memdesc:a358fb37015104a0cb02fdbbf0729235d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains uniform ids.  <a href="class_shader___base.html#a358fb37015104a0cb02fdbbf0729235d">More...</a><br /></td></tr>
-<tr class="separator:a358fb37015104a0cb02fdbbf0729235d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa575ad98051dd5887e2e335a36f3d1"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, GLuint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader___base.html#adfa575ad98051dd5887e2e335a36f3d1">__uniformIds</a></td></tr>
+<tr class="memdesc:adfa575ad98051dd5887e2e335a36f3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains uniform ids.  <a href="class_shader___base.html#adfa575ad98051dd5887e2e335a36f3d1">More...</a><br /></td></tr>
+<tr class="separator:adfa575ad98051dd5887e2e335a36f3d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the real data of the shader to be stored in a static database. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a06e0fd430871bb6412a6023a1f6a40e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06e0fd430871bb6412a6023a1f6a40e2">&#9670;&nbsp;</a></span>Shader_Base() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a06e0fd430871bb6412a6023a1f6a40e2">&#9670;&nbsp;</a></span>Shader_Base() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,7 +197,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a2b278fdac80ca5c158af054ed15b9829"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b278fdac80ca5c158af054ed15b9829">&#9670;&nbsp;</a></span>Shader_Base() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b278fdac80ca5c158af054ed15b9829">&#9670;&nbsp;</a></span>Shader_Base() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -235,6 +241,50 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">fragmentPath</td><td></td></tr>
     <tr><td class="paramname">tcsPath</td><td></td></tr>
     <tr><td class="paramname">tesPath</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af48eb68d544fd92224cc3eaa25945377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af48eb68d544fd92224cc3eaa25945377">&#9670;&nbsp;</a></span>Shader_Base() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Shader_Base::Shader_Base </td>
+          <td>(</td>
+          <td class="paramtype">const GLchar *&#160;</td>
+          <td class="paramname"><em>vertexPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const GLchar *&#160;</td>
+          <td class="paramname"><em>fragmentPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const GLchar *&#160;</td>
+          <td class="paramname"><em>geometryPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs and generates the shader with Vertex <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>, Fragment <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a> &amp; Geometry <a class="el" href="class_shader.html" title="Contains Shader Id and methods related to the shader database. It also helps having a much lighter cl...">Shader</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertexPath</td><td></td></tr>
+    <tr><td class="paramname">fragmentPath</td><td></td></tr>
+    <tr><td class="paramname">geometryPath</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -367,8 +417,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a358fb37015104a0cb02fdbbf0729235d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a358fb37015104a0cb02fdbbf0729235d">&#9670;&nbsp;</a></span>__uniformIds</h2>
+<a id="adfa575ad98051dd5887e2e335a36f3d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa575ad98051dd5887e2e335a36f3d1">&#9670;&nbsp;</a></span>__uniformIds</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,7 +427,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;const GLchar *, GLuint&gt; Shader_Base::__uniformIds</td>
+          <td class="memname">std::unordered_map&lt;std::string, GLuint&gt; Shader_Base::__uniformIds</td>
         </tr>
       </table>
   </td>
