@@ -1,4 +1,4 @@
-# Final Project of Fundamentals of Computer Graphics: Mesh Subdivision & Simplification / Ray Tracing / Human Skin Rendering
+# Final Project of Fundamentals of Computer Graphics: Mesh Subdivision & Simplification / Human Skin Rendering
 
 <p align="center">
   <img src="https://github.com/kevinpruvost/OpenImages/blob/miscellaneous/images/1200px-Tsinghua_University_Logo.svg.png" width=250/><br/><br/>
