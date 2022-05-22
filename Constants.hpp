@@ -100,19 +100,19 @@ constexpr const char * texture = "resources/Textures/cubemap.hdr";
 }; // !Constants::Paths::Textures::Cubemap
 namespace HumanHead
 {
-constexpr const char * albedo    = "resources/Textures/HumanFace/diffuse_albedo.bmp";
-constexpr const char * roughness = "resources/Textures/HumanFace/specular_albedo.bmp";
-constexpr const char * normal    = "resources/Textures/HumanFace/specular_normal_tangent.bmp";
-constexpr const char * metallic  = "resources/Textures/HumanFace/metallic.bmp";
-constexpr const char * ao        = "resources/Textures/HumanFace/ao.bmp";
+constexpr const char * albedo    = "resources/Textures/HumanFace/diffuse_albedo.jpg";
+constexpr const char * roughness = "resources/Textures/HumanFace/specular_albedo.jpg";
+constexpr const char * normal    = "resources/Textures/HumanFace/specular_normal_tangent.jpg";
+constexpr const char * metallic  = "resources/Textures/HumanFace/metallic.jpg";
+constexpr const char * ao        = "resources/Textures/HumanFace/ao.jpg";
 }; // !Constants::Paths::Textures::HumanHead
 namespace HumanHead2
 {
 constexpr const char * albedo    = "resources/Textures/HumanFace2/diffuse_albedo.jpg";
 constexpr const char * roughness = "resources/Textures/HumanFace2/roughness.jpg";
 constexpr const char * normal    = "resources/Textures/HumanFace2/specular_normal_tangent.jpg";
-constexpr const char * metallic  = "resources/Textures/HumanFace2/metallic.bmp";
-constexpr const char * ao        = "resources/Textures/HumanFace2/ao.bmp";
+constexpr const char * metallic  = "resources/Textures/HumanFace2/metallic.jpg";
+constexpr const char * ao        = "resources/Textures/HumanFace2/ao.jpg";
 }; // !Constants::Paths::Textures::HumanHead2
 namespace Gold
 {
