@@ -61,13 +61,13 @@ Though, as CMake permits it, you will be easily able to compile on other platfor
 
 ### Side Notes
 
-[Halfedge Mesh](https://cmu-graphics.github.io/Scotty3D/meshedit/halfedge)
+[Halfedge Mesh - Carneggie Mellon University Scotty3D](https://cmu-graphics.github.io/Scotty3D/meshedit/halfedge)
 
-[Loop Subdivision](https://cmu-graphics.github.io/Scotty3D/meshedit/global/loop/)
+[Loop Subdivision - Carneggie Mellon University Scotty3D](https://cmu-graphics.github.io/Scotty3D/meshedit/global/loop/)
 
-[](https://cmu-graphics.github.io/Scotty3D/meshedit/global/simplify/)
+[Mesh Simplification - Carneggie Mellon University Scotty3D](https://cmu-graphics.github.io/Scotty3D/meshedit/global/simplify/)
 
-[Matt's Webcorner](https://graphics.stanford.edu/~mdfisher/subdivision.html)
+[Matt's Webcorner - Stanford University](https://graphics.stanford.edu/~mdfisher/subdivision.html)
 
 ### Multithreading
 
