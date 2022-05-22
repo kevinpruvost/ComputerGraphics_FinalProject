@@ -20,6 +20,16 @@ to generate different illumination effect.
 
 Depending on the different calculation ways for normals ("vertex" normal vs "face" normal), you will get a smooth model or a less-smooth one (Figure 1,2,3 vs Figure 4). You only need to implement one of them.
 
+# Demonstration
+
+## Mesh Subdivision/Simplification
+
+[![Demo](embed.png)](https://youtu.be/ZxSr5YX9_Ec)
+
+## Human Skin Rendering
+
+[![Demo](embed_2.png)](https://youtu.be/P_5v5bezrlM)
+
 # Compilation
 
 This project and all of my CG projects will be compiled with CMake, if you open the project directly with Visual Studio, you should be able to directly compile it.
@@ -264,10 +274,6 @@ And that gives us this kind of results, keep in mind that my simplification stop
 - Icosahedron subdivided 2 times:
 
 ![Untitled](readme_resources/Untitled%2012.png)
-
-# Demonstration
-
-[![Demo](embed.png)](https://youtu.be/ZxSr5YX9_Ec)
 
 ## Content
 
