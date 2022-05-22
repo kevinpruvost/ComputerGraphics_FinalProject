@@ -159,6 +159,7 @@ int main()
 	sun.ChangeSpecular(glm::vec3(1.0f));
 	sun.ChangeDiffuse(glm::vec3(5.0f));
 	sun.ChangeAmbient(glm::vec3(1.0f));
+	sun.name = "Sun";
 
 	Entity goldBall(sphereMesh,
 		Rendering::Shaders(Constants::Paths::pointShaderVertex),
@@ -256,9 +257,13 @@ int main()
 		}
 
 		auto entities = Entity::GetAllEntities();
-		for (auto & entity : entities)
+		if (ImGui::TreeNodeEx("Entities", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			gui.EditEntity(*entity);
+			for (auto & entity : entities)
+			{
+				gui.EditEntity(*entity);
+			}
+			ImGui::TreePop();
 		}
 
 		if (ImGui::TreeNodeEx("Light Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))

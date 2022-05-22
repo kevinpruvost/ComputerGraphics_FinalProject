@@ -17,6 +17,8 @@
 static std::unique_ptr<LightRendering> s_lightRendering;
 static const size_t shadowWidth = 1024, static const shadowHeight = 1024;
 
+#include <stb_image_write.h>
+
 LightRendering::LightRendering()
     : __uboLights{ 0 }
     , __shadowMappingShader{ GenerateShader(Constants::Paths::shadowMappingVertex, Constants::Paths::shadowMappingFrag) }
@@ -121,24 +123,21 @@ void LightRendering::RefreshUbo()
             if (dynamic_cast<PointLight *>(entities[i])) continue;
 
             shader.SetUniformMatrix4f("model", entities[i]->GetModelMatrix());
-            glBindVertexArray(entities[i]->GetMesh().facesVAO());
+            glBindVertexArray(entities[i]->GetMesh().verticesVAO());
 
-            GLenum primitiveMode = (*shader)->GetPrimitiveMode();
-            if (primitiveMode == GL_PATCHES) glPatchParameteri(GL_PATCH_VERTICES, 25);
-
-            switch (entities[i]->GetMesh().GetDrawMode())
-            {
-                case Mesh_Base::DrawMode::DrawElements:
-                    glDrawElements(primitiveMode, entities[i]->GetMesh().facesNVert(), GL_UNSIGNED_INT, 0);
-                    break;
-                case Mesh_Base::DrawMode::DrawArrays:
-                    glDrawArrays(primitiveMode, 0, entities[i]->GetMesh().facesNVert());
-                    break;
-            }
+            glDrawArrays(GL_POINTS, 0, entities[i]->GetMesh().verticesNVert());
         }
     }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    /*DEBUG_CODE(
+        GLubyte * pixels = new GLubyte[shadowWidth * shadowHeight * 1];
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glReadPixels(0, 0, shadowWidth, shadowHeight, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, pixels);
+        stbi_write_bmp("screenshots/TEST.bmp", shadowWidth, shadowHeight, 1, pixels);
+        delete[] pixels;
+    );*/
 
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, Window::Get()->windowWidth(), Window::Get()->windowHeight());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
