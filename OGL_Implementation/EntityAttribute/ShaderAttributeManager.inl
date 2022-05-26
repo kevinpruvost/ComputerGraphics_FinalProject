@@ -24,7 +24,6 @@ inline T * ShaderAttributeManager::GetShaderAttribute(const std::string & name)
 {
     if (!shaderAttributes.contains(name))
     {
-        LOG_PRINT(stderr, "No shader of name '%s'\n", name.c_str());
         return nullptr;
     }
     return (T *)shaderAttributes[name].get()->GetData();
@@ -35,7 +34,6 @@ inline const T * ShaderAttributeManager::GetShaderAttribute(const std::string & 
 {
     if (!shaderAttributes.contains(name))
     {
-        LOG_PRINT(stderr, "No shader of name '%s'\n", name.c_str());
         return nullptr;
     }
     return (const T *)shaderAttributes[name].get()->GetData();

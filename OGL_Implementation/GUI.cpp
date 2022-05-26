@@ -73,7 +73,7 @@ void GUI::AddCallback(const std::function<bool()> & lambda)
 
 void GUI::EditEntity(Entity & entity)
 {
-    if (ImGui::TreeNodeEx(std::format("{0}", entity.name).c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
+    if (ImGui::TreeNodeEx(std::format("{0}", entity.name).c_str()))
     {
         glm::vec3 eulerAngles = entity.quat.ToEulerAngles();
         ImGui::DragFloat3("Position", glm::value_ptr(entity.pos), 0.02f);

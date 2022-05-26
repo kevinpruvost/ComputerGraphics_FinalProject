@@ -76,22 +76,22 @@ GLuint Mesh_Base::GetFacesVerticesCount() const
 
 const std::vector<VertexPos> * Mesh_Base::GetVerticesPos() const
 {
-	return nullptr;
+	return &__v;
 }
 
 const std::vector<VertexNormal> * Mesh_Base::GetVerticesNormals() const
 {
-	return nullptr;
+	return &__vN;
 }
 
 const std::vector<VertexTextureCoordinates> * Mesh_Base::GetVerticesTextureCoordinates() const
 {
-	return nullptr;
+	return &__vT;
 }
 
 const std::vector<Face> * Mesh_Base::GetFaces() const
 {
-	return nullptr;
+	return &__faces;
 }
 
 bool Mesh_Base::HasTextureCoordinates() const

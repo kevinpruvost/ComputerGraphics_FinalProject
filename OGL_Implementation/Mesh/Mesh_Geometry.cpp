@@ -7,6 +7,8 @@
  *********************************************************************/
 #include "Mesh_Geometry.hpp"
 
+#include <unordered_map>
+
 Face::Face(const std::vector<int> & _v, const std::vector<int> & _vt, const std::vector<int> & _vn)
 	: v{ _v }
 	, vt{ _vt }
@@ -40,6 +42,7 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 	std::vector<std::unique_ptr<HalfEdge>> halfEdges;
 	halfEdges.reserve(faces.size() * 3);
 
+	std::unordered_map<int, HalfEdge *> twinsToAttach;
 	for (int i = 0; i < faces.size(); ++i)
 	{
 		std::array<HalfEdge *, 3> lasts{ nullptr };
@@ -56,9 +59,23 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 		lasts[0]->next = lasts[2]->previous = lasts[1];
 		lasts[1]->next = lasts[0]->previous = lasts[2];
 		lasts[2]->next = lasts[1]->previous = lasts[0];
+		for (int k = 0; k < 3; ++k)
+		{
+			if (twinsToAttach.contains(lasts[k]->origin))
+			{
+				lasts[k]->twin = twinsToAttach.at(lasts[k]->origin);
+				lasts[k]->twin->twin = lasts[k];
+				// Faster or not ?
+				//twinsToAttach.erase(lasts[k]->origin);
+			}
+			else
+			{
+				twinsToAttach.emplace(lasts[k]->next->origin, lasts[k]);
+			}
+		}
 	}
 
-	for (int i = 0; i < halfEdges.size(); ++i)
+	/*for (int i = 0; i < halfEdges.size(); ++i)
 	{
 		if (halfEdges[i]->twin) continue;
 		for (int j = 0; j < halfEdges.size(); ++j)
@@ -72,7 +89,7 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 				break;
 			}
 		}
-	}
+	}*/
 	return halfEdges;
 }
 
