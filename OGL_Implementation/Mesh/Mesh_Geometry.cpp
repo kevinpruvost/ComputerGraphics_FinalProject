@@ -7,7 +7,9 @@
  *********************************************************************/
 #include "Mesh_Geometry.hpp"
 
+// C++ includes
 #include <unordered_map>
+#include <utility>
 
 Face::Face(const std::vector<int> & _v, const std::vector<int> & _vt, const std::vector<int> & _vn)
 	: v{ _v }
@@ -42,7 +44,7 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 	std::vector<std::unique_ptr<HalfEdge>> halfEdges;
 	halfEdges.reserve(faces.size() * 3);
 
-	std::unordered_map<int, HalfEdge *> twinsToAttach;
+	std::unordered_map<int, std::unordered_map<int, HalfEdge *>> twinsToAttach;
 	for (int i = 0; i < faces.size(); ++i)
 	{
 		std::array<HalfEdge *, 3> lasts{ nullptr };
@@ -61,16 +63,22 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 		lasts[2]->next = lasts[1]->previous = lasts[0];
 		for (int k = 0; k < 3; ++k)
 		{
-			if (twinsToAttach.contains(lasts[k]->origin))
+			HalfEdge * currentLast = lasts[k];
+			std::unordered_map<int, std::unordered_map<int, HalfEdge *>>::iterator ite = twinsToAttach.find(currentLast->origin);
+			std::unordered_map<int, HalfEdge *>::iterator twinLast;
+			if (ite != twinsToAttach.end() && (twinLast = ite->second.find(currentLast->next->origin)) != ite->second.end())
 			{
-				lasts[k]->twin = twinsToAttach.at(lasts[k]->origin);
-				lasts[k]->twin->twin = lasts[k];
+				currentLast->twin = twinLast->second;
+				twinLast->second->twin = currentLast;
 				// Faster or not ?
-				//twinsToAttach.erase(lasts[k]->origin);
+				//twinsToAttach.erase(currentLast->origin);
 			}
 			else
 			{
-				twinsToAttach.emplace(lasts[k]->next->origin, lasts[k]);
+				if ((ite = twinsToAttach.find(currentLast->next->origin)) == twinsToAttach.end())
+					twinsToAttach.emplace(currentLast->next->origin, std::unordered_map<int, HalfEdge *>{ {currentLast->origin, currentLast} });
+				else
+					ite->second.emplace(currentLast->origin, currentLast);
 			}
 		}
 	}
@@ -90,47 +98,6 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 			}
 		}
 	}*/
-	return halfEdges;
-}
-
-std::vector<std::shared_ptr<HalfEdge>> GenerateHalfEdgesFromVerticesShared(const std::vector<Face> & faces)
-{
-	std::vector<std::shared_ptr<HalfEdge>> halfEdges;
-	halfEdges.reserve(faces.size() * 3);
-
-	for (int i = 0; i < faces.size(); ++i)
-	{
-		std::array<HalfEdge *, 3> lasts{ nullptr };
-		for (int j = 0; j < 3; ++j)
-		{
-			lasts[j] = halfEdges.emplace_back(new HalfEdge(
-				nullptr,// Twin
-				nullptr,// Next
-				nullptr,// Previous
-				i,// Face
-				faces[i].v[j]// Origin
-			)).get();
-		}
-		lasts[0]->next = lasts[2]->previous = lasts[1];
-		lasts[1]->next = lasts[0]->previous = lasts[2];
-		lasts[2]->next = lasts[1]->previous = lasts[0];
-	}
-
-	for (int i = 0; i < halfEdges.size(); ++i)
-	{
-		if (halfEdges[i]->twin) continue;
-		for (int j = 0; j < halfEdges.size(); ++j)
-		{
-			if (i == j || halfEdges[i]->face == halfEdges[j]->face) continue;
-
-			if (halfEdges[i]->origin == halfEdges[j]->next->origin && halfEdges[i]->next->origin == halfEdges[j]->origin)
-			{
-				halfEdges[i]->twin = halfEdges[j].get();
-				halfEdges[j]->twin = halfEdges[i].get();
-				break;
-			}
-		}
-	}
 	return halfEdges;
 }
 
