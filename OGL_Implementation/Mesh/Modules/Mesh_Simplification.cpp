@@ -85,6 +85,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
         if (mesh->GetVerticesCount() == 0) return;
 
         const std::vector<VertexPos> & vPs = *mesh->GetVerticesPos();
+        const std::vector<VertexTextureCoordinates> & vTs = *mesh->GetVerticesTextureCoordinates();
         const std::vector<Face> & originFaces = *mesh->GetFaces();
         std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
 
@@ -96,6 +97,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 
         std::vector<Face> newFaces(originFaces);
         std::vector<VertexPos> newVertices(vPs);
+        std::vector<VertexTextureCoordinates> newTextureCoords(vTs);
 
         // Contraction
         size_t initFacesCount = newFaces.size() / 2;
@@ -112,6 +114,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
             // Assign contracted point to v1, to later remove v2
             VertexPos contractedPoint = (newVertices[vid1] + newVertices[vid2]) / 2.0f;
             newVertices[vid1] = contractedPoint;
+            VertexTextureCoordinates contractedTextureCoords(0.0f);
 
             std::vector<int> facesRemoved;
             for (int j = 0; j < newFaces.size(); ++j)
@@ -120,20 +123,30 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
                 if (std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid1) != newFaces[j].v.end()
                     && std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2) != newFaces[j].v.end())
                 {
+                    if (contractedTextureCoords == glm::vec2(0.0f) && !newFaces[j].vt.empty())
+                    {
+                        for (int k = 0; k < 3; ++k)
+                        {
+                            if (newFaces[j].v[k] == vid1 || newFaces[j].v[k] == vid2)
+                                contractedTextureCoords += newTextureCoords[newFaces[j].vt[k]];
+                        }
+                        contractedTextureCoords *= 0.5f;
+                    }
                     // If face contains the 2 vertices contracted
                     facesRemoved.push_back(j);
                     qMatrices[newFaces[j].v[0]] -= planes[j];
                     qMatrices[newFaces[j].v[1]] -= planes[j];
                     qMatrices[newFaces[j].v[2]] -= planes[j];
+                    continue;
                 }
                 else if ((ite = std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2)) != newFaces[j].v.end())
                 {
                     // If face contains v2, then reassign to v1
+                    *ite = vid1;
+                    // Update Plane
                     qMatrices[newFaces[j].v[0]] -= planes[j];
                     qMatrices[newFaces[j].v[1]] -= planes[j];
                     qMatrices[newFaces[j].v[2]] -= planes[j];
-                    *ite = vid1;
-                    // Update Plane
                     const glm::vec4 planeNormal = GetPlaneEquationFromTriangle(
                         newVertices[newFaces[j].v[0]],
                         newVertices[newFaces[j].v[1]],
@@ -154,7 +167,16 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
                         if (newFaces[j].v[x] > vid2) --newFaces[j].v[x];
                     }
                 }
+                if (!newFaces[j].vt.empty())
+                {
+                    for (int k = 0; k < 3; ++k)
+                    {
+                        if (newFaces[j].v[k] == vid1)
+                            newFaces[j].vt[k] = newTextureCoords.size();
+                    }
+                }
             }
+            if (!newTextureCoords.empty()) newTextureCoords.push_back(contractedTextureCoords);
 
             for (int x = 0; x < halfEdges.size(); ++x)
             {
@@ -199,7 +221,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
             }
             *working = true;
             mutex->lock();
-            mesh->SetGeometry(newFaces, newVertices);
+            mesh->SetGeometry(newFaces, newVertices, {}, newTextureCoords);
             mutex->unlock();
             *loopFinished = true;
             *working = false;

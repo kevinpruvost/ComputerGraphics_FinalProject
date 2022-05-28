@@ -70,7 +70,7 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 			{
 				currentLast->twin = twinLast->second;
 				twinLast->second->twin = currentLast;
-				// Faster or not ?
+				// Faster
 				//twinsToAttach.erase(currentLast->origin);
 			}
 			else
