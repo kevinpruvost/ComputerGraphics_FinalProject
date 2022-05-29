@@ -127,6 +127,9 @@ int main()
 	entity1.SetShaderAttribute("isNormalFlat", 0);
 	entity2.SetShaderAttribute("isNormalFlat", 1);
 	entity3.SetShaderAttribute("isNormalFlat", 1);
+	entity1.SetShaderAttribute("useShadow", 1);
+	entity2.SetShaderAttribute("useShadow", 1);
+	entity3.SetShaderAttribute("useShadow", 1);
 	humanHead.SetShaderAttribute("isNormalFlat", 0);
 	plane.SetShaderAttribute("isNormalFlat", 0);
 	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = glm::vec3(1.0f);
@@ -147,6 +150,7 @@ int main()
 		Constants::Paths::Textures::HumanHead::roughness,
 		Constants::Paths::Textures::HumanHead::ao
 	);
+	humanHead.SetShaderAttribute("useShadow", 1);
 	humanHead.SetShaderAttribute("translucency", 0.85f);
 	humanHead.SetShaderAttribute("sssWidth", 85.0f);
 	humanHead.SetShaderAttribute("ssssEnabled", 0);

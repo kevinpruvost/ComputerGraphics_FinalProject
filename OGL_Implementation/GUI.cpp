@@ -85,6 +85,10 @@ void GUI::EditEntity(Entity & entity)
             entity.quat.SetRotation(eulerAngles);
         }
         ImGui::DragFloat3("Scale", glm::value_ptr(entity.scale), 0.02f);
+        if (entity.GetShaderAttribute<int>("useShadow"))
+        {
+            ImGui::Checkbox("Shadow Rendering", (bool *)entity.GetShaderAttribute<int>("useShadow"));
+        }
         if (ImGui::TreeNodeEx("Mesh Properties", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
         {
             bool isMeshOpeFinished = entity.GetMesh().IsMeshOperationFinished();
@@ -100,10 +104,19 @@ void GUI::EditEntity(Entity & entity)
             }
             if (ImGui::Button("Simplify"))
             {
-                entity.GetMesh().SimplifyParallel();
+                entity.GetMesh().Simplify();
             }
             ImGui::SameLine();
             if (ImGui::Button("Subdivide"))
+            {
+                entity.GetMesh().Subdivide();
+            }
+            if (ImGui::Button("Simplify Parallel"))
+            {
+                entity.GetMesh().SimplifyParallel();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Subdivide Parallel"))
             {
                 entity.GetMesh().SubdivideParallel();
             }

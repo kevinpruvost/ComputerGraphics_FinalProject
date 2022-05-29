@@ -123,9 +123,9 @@ void LightRendering::RefreshUbo()
             if (dynamic_cast<PointLight *>(entities[i])) continue;
 
             shader.SetUniformMatrix4f("model", entities[i]->GetModelMatrix());
-            glBindVertexArray(entities[i]->GetMesh().verticesVAO());
+            glBindVertexArray(entities[i]->GetMesh().facesVAO());
 
-            glDrawArrays(GL_POINTS, 0, entities[i]->GetMesh().verticesNVert());
+            glDrawArrays(GL_TRIANGLES, 0, entities[i]->GetMesh().facesNVert());
         }
     }
     /*DEBUG_CODE(

@@ -7,6 +7,8 @@
  *********************************************************************/
 #include "Material.hpp"
 
+#include "OGL_Implementation\Rendering\LightRendering.hpp"
+
 Material::Material(const glm::vec3 & diffuse_, const glm::vec3 & specular_, const float shininess_)
     : EntityAttribute()
     , diffuseColor{ diffuse_ }
@@ -43,6 +45,16 @@ void Material::Render(Shader & shader)
     };
     checker(diffuseMapType, diffuseColor, diffuseTexture, "material.diffuseUseColor", "material.diffuseColor", "material.diffuseTexture");
     checker(specularMapType, specularColor, specularTexture, "material.specularUseColor", "material.specularColor", "material.specularTexture");
+
+    const auto shadowMaps = LightRendering::Get().shadowMaps;
+    std::vector<int> values(128, textureID);
+    for (int i = 0; i < PointLight::GetPointLightsCount(); ++i)
+    {
+        values[i] = textureID + i;
+        glActiveTexture(GL_TEXTURE0 + values[i]);
+        glBindTexture(GL_TEXTURE_2D, shadowMaps[i]);
+    }
+    shader.SetUniformInt("shadowMapsPerPointLight", values);
 
     shader.SetUniformFloat("material.shininess", shininess);
 }

@@ -236,8 +236,8 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 
 Mesh_Custom * Mesh_Simplification::Simplify(Mesh_Base & mesh)
 {
-    DEBUG_CODE(static Timer timer);
-    DEBUG_CODE(timer.Start());
+    static Timer timer;
+    timer.Start();
 
     if (mesh.GetVerticesCount() == 0) return nullptr;
 
@@ -350,9 +350,10 @@ Mesh_Custom * Mesh_Simplification::Simplify(Mesh_Base & mesh)
         errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges, qMatrices);
     }
 
+    Log::Print(Log::LogMainFileName, "Final Time Simplification: %.2fms\n", timer.GetMsTime());
     LOG_PRINT(stdout, "Final Time: %.2fms\n", timer.GetMsTime());
 
     Mesh_Custom * newMesh = new Mesh_Custom(newVertices, newFaces);
-    newMesh->GenerateNormals(false);
+    newMesh->GenerateNormals(true);
     return newMesh;
 }

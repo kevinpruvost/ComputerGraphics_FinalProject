@@ -18,6 +18,9 @@ using namespace std::chrono_literals;
 
 Mesh_Custom * Mesh_Subdivision::Subdivide(Mesh_Base & mesh)
 {
+    Timer timer;
+    timer.Start();
+
     const std::vector<Face> originFaces(*mesh.GetFaces());
     const std::vector<VertexPos> originVertices(*mesh.GetVerticesPos());
     std::vector<Face> newFaces;
@@ -153,7 +156,8 @@ Mesh_Custom * Mesh_Subdivision::Subdivide(Mesh_Base & mesh)
         }
     }
     Mesh_Custom * newMesh = new Mesh_Custom(newVertices, newFaces);
-    newMesh->GenerateNormals(false);
+    newMesh->GenerateNormals(true);
+    Log::Print(Log::LogMainFileName, "Final Time Subdivision: %.2fms\n", timer.GetMsTime());
     return newMesh;
 }
 

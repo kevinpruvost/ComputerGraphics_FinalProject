@@ -5,6 +5,7 @@
  * \author Kevin Pruvost (pruvostkevin0@gmail.com)
  * \date   May, 04 2022
  *********************************************************************/
+#pragma once
 
 // Project includes
 #include "OGL_Implementation\Texture\Texture.hpp"

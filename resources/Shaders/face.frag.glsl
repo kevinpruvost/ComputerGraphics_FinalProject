@@ -64,6 +64,8 @@ struct SpotLight
 
 #define NR_POINT_LIGHTS 128
 
+uniform sampler2D shadowMapsPerPointLight[NR_POINT_LIGHTS];
+
 layout (std140) uniform Lights
 {
 	PointLight pointLights[NR_POINT_LIGHTS];
@@ -81,12 +83,13 @@ layout (std140) uniform CameraProps
 };
 
 vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+vec3 CalcPointLight(PointLight light, sampler2D shadowMap, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 out vec4 color;
 uniform Material material;
 uniform bool isNormalFlat = false;
 uniform bool useLight = true;
+uniform bool useShadow = true;
 
 vec3 GetDiffuseMaterial(Material mat)
 {
@@ -104,6 +107,43 @@ vec3 GetSpecularMaterial(Material mat)
         return vec3(texture(mat.specularTexture, TexCoords));
 }
 
+// ----------------------------------------------------------------------------
+float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap, vec3 lightPos)
+{
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // calculate bias (based on depth map resolution and slope)
+    vec3 normal = normalize(Normal);
+    vec3 lightDir = normalize(lightPos - FragPos);
+    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    // check whether current frag pos is in shadow
+    // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+    // PCF
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x)
+    {
+        for(int y = -1; y <= 1; ++y)
+        {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;        
+        }    
+    }
+    shadow /= 9.0;
+    
+    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
+    if(projCoords.z > 1.0)
+        shadow = 0.0;
+        
+    return shadow;
+}
+
 void main()
 {
     if (useLight)
@@ -114,7 +154,7 @@ void main()
         
         vec3 result = vec3(0.0);
         for(int i = 0; i < pointLightsCount; i++)
-            result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+            result += CalcPointLight(pointLights[i], shadowMapsPerPointLight[i], norm, FragPos, viewDir);
         color = vec4(result, 1.0);
     }
     else
@@ -140,7 +180,7 @@ vec3 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir)
 }
 
 // calculates the color when using a point light.
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec3 CalcPointLight(PointLight light, sampler2D shadowMap, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
     vec3 lightDir = normalize(light.position - fragPos);
     // diffuse shading
@@ -158,5 +198,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
-    return (ambient + diffuse + specular);
+    float shadow = ShadowCalculation(light.spaceMatrix * vec4(FragPos, 1.0), shadowMap, light.position);
+    if (!useShadow)
+        shadow = 0.0f;
+    return (ambient + (1.0 - shadow) * (diffuse + specular));
 }

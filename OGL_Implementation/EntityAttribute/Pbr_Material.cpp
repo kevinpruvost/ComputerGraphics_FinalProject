@@ -55,11 +55,11 @@ void Pbr_Material::Render(Shader & shader)
     glBindTexture(GL_TEXTURE_2D, ao.GetTexture());
 
     const auto shadowMaps = LightRendering::Get().shadowMaps;
-    std::vector<int> values(128, 8);
+    std::vector<int> values(128, 31);
     for (int i = 0; i < PointLight::GetPointLightsCount(); ++i)
     {
         values[i] = 8 + i;
-        glActiveTexture(GL_TEXTURE8 + i);
+        glActiveTexture(GL_TEXTURE0 + values[i]);
         glBindTexture(GL_TEXTURE_2D, shadowMaps[i]);
     }
     shader.SetUniformInt("shadowMapsPerPointLight", values);
