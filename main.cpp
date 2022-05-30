@@ -347,10 +347,6 @@ int main()
 			glfwSetInputMode(window->window, GLFW_CURSOR,
 				cameraLock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 		}
-		if (cameraLock)
-		{
-			
-		}
 
 		// Font change
 		if (window->key(GLFW_KEY_F) == InputKey::JustPressed)
