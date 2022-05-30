@@ -127,9 +127,6 @@ int main()
 	entity1.SetShaderAttribute("isNormalFlat", 0);
 	entity2.SetShaderAttribute("isNormalFlat", 1);
 	entity3.SetShaderAttribute("isNormalFlat", 1);
-	entity1.SetShaderAttribute("useShadow", 1);
-	entity2.SetShaderAttribute("useShadow", 1);
-	entity3.SetShaderAttribute("useShadow", 1);
 	humanHead.SetShaderAttribute("isNormalFlat", 0);
 	plane.SetShaderAttribute("isNormalFlat", 0);
 	entityMaterial.diffuseColor = entity2Material.diffuseColor = entity3Material.diffuseColor = glm::vec3(1.0f);
@@ -138,7 +135,7 @@ int main()
 	plane.pos = glm::vec3(-4.0f, -6.0f, -6.0f );
 	plane.scale = glm::vec3(15.0f, 1.0f, 15.0f);
 	entity1.scale = glm::vec3(10.0f);
-	entity1.pos = glm::vec3(-1.0f, 0.0f, -1.0f);
+	entity1.pos = glm::vec3(-4.4f, 2.0f, -1.0f);
 	entity3.pos = glm::vec3(1.5f, 0.0f, 1.5f);
 	humanHead.scale = glm::vec3(0.3f);
 	humanHead.pos = glm::vec3(0.0f, 0.0f, -9.0f);
@@ -152,16 +149,16 @@ int main()
 	);
 	humanHead.SetShaderAttribute("useShadow", 1);
 	humanHead.SetShaderAttribute("translucency", 0.85f);
-	humanHead.SetShaderAttribute("sssWidth", 85.0f);
+	humanHead.SetShaderAttribute("sssWidth", 0.0155f);
 	humanHead.SetShaderAttribute("ssssEnabled", 0);
 
 	Mesh sphereMesh = GenerateMeshSphere();
 	PointLight sun(sphereMesh);
-	sun.focus = &humanHead;
+	sun.focus = &entity1;
 	sun.SetTexture(sunTexture);
 	sun.pos = { -3.1f, 1.46f, -11.8f };
 	sun.ChangeSpecular(glm::vec3(1.0f));
-	sun.ChangeDiffuse(glm::vec3(5.0f));
+	sun.ChangeDiffuse(glm::vec3(1.0f));
 	sun.ChangeAmbient(glm::vec3(1.0f));
 	sun.name = "Sun";
 
@@ -210,7 +207,7 @@ int main()
 		Constants::Paths::Textures::HumanHead2::ao
 	);
 	humanHead2.SetShaderAttribute("translucency", 0.85f);
-	humanHead2.SetShaderAttribute("sssWidth", 85.0f);
+	humanHead2.SetShaderAttribute("sssWidth", 0.0155f);
 	humanHead2.SetShaderAttribute("ssssEnabled", 0);
 
 	bool cameraLock = false;
@@ -234,12 +231,16 @@ int main()
 			ImGui::Text(std::format("FPS: {}", GetFpsCount(window->DeltaTimeNoMultiplier(), 0.5f)).c_str());
 			ImGui::SliderInt("FPS cap", (int *)&window->fpsCap, 0, 60);
 			ImGui::SliderFloat("Time Multiplier", const_cast<float *>(&window->GetTimeMultiplier()), 0.0f, 5.0f);
+			if (ImGui::Button("Screenshot Depth Map"))
+			{
+				LightRendering::PrintDepthMap();
+			}
 
 			if (ImGui::Checkbox("SSSS Enabled", (bool *)humanHead.GetShaderAttribute<int>("ssssEnabled")))
 			{
 				*humanHead2.GetShaderAttribute<int>("ssssEnabled") = *humanHead.GetShaderAttribute<int>("ssssEnabled");
 			}
-			if (ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 100.025f))
+			if (ImGui::SliderFloat("SSS Width", humanHead.GetShaderAttribute<float>("sssWidth"), 0.0f, 0.025f))
 			{
 				*humanHead2.GetShaderAttribute<float>("sssWidth") = *humanHead.GetShaderAttribute<float>("sssWidth");
 			}
@@ -305,7 +306,7 @@ int main()
 
 			if (ImGui::SliderFloat("Ambient", &sun.__ambient.x, 0.0f, 1.0f))
 				sun.__ambient.y = sun.__ambient.z = sun.__ambient.x;
-			if (ImGui::SliderFloat("Diffuse", &sun.__diffuse.x, 0.0f, 100.0f))
+			if (ImGui::SliderFloat("Diffuse", &sun.__diffuse.x, 0.0f, 5.0f))
 				sun.__diffuse.y = sun.__diffuse.z = sun.__diffuse.x;
 			if (ImGui::SliderFloat("Specular", &sun.__specular.x, 0.0f, 1.0f))
 				sun.__specular.y = sun.__specular.z = sun.__specular.x;

@@ -28,8 +28,11 @@ public:
     static const LightRendering & Get();
     static void RefreshUbo();
 
+    static void PrintDepthMap();
+
 public:
     std::array<GLuint, PointLight::maxPointLightsCount> shadowMaps;
+    bool screenshotDepthMap;
 
 private:
     std::array<GLuint, PointLight::maxPointLightsCount> __depthMapFbo;

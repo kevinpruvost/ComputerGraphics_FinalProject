@@ -91,6 +91,7 @@ layout (std140) uniform CameraProps
 };
 
 const float PI = 3.14159265359;
+uniform bool useShadow = true;
 // ----------------------------------------------------------------------------
 // Easy trick to get tangent-normals to world-space to keep PBR code simplified.
 // Don't worry if you don't get what's going on; you generally want to do normal 
@@ -175,17 +176,19 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap, vec3 lightP
     // check whether current frag pos is in shadow
     // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
     // PCF
+    int samples = 5;
+    int offset = (samples - 1) / 2;
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    for(int x = -1; x <= 1; ++x)
+    for(int x = -offset; x <= offset; ++x)
     {
-        for(int y = -1; y <= 1; ++y)
+        for(int y = -offset; y <= offset; ++y)
         {
             float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
             shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;        
         }    
     }
-    shadow /= 9.0;
+    shadow /= samples * samples;
     
     // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
     if(projCoords.z > 1.0)
@@ -193,10 +196,18 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap, vec3 lightP
         
     return shadow;
 }
+
+vec3 CalculateTransmittance(float translucency, float sssWidth, float3 worldPosition, float3 worldNormal, float3 light, SSSSTexture2D shadowMap, float4x4 lightViewProjection, float lightFarPlane)
+{
+    vec3 t = SSSSTransmittance(translucency, sssWidth, worldPosition, worldNormal, light, shadowMap, lightViewProjection, lightFarPlane);
+    return t;
+}
+
 // ----------------------------------------------------------------------------
 void main()
 {		
     // material properties
+    vec3 albedoC = texture(albedoMap, TexCoords).rgb;
     vec3 albedo = pow(texture(albedoMap, TexCoords).rgb, vec3(2.2));
     float metallic = texture(metallicMap, TexCoords).r;
     float roughness = texture(roughnessMap, TexCoords).r;
@@ -244,15 +255,19 @@ void main()
         kD *= 1.0 - metallic;	                
             
         // scale light by NdotL
-        float NdotL = max(dot(N, L), 0.0);        
+        float NdotL = max(dot(N, L), 0.0);   
 
         // add to outgoing radiance Lo
         float shadow = ShadowCalculation(pointLights[i].spaceMatrix * vec4(WorldPos, 1.0), shadowMapsPerPointLight[i], pointLights[i].position);
+        if (!useShadow) shadow = 0.0f;
         Lo += (1.0 - shadow) * (kD * albedo / PI + specular) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
         if (ssssEnabled)
-        {
+        { 
+            vec3 light = pointLights[i].position - WorldPos;
+            light = light / length(light);
             //Lo += texture(shadowMapsPerPointLight[i], TexCoords).r;
-            Lo += roughness * albedo * radiance * SSSSTransmittance(translucency, sssWidth, WorldPos, Normal, pointLights[i].position - WorldPos, shadowMapsPerPointLight[i], pointLights[i].spaceMatrix, pointLights[i].farPlane);
+            vec3 transmittance = CalculateTransmittance(translucency, sssWidth, WorldPos, normalize(Normal), light, shadowMapsPerPointLight[i], pointLights[i].spaceMatrix, pointLights[i].farPlane);
+            Lo += albedo * radiance * transmittance;
         }
     }
     
@@ -268,15 +283,13 @@ void main()
     
     // sample both the pre-filter map and the BRDF lut and combine them together as per the Split-Sum approximation to get the IBL specular part.
     const float MAX_REFLECTION_LOD = 4.0;
-    vec3 prefilteredColor = textureLod(prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;    
-    vec2 brdf  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
+    vec3 prefilteredColor = textureLod(prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;
+    vec2 brdf = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
     vec3 specular = prefilteredColor * (F * brdf.x + brdf.y);
 
-    vec3 ambient = (kD * diffuse + specular) * ao;
-    //ambient = diffuse * ao;
+    vec3 ambient = pointLights[0].ambient * (kD * diffuse + specular) * ao;
     
     vec3 color = ambient + Lo;
-    //color = Lo;
 
     // HDR tonemapping
     color = color / (color + vec3(1.0));

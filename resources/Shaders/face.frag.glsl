@@ -89,7 +89,6 @@ out vec4 color;
 uniform Material material;
 uniform bool isNormalFlat = false;
 uniform bool useLight = true;
-uniform bool useShadow = true;
 
 vec3 GetDiffuseMaterial(Material mat)
 {
@@ -199,7 +198,5 @@ vec3 CalcPointLight(PointLight light, sampler2D shadowMap, vec3 normal, vec3 fra
     diffuse *= attenuation;
     specular *= attenuation;
     float shadow = ShadowCalculation(light.spaceMatrix * vec4(FragPos, 1.0), shadowMap, light.position);
-    if (!useShadow)
-        shadow = 0.0f;
     return (ambient + (1.0 - shadow) * (diffuse + specular));
 }

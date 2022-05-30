@@ -15,13 +15,14 @@
 #include <format>
 
 static std::unique_ptr<LightRendering> s_lightRendering;
-static const size_t shadowWidth = 1024, static const shadowHeight = 1024;
+static const size_t shadowWidth = 2048, static const shadowHeight = 2048;
 
 #include <stb_image_write.h>
 
 LightRendering::LightRendering()
     : __uboLights{ 0 }
     , __shadowMappingShader{ GenerateShader(Constants::Paths::shadowMappingVertex, Constants::Paths::shadowMappingFrag) }
+    , screenshotDepthMap{ false }
 {
     // Allocating UBO ViewProj
     glGenBuffers(1, &__uboLights);
@@ -128,14 +129,17 @@ void LightRendering::RefreshUbo()
             glDrawArrays(GL_TRIANGLES, 0, entities[i]->GetMesh().facesNVert());
         }
     }
-    /*DEBUG_CODE(
+
+    if (s_lightRendering->screenshotDepthMap)
+    {
         GLubyte * pixels = new GLubyte[shadowWidth * shadowHeight * 1];
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glReadPixels(0, 0, shadowWidth, shadowHeight, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, pixels);
         stbi_write_bmp("screenshots/TEST.bmp", shadowWidth, shadowHeight, 1, pixels);
         delete[] pixels;
-    );*/
+        s_lightRendering->screenshotDepthMap = false;
+    }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, Window::Get()->windowWidth(), Window::Get()->windowHeight());
@@ -143,4 +147,9 @@ void LightRendering::RefreshUbo()
 
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(PointLight_Shader) * PointLight::maxPointLightsCount,
         sizeof(int), &pointLightsCount);
+}
+
+void LightRendering::PrintDepthMap()
+{
+    s_lightRendering->screenshotDepthMap = true;
 }
