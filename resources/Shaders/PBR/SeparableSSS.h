@@ -344,16 +344,15 @@ float3 SSSSTransmittance(
     int samples = 17;
     int offset = (samples - 1) / 2;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    float d2 = shadowPosition.z * lightFarPlane;
     for (int x = -offset; x <= offset; ++x)
     {
         for (int y = -offset; y <= offset; ++y)
         {
             float d1 = SSSSSample(shadowMap, shadowPosition.xy + vec2(x, y) * texelSize).r; // 'd1' has a range of 0..1
-            float d2 = shadowPosition.z; // 'd2' has a range of 0..'lightFarPlane'
             d1 *= lightFarPlane; // So we scale 'd1' accordingly:
-            d2 *= lightFarPlane;
+            if (d1 == d2) continue;
             float d = scale * abs(d1 - d2);
-            //if (abs(d1 - d2) > 1.0) return vec3(0.0);
 
             /**
              * Armed with the thickness, we can now calculate the color by means of the

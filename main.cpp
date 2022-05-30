@@ -216,6 +216,7 @@ int main()
 	// Creating Second Window
 	bool enableGui = true;
 	bool autoRotation = false;
+	bool verticalSync = true;
 	gui.AddCallback([&]() {
 		const float width = 320.0f;
 		const float height = 475.0f;
@@ -234,6 +235,11 @@ int main()
 			if (ImGui::Button("Screenshot Depth Map"))
 			{
 				LightRendering::PrintDepthMap();
+			}
+
+			if (ImGui::Checkbox("V-Sync", &verticalSync))
+			{
+				glfwSwapInterval(verticalSync); // Disables V-Sync
 			}
 
 			if (ImGui::Checkbox("SSSS Enabled", (bool *)humanHead.GetShaderAttribute<int>("ssssEnabled")))
@@ -340,6 +346,10 @@ int main()
 			cameraLock = !cameraLock;
 			glfwSetInputMode(window->window, GLFW_CURSOR,
 				cameraLock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+		}
+		if (cameraLock)
+		{
+			
 		}
 
 		// Font change
