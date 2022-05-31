@@ -141,12 +141,14 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
                 }
                 else if ((ite = std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2)) != newFaces[j].v.end())
                 {
-                    // If face contains v2, then reassign to v1
-                    *ite = vid1;
                     // Update Plane
                     qMatrices[newFaces[j].v[0]] -= planes[j];
                     qMatrices[newFaces[j].v[1]] -= planes[j];
                     qMatrices[newFaces[j].v[2]] -= planes[j];
+
+                    // If face contains v2, then reassign to v1
+                    *ite = vid1;
+
                     const glm::vec4 planeNormal = GetPlaneEquationFromTriangle(
                         newVertices[newFaces[j].v[0]],
                         newVertices[newFaces[j].v[1]],
