@@ -23,10 +23,12 @@ Mesh_Custom * Mesh_Subdivision::Subdivide(Mesh_Base & mesh)
 
     const std::vector<Face> originFaces(*mesh.GetFaces());
     const std::vector<VertexPos> originVertices(*mesh.GetVerticesPos());
+    const std::vector<VertexTextureCoordinates> originTextureCoords(*mesh.GetVerticesTextureCoordinates());
     std::vector<Face> newFaces;
     newFaces.reserve(originFaces.size() * 4);
     std::vector<VertexPos> newVertices(originVertices);
     newVertices.reserve(originVertices.size() * 3);
+    std::vector<VertexTextureCoordinates> newTextureCoords(originTextureCoords);
 
     const std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
     std::vector<std::unique_ptr<HalfEdge>> newHalfEdges;
@@ -167,24 +169,29 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
         Timer timer;
         const std::vector<Face> originFaces(*mesh->GetFaces());
         const std::vector<VertexPos> originVertices(*mesh->GetVerticesPos());
+        const std::vector<VertexTextureCoordinates> originTextureCoords(*mesh->GetVerticesTextureCoordinates());
         std::vector<Face> newFaces;
         newFaces.reserve(originFaces.size() * 4);
         std::vector<VertexPos> newVertices(originVertices);
         newVertices.reserve(originVertices.size() * 3);
+        std::vector<VertexTextureCoordinates> newTextureCoords(originTextureCoords);
+        bool hasTextureCoords = !newTextureCoords.empty();
 
         const std::vector<std::unique_ptr<HalfEdge>> halfEdges = GenerateHalfEdgesFromVertices(originFaces);
         std::vector<std::unique_ptr<HalfEdge>> newHalfEdges;
-        std::unordered_map<HalfEdge *, int> reUseVertex;
+        std::unordered_map<HalfEdge *, std::pair<int, int>> reUseVertex;
         newHalfEdges.reserve(halfEdges.size() * 4);
         // Creating new Vertices and new Triangles
         for (int i = 0; i < halfEdges.size(); i += 3)
         {
             int vertex1 = -1, vertex2 = -1, vertex3 = -1;
-            const auto searchForVertex = [&](int & vertex, HalfEdge * halfEdge) {
+            int vt1 = -1, vt2 = -1, vt3 = -1;
+            const auto searchForVertex = [&](int & vertex, int & vT, HalfEdge * halfEdge) {
                 if (halfEdge->pass)
                 {
                     halfEdge->pass = false;
-                    vertex = reUseVertex.at(halfEdge);
+                    vertex = reUseVertex.at(halfEdge).first;
+                    vT = reUseVertex.at(halfEdge).second;
                 }
                 if (vertex == -1)
                 {
@@ -196,25 +203,41 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
                         const VertexPos & v3 = newVertices[halfEdge->previous->origin];
                         const VertexPos & v4 = newVertices[halfEdge->twin->previous->origin];
                         newPos = (v1 + v2) * 0.375f + (v3 + v4) * 0.125f;
+                        if (hasTextureCoords)
+                        {
+                            const VertexTextureCoordinates & vt1 = newTextureCoords[halfEdge->originT];
+                            const VertexTextureCoordinates & vt2 = newTextureCoords[halfEdge->next->originT];
+                            const VertexTextureCoordinates & vt3 = newTextureCoords[halfEdge->previous->originT];
+                            const VertexTextureCoordinates & vt4 = newTextureCoords[halfEdge->twin->previous->originT];
+                            newTextureCoords.emplace_back(VertexTextureCoordinates{ (vt1 + vt2) * 0.375f + (vt3 + vt4) * 0.125f });
+                            vT = newTextureCoords.size() - 1;
+                        }
                     }
                     else
                     {
                         newPos = (v1 + v2) * 0.5f;
+                        if (hasTextureCoords)
+                        {
+                            const VertexTextureCoordinates & vt1 = newTextureCoords[halfEdge->originT];
+                            const VertexTextureCoordinates & vt2 = newTextureCoords[halfEdge->next->originT];
+                            newTextureCoords.emplace_back(VertexTextureCoordinates{ (vt1 + vt2) * 0.5f });
+                            vT = newTextureCoords.size() - 1;
+                        }
                     }
                     newVertices.emplace_back(newPos);
                     vertex = newVertices.size() - 1;
                     if (halfEdge->twin)
                     {
                         halfEdge->twin->pass = true;
-                        reUseVertex.emplace(halfEdge->twin, vertex);
+                        reUseVertex.emplace(halfEdge->twin, std::make_pair(vertex, vT));
                     }
                 }
             };
             // Search for already existing vertices
             // Vertices
-            searchForVertex(vertex1, halfEdges[i].get());
-            searchForVertex(vertex2, halfEdges[i + 1].get());
-            searchForVertex(vertex3, halfEdges[i + 2].get());
+            searchForVertex(vertex1, vt1, halfEdges[i].get());
+            searchForVertex(vertex2, vt2, halfEdges[i + 1].get());
+            searchForVertex(vertex3, vt3, halfEdges[i + 2].get());
 
             // Triangles
             const auto createTriangle = [&](int v1, int v2, int v3) {
@@ -228,11 +251,36 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
                 he3->next = he2->previous = he1;
                 return std::array<HalfEdge *, 3>{he1, he2, he3};
             };
+            const auto createTexturedTriangle = [&](int v1, int v2, int v3, int vt1, int vt2, int vt3) {
+                newFaces.emplace_back(std::vector<int>{ v1, v2, v3 }, std::vector<int>{ vt1, vt2, vt3 });
+                int faceId = newFaces.size() - 1;
+                HalfEdge * he1 = newHalfEdges.emplace_back(new HalfEdge(nullptr, nullptr, nullptr, faceId, v1, vt1)).get();
+                HalfEdge * he2 = newHalfEdges.emplace_back(new HalfEdge(nullptr, nullptr, nullptr, faceId, v2, vt2)).get();
+                HalfEdge * he3 = newHalfEdges.emplace_back(new HalfEdge(nullptr, nullptr, nullptr, faceId, v3, vt3)).get();
+                he1->next = he3->previous = he2;
+                he2->next = he1->previous = he3;
+                he3->next = he2->previous = he1;
+                return std::array<HalfEdge *, 3>{he1, he2, he3};
+            };
 
-            const auto newEdges1 = createTriangle(halfEdges[i]->origin, vertex1, vertex3);
-            const auto newEdges2 = createTriangle(halfEdges[i + 1]->origin, vertex2, vertex1);
-            const auto newEdges3 = createTriangle(halfEdges[i + 2]->origin, vertex3, vertex2);
-            const auto newEdges4 = createTriangle(vertex1, vertex2, vertex3);
+            std::array<HalfEdge *, 3> newEdges1;
+            std::array<HalfEdge *, 3> newEdges2;
+            std::array<HalfEdge *, 3> newEdges3;
+            std::array<HalfEdge *, 3> newEdges4;
+            if (hasTextureCoords)
+            {
+                newEdges1 = createTexturedTriangle(halfEdges[i]->origin, vertex1, vertex3, halfEdges[i]->originT, vt1, vt3);
+                newEdges2 = createTexturedTriangle(halfEdges[i + 1]->origin, vertex2, vertex1, halfEdges[i + 1]->originT, vt2, vt1);
+                newEdges3 = createTexturedTriangle(halfEdges[i + 2]->origin, vertex3, vertex2, halfEdges[i + 2]->originT, vt3, vt2);
+                newEdges4 = createTexturedTriangle(vertex1, vertex2, vertex3, vt1, vt2, vt3);
+            }
+            else
+            {
+                newEdges1 = createTriangle(halfEdges[i]->origin, vertex1, vertex3);
+                newEdges2 = createTriangle(halfEdges[i + 1]->origin, vertex2, vertex1);
+                newEdges3 = createTriangle(halfEdges[i + 2]->origin, vertex3, vertex2);
+                newEdges4 = createTriangle(vertex1, vertex2, vertex3);
+            }
 
             // Linking inner twins
             newEdges1[1]->twin = newEdges4[0]; newEdges4[0]->twin = newEdges1[1];
@@ -257,17 +305,13 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
                 }
             }
             if (*abort) return;
-            if (*working)
+            if (*loopFinished) continue;
             {
-                std::unique_lock<std::mutex> lk(*mutex);
-                cv->wait_for(lk, 3s, [&] { return !*working; });
+                while (!mutex->try_lock());
+                mesh->SetGeometry(newFaces, newVertices, {}, newTextureCoords);
+                mutex->unlock();
             }
-            *working = true;
-            mutex->lock();
-            mesh->SetGeometry(newFaces, newVertices);
-            mutex->unlock();
             *loopFinished = true;
-            *working = false;
             cv->notify_all();
         }
         // Calculating new positions
@@ -314,33 +358,24 @@ void Mesh_Subdivision::SubdivideParallel(Mesh_Base & mesh)
                 if (++nLoop % ((verticesPerOldVertex.size() / 10) + 1) == 0)
                 {
                     if (*abort) return;
-                    if (*working)
+                    if (*loopFinished) continue;
                     {
-                        std::unique_lock<std::mutex> lk(*mutex);
-                        cv->wait_for(lk, 3s, [&] { return !*working; });
+                        while (!mutex->try_lock());
+                        mesh->SetGeometry(newFaces, newVertices, {}, newTextureCoords);
+                        mutex->unlock();
                     }
-                    *working = true;
-                    mutex->lock();
-                    mesh->SetGeometry(newFaces, newVertices);
-                    mutex->unlock();
                     *loopFinished = true;
-                    *working = false;
                     cv->notify_all();
                 }
             }
         }
         if (*abort) return;
-        if (*working)
         {
-            std::unique_lock<std::mutex> lk(*mutex);
-            cv->wait_for(lk, 3s, [&] { return !*working; });
+            while (!mutex->try_lock());
+            mesh->SetGeometry(newFaces, newVertices, {}, newTextureCoords);
+            mutex->unlock();
         }
-        *working = true;
-        mutex->lock();
-        mesh->SetGeometry(newFaces, newVertices);
-        mutex->unlock();
         *finished = true;
-        *working = false;
         cv->notify_all();
         Log::Print(Log::LogMainFileName, "Final Time Subdivision: %.2fms\n", timer.GetMsTime());
     };

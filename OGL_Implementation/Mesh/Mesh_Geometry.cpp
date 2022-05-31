@@ -57,6 +57,7 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 				i,// Face
 				faces[i].v[j]// Origin
 			)).get();
+			if (!faces[i].vt.empty()) lasts[j]->originT = faces[i].vt[j];
 		}
 		lasts[0]->next = lasts[2]->previous = lasts[1];
 		lasts[1]->next = lasts[0]->previous = lasts[2];
@@ -101,12 +102,13 @@ std::vector<std::unique_ptr<HalfEdge>> GenerateHalfEdgesFromVertices(const std::
 	return halfEdges;
 }
 
-HalfEdge::HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int face_, int origin_)
+HalfEdge::HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int face_, int origin_, int originT_)
 	: twin{twin_}
 	, next{next_}
 	, previous{prev_}
 	, face{face_}
 	, origin{origin_}
+	, originT{ originT_ }
 	, pass{ false }
 {
 }

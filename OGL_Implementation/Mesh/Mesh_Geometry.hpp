@@ -83,9 +83,9 @@ public:
 	 * @param face (face index)
 	 * @param origin (origin vertex index)
 	*/
-	HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int face_, int origin_);
+	HalfEdge(HalfEdge * twin_, HalfEdge * next_, HalfEdge * prev_, int face_, int origin_, int originT_ = -1);
 	HalfEdge * twin, * next, * previous;
-	int face, origin;
+	int face, origin, originT;
 	bool pass = false;
 };
 

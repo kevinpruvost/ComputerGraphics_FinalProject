@@ -123,7 +123,7 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
                 if (std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid1) != newFaces[j].v.end()
                     && std::find(newFaces[j].v.begin(), newFaces[j].v.end(), vid2) != newFaces[j].v.end())
                 {
-                    if (contractedTextureCoords == glm::vec2(0.0f) && !newFaces[j].vt.empty())
+                    if (!newTextureCoords.empty() && contractedTextureCoords == glm::vec2(0.0f) && !newFaces[j].vt.empty())
                     {
                         for (int k = 0; k < 3; ++k)
                         {
@@ -216,17 +216,17 @@ void Mesh_Simplification::SimplifyParallel(Mesh_Base & mesh)
 
             errorMetrics = GenerateErrorMetrics(newVertices, newFaces, halfEdges, qMatrices);
             if (*abort) return;
-            if (*working)
+            if (*loopFinished) continue;
             {
-                std::unique_lock<std::mutex> lk(*mutex);
-                cv->wait_for(lk, 3s, [&] { return !*working; });
+                int i = 0;
+                while (!mutex->try_lock())
+                {
+                    if (i++ > 0) Log::Print(Log::LogMainFileName, "WHAAAAAT : %d\n", i);
+                }
+                mesh->SetGeometry(newFaces, newVertices, {}, newTextureCoords);
+                mutex->unlock();
             }
-            *working = true;
-            mutex->lock();
-            mesh->SetGeometry(newFaces, newVertices, {}, newTextureCoords);
-            mutex->unlock();
             *loopFinished = true;
-            *working = false;
             cv->notify_all();
         }
         Log::Print(Log::LogMainFileName, "Final Time Simplification: %.2fms\n", timer.GetMsTime());

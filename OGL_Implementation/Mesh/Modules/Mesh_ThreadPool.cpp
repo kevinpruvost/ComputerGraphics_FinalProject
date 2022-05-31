@@ -29,23 +29,19 @@ bool Mesh_ThreadPool::Refresh(Mesh_Base * mesh)
             std::unique_lock<std::mutex> lk(thread->__threadMutex);
             thread->__threadMainWorkingCV.wait(lk, [&] {return !thread->__threadMainWorking; });
         }
-        const std::lock_guard<std::mutex> lk(thread->__threadMutex);
+        while (!thread->__threadMutex.try_lock());
         thread->__threadMainWorking = true;
         mesh->GenerateNormals(true);
         mesh->UpdateVerticesToApi();
         thread->__threadMainWorking = false;
         thread->__threadMainWorkingCV.notify_all();
-    }
-    else
-    {
-        if (!thread->__threadMainWorking)
-            thread->__threadMainWorkingCV.notify_all();
-    }
-    thread->__threadLoopFinished = false;
-    if (thread->__threadFinished)
-    {
-        threads.erase(mesh);
-        return true;
+        thread->__threadLoopFinished = false;
+        thread->__threadMutex.unlock();
+        if (thread->__threadFinished)
+        {
+            threads.erase(mesh);
+            return true;
+        }
     }
     return false;
 }
