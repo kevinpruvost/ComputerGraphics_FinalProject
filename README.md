@@ -10,7 +10,8 @@ Table of contents
 <!--ts-->
    * [Introduction](#introduction)
    * [Demonstration](#demonstration)
-      * [Mesh Subdivision/Simplification](#mesh-simplification-and-subdivision-demo)
+      * [Mesh Simplification](#mesh-simplification-demo)
+      * [Mesh Subdivision](#mesh-simplification-demo)
       * [Human Skin Rendering](#human-skin-rendering-demo)
    * [Compilation](#compilation)
    * [Research](#research)
@@ -26,29 +27,37 @@ Table of contents
 
 # Introduction
 
-For this assignment, the main theme was `Illumination Effect`.
+For the final project, we had a choice to make: "Select a given subject among a list of 6 and work/conduct research on that subject".
+And the 6 choices we had were:
+- Mesh Simplification/Subdivision
+- Terrain Engine
+- Rubik's Cube
+- Physical Engine
+- Ray Tracing
+- Human Skin Rendering
 
-The objectives here were:
+As I wanted to learn a lot of technical notions and make my time efficient for such learning purposes, I went on to work on "Mesh Simplification/Subdivision" and "Human Skin Rendering" as my main subjects, I also worked a bit on "Ray Tracing" but my work is not complete and available on another repository.
 
-1) Load the 3D model, then rotate and zoom it with the mouse or keyboard.
-
-2) Using the combination of object’s material, ambient light, diffuse light and specular light
-
-to generate different illumination effect.
-
-3) All faces have the same color.
-
-Depending on the different calculation ways for normals ("vertex" normal vs "face" normal), you will get a smooth model or a less-smooth one (Figure 1,2,3 vs Figure 4). You only need to implement one of them.
+So, my objectives here were:
+- Implement Mesh Simplification using Quadric Error Metrics
+- Implement Mesh Subdivision using the Loop Subdivision Method
+- Implement Shadow Rendering
+- Implement Physically Based Rendering
+- Implement Separable Subsurface Scattering
 
 # Demonstration
 
-## Mesh Simplification and Subdivision Demo
+## Mesh Simplification Demo
 
-[![Demo](embed.png)](https://youtu.be/ZxSr5YX9_Ec)
+[![Demo](embed.png)](https://youtu.be/MHmWF2G7UVo)
+
+## Mesh Subdivision Demo
+
+[![Demo](embed.png)](https://youtu.be/6dZ_UqkRjvs)
 
 ## Human Skin Rendering Demo
 
-[![Demo](embed_2.png)](https://youtu.be/P_5v5bezrlM)
+[![Demo](embed_2.png)](https://youtu.be/uB3GbnD7i_4)
 
 # Compilation
 
