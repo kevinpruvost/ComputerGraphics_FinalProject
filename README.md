@@ -306,7 +306,215 @@ And that gives us this kind of results, keep in mind that my simplification stop
 
 ## Human Skin Rendering
 
+### Side Notes
 
+[Jorge Jimenez - Report on Separable SSS](http://www.iryoku.com/separable-sss/downloads/Separable-Subsurface-Scattering.pdf)
+
+[Jorge Jimenez - Blog Post on Separable SSS](http://www.iryoku.com/separable-sss/)
+
+[GitHub - iryoku/separable-sss: Separable Subsurface Scattering is a technique that allows to efficiently perform subsurface scattering calculations in screen space in just two passes.](https://github.com/iryoku/separable-sss)
+
+[Shadow Mapping](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping)
+
+[Theory](https://learnopengl.com/PBR/Theory)
+
+### Shadow Rendering
+
+Rendering shadows is done via Shadow Mapping, a depth map is generated from the view of the light source and stored in a texture for the Shadow Rendering to occur.
+
+For this project, only directional lights with orthogonal projections are supported.
+
+After the Shadow Mapping is done, the shader that renders the objects in the main pipeline retrieves the Depth Maps and calculates the shadows positions from there.
+
+![Depth Map Example](readme_resources/Untitled%2013.png)
+
+Shadows in this project are calculated considering the Depth Map and the vertex depth from the light source’s point of view. A bias is applied to fix the shadows appearance (to make it not look like shadow strides). But also, multisampling (5 samples) is used to smooth out the shadows edges so that it doesn’t appear pixelated.
+
+![Shadow Rendering Example](readme_resources/Untitled%2014.png)
+
+Here’s the whole calculation if you want further analysis of the method:
+
+```glsl
+float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap, vec3 lightPos)
+{
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // calculate bias (based on depth map resolution and slope)
+    vec3 normal = normalize(Normal);
+    vec3 lightDir = normalize(lightPos - WorldPos);
+    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    // check whether current frag pos is in shadow
+    // PCF
+    int samples = 5;
+    int offset = (samples - 1) / 2;
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -offset; x <= offset; ++x)
+    {
+        for(int y = -offset; y <= offset; ++y)
+        {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+        }
+    }
+    shadow /= samples * samples;
+    
+    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
+    if(projCoords.z > 1.0)
+        shadow = 0.0;
+        
+    return shadow;
+}
+```
+
+### Physically Based Rendering (PBR)
+
+Implementation of PBR in this project solely consists of using material maps such as:
+
+- Ambient Occlusion
+- Diffuse Albedo
+- Specular Albedo
+- Metallic
+- Roughness
+
+And using all theory actually displayed and very well explained in JoeyDeVries’ tutorial on PBR:
+
+[Theory](https://learnopengl.com/PBR/Theory)
+
+![PBR Example](readme_resources/Untitled%2015.png)
+
+### Separable Subsurface Scattering
+
+Implementation of Separable Subsurface Scattering is a bit special in this project as it has been a little bit rushed.
+
+Basically, Transmittance has been implemented but not proper Blur function as advised in Jorge Jimenez’s paper & example repository.
+
+Instead, to get a good result but also to implement it faster I made Subsurface Scattering to be just Transmittance with Multisampling (17 samples) so that it gives this kind of result:
+
+![Separable SSS Example 1](readme_resources/Untitled%2016.png)
+
+![Separable SSS Example 2](readme_resources/Untitled%2017.png)
+
+Separable SSS is added in the original shader there:
+
+```glsl
+if (ssssEnabled)
+{ 
+    vec3 light = pointLights[i].position - WorldPos;
+    light = light / length(light);
+    vec3 transmittance = CalculateTransmittance(translucency, sssWidth, WorldPos, normalize(Normal), light, shadowMapsPerPointLight[i], pointLights[i].spaceMatrix, pointLights[i].farPlane);
+    Lo += albedo * radiance * transmittance;
+}
+```
+
+And the transmittance is calculated like so (reference to Jorge Jimenez example repository):
+
+```glsl
+float3 SSSSTransmittance(
+        /**
+         * This parameter allows to control the transmittance effect. Its range
+         * should be 0..1. Higher values translate to a stronger effect.
+         */
+        float translucency,
+
+        /**
+         * This parameter should be the same as the 'SSSSBlurPS' one. See below
+         * for more details.
+         */
+        float sssWidth,
+
+        /**
+         * Position in world space.
+         */
+        float3 worldPosition,
+
+        /**
+         * Normal in world space.
+         */
+        float3 worldNormal,
+
+        /**
+         * Light vector: lightWorldPosition - worldPosition.
+         */
+        float3 light,
+
+        /**
+         * Linear 0..1 shadow map.
+         */
+        SSSSTexture2D shadowMap,
+
+        /**
+         * Regular world to light space matrix.
+         */
+        float4x4 lightViewProjection,
+
+        /**
+         * Far plane distance used in the light projection matrix.
+         */
+        float lightFarPlane) {
+    /**
+     * Calculate the scale of the effect.
+     */
+    float scale = 8.25 * (1.0 - translucency) / sssWidth;
+       
+    /**
+     * First we shrink the position inwards the surface to avoid artifacts:
+     * (Note that this can be done once for all the lights)
+     */
+    float4 shrinkedPos = float4(worldPosition - max(0.05 * (1.0 - dot(light, -worldNormal)), 0.005) * worldNormal, 1.0);
+    shrinkedPos = float4(worldPosition - 0.005 * worldNormal, 1.0);
+
+    /**
+     * Now we calculate the thickness from the light point of view:
+     */
+    float4 sPos = SSSSMul(shrinkedPos, lightViewProjection);
+    float3 shadowPosition = sPos.xyz / sPos.w;
+    shadowPosition = SSSSMul(shadowPosition, 0.5) + 0.5;
+    vec3 finalColor = vec3(0.0);
+
+    int samples = 17;
+    int offset = (samples - 1) / 2;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    float d2 = shadowPosition.z * lightFarPlane;
+    for (int x = -offset; x <= offset; ++x)
+    {
+        for (int y = -offset; y <= offset; ++y)
+        {
+            float d1 = SSSSSample(shadowMap, shadowPosition.xy + vec2(x, y) * texelSize).r; // 'd1' has a range of 0..1
+            d1 *= lightFarPlane; // So we scale 'd1' accordingly:
+            if (d1 == d2) continue;
+            float d = scale * abs(d1 - d2);
+
+            /**
+             * Armed with the thickness, we can now calculate the color by means of the
+             * precalculated transmittance profile.
+             * (It can be precomputed into a texture, for maximum performance):
+             */
+            float dd = -d * d;
+            float3 profile = float3(0.233, 0.455, 0.649) * exp(dd / 0.0064) +
+                float3(0.1, 0.336, 0.344) * exp(dd / 0.0484) +
+                float3(0.118, 0.198, 0.0) * exp(dd / 0.187) +
+                float3(0.113, 0.007, 0.007) * exp(dd / 0.567) +
+                float3(0.358, 0.004, 0.0) * exp(dd / 1.99) +
+                float3(0.078, 0.0, 0.0) * exp(dd / 7.41);
+
+            /**
+             * Using the profile, we finally approximate the transmitted lighting from
+             * the back of the object:
+             */
+            finalColor += profile * SSSSSaturate(0.3 + dot(light, -worldNormal));
+        }
+    }
+    finalColor /= samples * samples;
+    return finalColor;
+}
+```
 
 # Content
 
