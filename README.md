@@ -306,12 +306,17 @@ And that gives us this kind of results, keep in mind that my simplification stop
 
 ## Human Skin Rendering
 
+
+
 # Content
 
-For my Assignment, I got all these points covered:
+For my project, I got all these points covered:
 
 - Mesh Subdivision implemented with the Loop Subdivision Method
 - Mesh Simplification implemented with the Quadric Error Metrics method
+- Shadow Rendering
+- Physically Based Rendering
+- Separable Subsurface Scattering
 - Bonus:
     - Display Mode (Vertices, Wireframe, Faces)
     - Enable/Disable GUI
