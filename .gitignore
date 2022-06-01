@@ -44,4 +44,5 @@ OGL_Log.txt
 *.ini
 *.mp4
 *.pdf
+!2021400603_Project_Report.pdf
 Screenshots/TEST.bmp
