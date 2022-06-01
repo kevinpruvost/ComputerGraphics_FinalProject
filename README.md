@@ -53,7 +53,7 @@ So, my objectives here were:
 
 ## Mesh Subdivision Demo
 
-[![Demo](embed.png)](https://youtu.be/6dZ_UqkRjvs)
+[![Demo](embed_1.png)](https://youtu.be/6dZ_UqkRjvs)
 
 ## Human Skin Rendering Demo
 
