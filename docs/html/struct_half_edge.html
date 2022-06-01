@@ -82,9 +82,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3cb48e5a2577bbb4f7fa667f314910f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_half_edge.html#a3cb48e5a2577bbb4f7fa667f314910f2">HalfEdge</a> (<a class="el" href="struct_half_edge.html">HalfEdge</a> *twin_, <a class="el" href="struct_half_edge.html">HalfEdge</a> *next_, <a class="el" href="struct_half_edge.html">HalfEdge</a> *prev_, int face_, int origin_)</td></tr>
-<tr class="memdesc:a3cb48e5a2577bbb4f7fa667f314910f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Half Edge constructor.  <a href="struct_half_edge.html#a3cb48e5a2577bbb4f7fa667f314910f2">More...</a><br /></td></tr>
-<tr class="separator:a3cb48e5a2577bbb4f7fa667f314910f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b373499cbc2257c848beb14537f2be6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_half_edge.html#a1b373499cbc2257c848beb14537f2be6">HalfEdge</a> (<a class="el" href="struct_half_edge.html">HalfEdge</a> *twin_, <a class="el" href="struct_half_edge.html">HalfEdge</a> *next_, <a class="el" href="struct_half_edge.html">HalfEdge</a> *prev_, int face_, int origin_, int originT_=-1)</td></tr>
+<tr class="memdesc:a1b373499cbc2257c848beb14537f2be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Half Edge constructor.  <a href="struct_half_edge.html#a1b373499cbc2257c848beb14537f2be6">More...</a><br /></td></tr>
+<tr class="separator:a1b373499cbc2257c848beb14537f2be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -103,6 +103,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>face</b></td></tr>
 <tr class="memitem:a4923751aba98016d63194e3ee34d793a"><td class="memItemLeft" align="right" valign="top"><a id="a4923751aba98016d63194e3ee34d793a"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>origin</b></td></tr>
 <tr class="separator:a4923751aba98016d63194e3ee34d793a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0835abb82ca7b6e8adc9ab441dfc3e53"><td class="memItemLeft" align="right" valign="top"><a id="a0835abb82ca7b6e8adc9ab441dfc3e53"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>originT</b></td></tr>
+<tr class="separator:a0835abb82ca7b6e8adc9ab441dfc3e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42128c118d290e126c0bf62702e3b4da"><td class="memItemLeft" align="right" valign="top"><a id="a42128c118d290e126c0bf62702e3b4da"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>pass</b> = false</td></tr>
 <tr class="separator:a42128c118d290e126c0bf62702e3b4da"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,8 +113,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>pass</b> = false</td>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Half Edge structure, used mainly by the <a class="el" href="class_mesh.html" title="Contains Mesh Id and methods related to the mesh database. It also helps having a much lighter class ...">Mesh</a> Modules. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a3cb48e5a2577bbb4f7fa667f314910f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3cb48e5a2577bbb4f7fa667f314910f2">&#9670;&nbsp;</a></span>HalfEdge()</h2>
+<a id="a1b373499cbc2257c848beb14537f2be6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b373499cbc2257c848beb14537f2be6">&#9670;&nbsp;</a></span>HalfEdge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +147,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>pass</b> = false</td>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>origin_</em>&#160;</td>
+          <td class="paramname"><em>origin_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>originT_</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
